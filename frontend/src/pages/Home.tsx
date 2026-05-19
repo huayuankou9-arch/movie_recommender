@@ -18,7 +18,9 @@ export function Home() {
     try {
       setData(await fetchHome(userId));
     } catch (e) {
-      setError("Failed to load home data.");
+      const msg = e instanceof Error ? e.message : "Unknown error";
+      setError(`Failed to load home data: ${msg}`);
+      console.error("Home load failed", e);
     } finally {
       setLoading(false);
     }
@@ -43,6 +45,9 @@ export function Home() {
           Refresh
         </button>
       </div>
+      <p className="text-xs text-slate-400">
+        提示：黄色 `Rec` 分数是推荐模型排序分，不是豆瓣/TMDB公开评分；分数越高表示系统越推荐。
+      </p>
 
       {loading && <LoadingSkeleton className="h-[440px] w-full" />}
       {error && <p className="rounded-md bg-coral/20 px-3 py-2 text-sm text-coral">{error}</p>}

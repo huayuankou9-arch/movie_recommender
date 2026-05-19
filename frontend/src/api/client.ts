@@ -1,5 +1,12 @@
 import axios from "axios";
 import { EvaluationRow, HomeResponse, MovieCard, UserProfile } from "../types";
+import {
+  PLACEHOLDER_POSTER,
+  isDisplayableMovie,
+  sanitizeBackdropUrl,
+  sanitizePosterUrl,
+  sanitizeTitle
+} from "../utils/movie";
 
 const API_MODE = import.meta.env.VITE_API_MODE || "static";
 const API_BASE = import.meta.env.VITE_API_BASE || "/api";
@@ -14,6 +21,7 @@ export const api = axios.create({
 type RecoCache = {
   users?: Record<string, Record<string, MovieCard[]>>;
   home_cache?: Record<string, HomeResponse>;
+  similar_by_movie?: Record<string, Record<string, MovieCard[]>>;
 };
 
 const memoryCache = new Map<string, unknown>();
@@ -30,15 +38,26 @@ async function readStaticJson<T>(name: string): Promise<T> {
 function normalizeMovieCard(m: Partial<MovieCard>): MovieCard {
   return {
     movieId: Number(m.movieId || 0),
-    title: m.title || "Unknown Movie",
+    title: sanitizeTitle(m.title) || "Unknown Movie",
     year: m.year ?? null,
     genres: m.genres || "",
-    poster_url: m.poster_url || "/placeholder-poster.png",
-    backdrop_url: m.backdrop_url || undefined,
-    overview: m.overview || "",
-    score: m.score,
-    reason: m.reason || ""
+    poster_url: sanitizePosterUrl(m.poster_url),
+    backdrop_url: sanitizeBackdropUrl(m.backdrop_url),
+    overview: typeof m.overview === "string" ? m.overview : "",
+    score: typeof m.score === "number" ? m.score : undefined,
+    reason: typeof m.reason === "string" ? m.reason : "",
+    rating_avg: typeof m.rating_avg === "number" ? m.rating_avg : null,
+    rating_count: typeof m.rating_count === "number" ? m.rating_count : null,
+    review_snippet: typeof m.review_snippet === "string" ? m.review_snippet : "",
+    reviews: Array.isArray(m.reviews) ? m.reviews : []
   };
+}
+
+function normalizeMovieList(items: Array<Partial<MovieCard>>): MovieCard[] {
+  return (items || [])
+    .map(normalizeMovieCard)
+    .filter((m) => isDisplayableMovie(m))
+    .map((m) => ({ ...m, poster_url: m.poster_url || PLACEHOLDER_POSTER }));
 }
 
 function fallbackHome(homeMap: Record<string, HomeResponse>, userId: number): HomeResponse {
@@ -56,49 +75,65 @@ function fallbackHome(homeMap: Record<string, HomeResponse>, userId: number): Ho
   };
 }
 
+function normalizeHomePayload(home: HomeResponse): HomeResponse {
+  const forYou = normalizeMovieList(home.for_you || []);
+  const trending = normalizeMovieList(home.trending || []);
+  const highlyRated = normalizeMovieList(home.highly_rated || []);
+  const becauseYouLike = normalizeMovieList(home.because_you_like || []);
+  const genreRows = (home.genre_rows || [])
+    .map((row) => ({
+      genre: row.genre,
+      movies: normalizeMovieList(row.movies || [])
+    }))
+    .filter((row) => row.movies.length > 0);
+
+  let hero = home.hero_movie ? normalizeMovieCard(home.hero_movie) : null;
+  if (!hero || !isDisplayableMovie(hero)) {
+    hero = forYou[0] || trending[0] || highlyRated[0] || becauseYouLike[0] || null;
+  }
+
+  return {
+    ...home,
+    hero_movie: hero,
+    for_you: forYou,
+    trending,
+    highly_rated: highlyRated,
+    because_you_like: becauseYouLike,
+    genre_rows: genreRows
+  };
+}
+
 function similarFromMovies(allMovies: MovieCard[], movieId: number, topK: number): MovieCard[] {
   const target = allMovies.find((m) => m.movieId === movieId);
   if (!target) return allMovies.slice(0, topK).map(normalizeMovieCard);
-  const tGenres = (target.genres || "")
+  const targetGenres = (target.genres || "")
     .split(",")
     .map((g) => g.trim().toLowerCase())
     .filter(Boolean);
   const scored = allMovies
     .filter((m) => m.movieId !== movieId)
     .map((m) => {
-      const mGenres = (m.genres || "")
+      const movieGenres = (m.genres || "")
         .split(",")
         .map((g) => g.trim().toLowerCase())
         .filter(Boolean);
-      const overlap = mGenres.filter((g) => tGenres.includes(g)).length;
-      const pop = typeof m.score === "number" ? m.score : 0;
-      return { movie: m, score: overlap * 10 + pop };
+      const overlap = movieGenres.filter((g) => targetGenres.includes(g)).length;
+      const ratingBoost = typeof m.rating_avg === "number" ? m.rating_avg : 0;
+      return { movie: m, score: overlap * 10 + ratingBoost };
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, topK)
-    .map((x) => ({ ...x.movie, reason: "内容和类型相似" }));
-  return scored.map(normalizeMovieCard);
+    .map((x) => ({ ...x.movie, reason: "内容和类型与你当前电影相似" }));
+  return normalizeMovieList(scored);
 }
 
 export const fetchHome = async (userId: number) => {
   if (API_MODE === "backend") {
     const { data } = await api.get<HomeResponse>("/home", { params: { user_id: userId } });
-    return data;
+    return normalizeHomePayload(data);
   }
   const homeMap = await readStaticJson<Record<string, HomeResponse>>("home_cache.json");
-  const home = fallbackHome(homeMap, userId);
-  return {
-    ...home,
-    hero_movie: home.hero_movie ? normalizeMovieCard(home.hero_movie) : null,
-    for_you: (home.for_you || []).map(normalizeMovieCard),
-    trending: (home.trending || []).map(normalizeMovieCard),
-    highly_rated: (home.highly_rated || []).map(normalizeMovieCard),
-    because_you_like: (home.because_you_like || []).map(normalizeMovieCard),
-    genre_rows: (home.genre_rows || []).map((row) => ({
-      genre: row.genre,
-      movies: (row.movies || []).map(normalizeMovieCard)
-    }))
-  };
+  return normalizeHomePayload(fallbackHome(homeMap, userId));
 };
 
 export const fetchRecommend = async (userId: number, model: string, topK = 12) => {
@@ -106,12 +141,12 @@ export const fetchRecommend = async (userId: number, model: string, topK = 12) =
     const { data } = await api.get<{ items: MovieCard[] }>(`/recommend/${userId}`, {
       params: { model, top_k: topK }
     });
-    return (data.items || []).map(normalizeMovieCard);
+    return normalizeMovieList(data.items || []).slice(0, topK);
   }
   const recCache = await readStaticJson<RecoCache>("recommendations_cache.json");
   const userData = recCache.users?.[String(userId)] || {};
   const byModel = userData[model] || userData.hybrid || [];
-  if (byModel.length) return byModel.slice(0, topK).map(normalizeMovieCard);
+  if (byModel.length) return normalizeMovieList(byModel).slice(0, topK);
   const home = await fetchHome(userId);
   return (home.for_you || []).slice(0, topK).map(normalizeMovieCard);
 };
@@ -150,14 +185,18 @@ export const fetchProfile = async (userId: number) => {
 export const fetchMovieDetail = async (movieId: number) => {
   if (API_MODE === "backend") {
     const { data } = await api.get(`/movies/${movieId}`);
-    return data;
+    return {
+      ...data,
+      ...normalizeMovieCard(data),
+      similar_movies: normalizeMovieList(data?.similar_movies || [])
+    };
   }
-  const movies = await readStaticJson<MovieCard[]>("movies.json");
+  const movies = normalizeMovieList(await readStaticJson<MovieCard[]>("movies.json"));
   const movie = movies.find((m) => Number(m.movieId) === movieId);
   if (!movie) throw new Error("Movie not found");
-  const similar = similarFromMovies(movies.map(normalizeMovieCard), movieId, 12);
+  const similar = similarFromMovies(movies, movieId, 12);
   return {
-    ...normalizeMovieCard(movie),
+    ...movie,
     cast: "",
     director: "",
     runtime: null,
@@ -171,13 +210,13 @@ export const fetchSimilarMovies = async (movieId: number, method: string, topK =
     const { data } = await api.get<{ items: MovieCard[] }>(`/movies/${movieId}/similar`, {
       params: { method, top_k: topK }
     });
-    return (data.items || []).map(normalizeMovieCard);
+    return normalizeMovieList(data.items || []).slice(0, topK);
   }
   const recCache = await readStaticJson<RecoCache>("recommendations_cache.json");
-  const byMovie = (recCache as any).similar_by_movie?.[String(movieId)]?.[method];
-  if (Array.isArray(byMovie) && byMovie.length) return byMovie.slice(0, topK).map(normalizeMovieCard);
+  const byMovie = recCache.similar_by_movie?.[String(movieId)]?.[method];
+  if (Array.isArray(byMovie) && byMovie.length) return normalizeMovieList(byMovie).slice(0, topK);
   const movies = await readStaticJson<MovieCard[]>("movies.json");
-  return similarFromMovies(movies.map(normalizeMovieCard), movieId, topK);
+  return similarFromMovies(normalizeMovieList(movies), movieId, topK);
 };
 
 export const fetchDiscover = async (params: {
@@ -189,9 +228,9 @@ export const fetchDiscover = async (params: {
 }) => {
   if (API_MODE === "backend") {
     const { data } = await api.get<{ items: MovieCard[] }>("/discover", { params });
-    return (data.items || []).map(normalizeMovieCard);
+    return normalizeMovieList(data.items || []);
   }
-  const movies = (await readStaticJson<MovieCard[]>("movies.json")).map(normalizeMovieCard);
+  const movies = normalizeMovieList(await readStaticJson<MovieCard[]>("movies.json"));
   const genres = (params.genres || "")
     .split(",")
     .map((x) => x.trim().toLowerCase())
@@ -201,33 +240,29 @@ export const fetchDiscover = async (params: {
     .map((x) => x.trim().toLowerCase())
     .filter(Boolean);
   const topK = params.top_k || 12;
-  const filtered = movies.filter((m) => {
-    const gHit =
-      !genres.length ||
-      genres.some((g) => (m.genres || "").toLowerCase().includes(g));
-    const kHit =
-      !keywords.length ||
-      keywords.some((k) => (m.overview || "").toLowerCase().includes(k) || (m.title || "").toLowerCase().includes(k));
-    const y = m.year || 0;
-    const yMinOk = params.year_min == null || y >= params.year_min;
-    const yMaxOk = params.year_max == null || y <= params.year_max;
-    return gHit && kHit && yMinOk && yMaxOk;
-  });
-  return filtered.slice(0, topK).map(normalizeMovieCard);
+  return movies
+    .filter((m) => {
+      const gHit = !genres.length || genres.some((g) => (m.genres || "").toLowerCase().includes(g));
+      const kHit =
+        !keywords.length ||
+        keywords.some((k) => (m.overview || "").toLowerCase().includes(k) || (m.title || "").toLowerCase().includes(k));
+      const y = m.year || 0;
+      const yMinOk = params.year_min == null || y >= params.year_min;
+      const yMaxOk = params.year_max == null || y <= params.year_max;
+      return gHit && kHit && yMinOk && yMaxOk;
+    })
+    .slice(0, topK);
 };
 
 export const fetchSearch = async (q: string, topK = 20) => {
   if (API_MODE === "backend") {
     const { data } = await api.get<{ items: MovieCard[] }>("/search", { params: { q, top_k: topK } });
-    return (data.items || []).map(normalizeMovieCard);
+    return normalizeMovieList(data.items || []);
   }
-  const index = await readStaticJson<MovieCard[]>("search_index.json");
+  const index = normalizeMovieList(await readStaticJson<MovieCard[]>("search_index.json"));
   const needle = q.trim().toLowerCase();
   if (!needle) return [];
-  return index
-    .filter((m) => (m.title || "").toLowerCase().includes(needle))
-    .slice(0, topK)
-    .map(normalizeMovieCard);
+  return index.filter((m) => (m.title || "").toLowerCase().includes(needle)).slice(0, topK);
 };
 
 export const fetchEvaluation = async () => {

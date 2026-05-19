@@ -21,10 +21,25 @@ body {
   min-height: 100vh;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+.movie-row-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.7) rgba(15, 23, 42, 0.6);
 }
 
-.hide-scrollbar {
-  scrollbar-width: none;
+.movie-row-scrollbar::-webkit-scrollbar {
+  height: 10px;
+}
+
+.movie-row-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 9999px;
+}
+
+.movie-row-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.7), rgba(99, 102, 241, 0.7));
+  border-radius: 9999px;
+}
+
+.movie-row-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.95), rgba(99, 102, 241, 0.95));
 }

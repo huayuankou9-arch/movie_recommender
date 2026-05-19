@@ -8,6 +8,10 @@ export interface MovieCard {
   overview?: string;
   score?: number;
   reason?: string;
+  rating_avg?: number | null;
+  rating_count?: number | null;
+  review_snippet?: string;
+  reviews?: Array<{ text: string; rating?: number | null; userId?: number | null }>;
 }
 
 export interface GenreRow {

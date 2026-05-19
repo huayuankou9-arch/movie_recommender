@@ -322,6 +322,10 @@ def run_fetch_tmdb(cfg: dict) -> None:
         cache_json=cache_json,
         limit=int(cfg.get("tmdb", {}).get("fetch_limit", 1000)),
         force=bool(cfg.get("tmdb", {}).get("force_fetch", False)),
+        verify_posters=bool(cfg.get("tmdb", {}).get("verify_posters", True)),
+        verify_workers=int(cfg.get("tmdb", {}).get("verify_workers", 64)),
+        fetch_workers=int(cfg.get("tmdb", {}).get("fetch_workers", 32)),
+        batch_size=int(cfg.get("tmdb", {}).get("batch_size", 500)),
     )
 
 

@@ -1,13 +1,27 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { MovieCard as Movie } from "../types";
+import { PLACEHOLDER_POSTER, sanitizePosterUrl, sanitizeTitle } from "../utils/movie";
 import { GenreBadge } from "./GenreBadge";
 import { RatingBadge } from "./RatingBadge";
 import { ReasonTooltip } from "./ReasonTooltip";
 
 export function MovieCard({ movie }: { movie: Movie }) {
-  const posterFallback = "/placeholder-poster.png";
+  const [posterSrc, setPosterSrc] = useState(sanitizePosterUrl(movie.poster_url));
+  const [posterFailed, setPosterFailed] = useState(false);
+  useEffect(() => {
+    setPosterSrc(sanitizePosterUrl(movie.poster_url));
+    setPosterFailed(false);
+  }, [movie.movieId, movie.poster_url]);
+
   const genres = movie.genres?.split(",").map((g) => g.trim()).filter(Boolean).slice(0, 2) ?? [];
+  const title = sanitizeTitle(movie.title) || "Untitled";
+  const ratingText =
+    typeof movie.rating_avg === "number" && typeof movie.rating_count === "number"
+      ? `Avg ${movie.rating_avg.toFixed(2)} · ${movie.rating_count} ratings`
+      : "";
+
   return (
     <motion.article
       whileHover={{ scale: 1.05, y: -4 }}
@@ -15,26 +29,32 @@ export function MovieCard({ movie }: { movie: Movie }) {
       className="group relative min-w-[180px] max-w-[180px] overflow-hidden rounded-xl border border-white/10 bg-panel shadow-glow md:min-w-[220px] md:max-w-[220px]"
     >
       <img
-        src={movie.poster_url || posterFallback}
-        alt={movie.title}
+        src={posterSrc}
+        alt={title}
         className="h-[260px] w-full object-cover md:h-[320px]"
+        loading="lazy"
         onError={(e) => {
-          const t = e.currentTarget;
-          t.src = posterFallback;
+          if (posterFailed) return;
+          setPosterFailed(true);
+          setPosterSrc(PLACEHOLDER_POSTER);
+          e.currentTarget.src = PLACEHOLDER_POSTER;
         }}
       />
       <div className="space-y-2 p-3">
-        <p className="line-clamp-1 text-sm font-semibold">{movie.title}</p>
+        <p className="line-clamp-1 text-sm font-semibold">{title}</p>
         <div className="flex flex-wrap gap-1">
           {genres.map((g) => (
             <GenreBadge key={g} text={g} />
           ))}
           <RatingBadge score={movie.score} />
         </div>
+        {ratingText && <p className="line-clamp-1 text-[11px] text-slate-400">{ratingText}</p>}
+        {movie.review_snippet && <p className="line-clamp-2 text-[11px] leading-4 text-slate-300">{movie.review_snippet}</p>}
         <ReasonTooltip reason={movie.reason} />
       </div>
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 opacity-0 transition group-hover:opacity-100">
         <p className="mb-3 line-clamp-3 text-xs text-slate-200">{movie.overview || "No overview available."}</p>
+        {movie.review_snippet && <p className="mb-3 line-clamp-2 text-xs text-cyan-100">{movie.review_snippet}</p>}
         <div className="flex gap-2 text-xs">
           <Link to={`/movie/${movie.movieId}`} className="rounded-md bg-neon/20 px-2 py-1 text-neon">
             View Detail

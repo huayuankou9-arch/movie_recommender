@@ -34,6 +34,10 @@ tmdb:
   image_base_url: https://image.tmdb.org/t/p
   poster_size: w500
   backdrop_size: original
+  verify_posters: true
+  verify_workers: 64
+  fetch_workers: 32
+  batch_size: 500
 
 app:
   cache_users: [1, 2, 3, 4, 5]
