@@ -28,4 +28,8 @@ app.include_router(evaluation_router)
 
 @app.get("/")
 def root():
-    return {"message": "Movie Recommender API running", "docs": "/docs"}
+    return {
+        "message": "Movie Recommender API running",
+        "docs": "/docs",
+        "note": "TMDB calls are build-time only; frontend static mode should read /data/*.json",
+    }

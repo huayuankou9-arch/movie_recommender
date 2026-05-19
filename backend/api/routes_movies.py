@@ -58,12 +58,3 @@ def search(q: str = Query(...), top_k: int = Query(20)):
         return sanitize_for_json({"items": MovieService.get_instance().search(q, top_k=top_k)})
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Search failed: {exc}") from exc
-
-
-@router.post("/movies/{movie_id}/poster/repair")
-def repair_poster(movie_id: int, current_url: str | None = Query(None), force: bool = Query(False)):
-    try:
-        payload = MovieService.get_instance().repair_poster(movie_id, current_url=current_url, force=force)
-        return sanitize_for_json(payload)
-    except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"Poster repair failed: {exc}") from exc

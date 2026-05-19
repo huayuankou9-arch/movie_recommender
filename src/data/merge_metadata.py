@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import httpx
 import numpy as np
 import pandas as pd
 import re
@@ -210,6 +209,8 @@ def merge_movies_with_metadata(
             "keywords",
             "cast",
             "director",
+            "poster_path",
+            "backdrop_path",
             "poster_url",
             "backdrop_url",
             "release_date",
@@ -223,88 +224,9 @@ def merge_movies_with_metadata(
 
     out["poster_url"] = out["poster_url"].fillna(default_poster)
     out["backdrop_url"] = out["backdrop_url"].fillna(default_backdrop)
+    out["poster_path"] = out["poster_path"].fillna("")
+    out["backdrop_path"] = out["backdrop_path"].fillna("")
     out["year"] = out["year"].astype("Int64")
     out["tmdbId"] = out["tmdbId"].astype("Int64")
     out["imdbId"] = out["imdbId"].astype("Int64")
     return out.drop_duplicates(subset=["movieId"]).reset_index(drop=True)
-
-
-def enrich_with_tmdb_api(
-    movies_enriched: pd.DataFrame,
-    api_key: str | None = None,
-    read_token: str | None = None,
-    default_poster: str | None = None,
-    default_backdrop: str | None = None,
-    limit: int = 200,
-) -> pd.DataFrame:
-    if not api_key and not read_token:
-        return movies_enriched
-    df = movies_enriched.copy()
-    missing = df[
-        (df["overview"].fillna("") == "")
-        | df["poster_url"].fillna("").str.contains("placehold.co")
-        | df["backdrop_url"].fillna("").str.contains("placehold.co")
-    ].copy()
-    missing = missing[missing["tmdbId"].notna()].head(limit)
-    if missing.empty:
-        return df
-
-    headers = {"accept": "application/json"}
-    if read_token:
-        headers["Authorization"] = f"Bearer {read_token}"
-
-    for row in missing.itertuples(index=False):
-        tmdb_id = int(row.tmdbId)
-        url = f"https://api.themoviedb.org/3/movie/{tmdb_id}"
-        params = {"language": "en-US"}
-        if api_key:
-            params["api_key"] = api_key
-        try:
-            resp = httpx.get(url, headers=headers, params=params, timeout=10.0)
-            if resp.status_code != 200:
-                continue
-            payload = resp.json()
-            poster_path = payload.get("poster_path")
-            backdrop_path = payload.get("backdrop_path")
-            overview = payload.get("overview")
-            runtime = payload.get("runtime")
-            vote_average = payload.get("vote_average")
-            vote_count = payload.get("vote_count")
-            popularity = payload.get("popularity")
-            mask = df["movieId"] == row.movieId
-            if overview and not str(row.overview).strip():
-                df.loc[mask, "overview"] = overview
-            if _is_valid_img_path(poster_path):
-                df.loc[mask, "poster_url"] = f"https://image.tmdb.org/t/p/w500{poster_path}"
-            elif default_poster:
-                df.loc[mask, "poster_url"] = df.loc[mask, "poster_url"].fillna(default_poster)
-            if _is_valid_img_path(backdrop_path):
-                df.loc[mask, "backdrop_url"] = f"https://image.tmdb.org/t/p/original{backdrop_path}"
-            elif default_backdrop:
-                df.loc[mask, "backdrop_url"] = df.loc[mask, "backdrop_url"].fillna(default_backdrop)
-            if runtime:
-                df.loc[mask, "runtime"] = runtime
-            if vote_average:
-                df.loc[mask, "vote_average"] = vote_average
-            if vote_count:
-                df.loc[mask, "vote_count"] = vote_count
-            if popularity:
-                df.loc[mask, "popularity"] = popularity
-        except Exception:
-            continue
-    df["metadata_text"] = (
-        df["title"].fillna("")
-        + " "
-        + df["genres"].fillna("")
-        + " "
-        + df["tag_text"].fillna("")
-        + " "
-        + df["overview"].fillna("")
-        + " "
-        + df["keywords"].fillna("")
-        + " "
-        + df["cast"].fillna("")
-        + " "
-        + df["director"].fillna("")
-    ).str.lower()
-    return df

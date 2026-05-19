@@ -6,11 +6,10 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from dotenv import load_dotenv
 from scipy.sparse import load_npz
 
 from src.data.load_data import load_movielens, load_movies_metadata
-from src.data.merge_metadata import enrich_with_tmdb_api, merge_movies_with_metadata
+from src.data.merge_metadata import merge_movies_with_metadata
 from src.data.preprocess import preprocess_movielens
 from src.data.split import build_and_save_matrix, train_test_split_by_time
 from src.evaluation.evaluate import evaluate_models
@@ -20,6 +19,7 @@ from src.models.itemcf import ItemCFRecommender
 from src.models.matrix_factorization import MatrixFactorizationRecommender
 from src.models.popularity import PopularityRecommender
 from src.models.usercf import UserCFRecommender
+from src.service.recommender_service import RecommenderService
 from src.utils.io import ensure_dir, read_yaml, write_json
 from src.utils.logger import get_logger
 
@@ -44,7 +44,6 @@ def _resolve_data_dir(primary: str, candidates: list[str], required_files: list[
 
 
 def run_preprocess(cfg: dict) -> None:
-    load_dotenv()
     processed_dir = ensure_dir(cfg["data"]["processed_dir"])
     movielens_dir = _resolve_data_dir(
         cfg["data"]["movielens_dir"],
@@ -125,18 +124,6 @@ def run_preprocess(cfg: dict) -> None:
                 "metadata_text",
             ]
         ]
-
-    import os
-
-    api_key = os.getenv("TMDB_API_KEY")
-    read_token = os.getenv("TMDB_API_READ_TOKEN")
-    movies_enriched = enrich_with_tmdb_api(
-        movies_enriched,
-        api_key=api_key,
-        read_token=read_token,
-        default_poster=cfg["app"]["default_poster"],
-        default_backdrop=cfg["app"]["default_backdrop"],
-    )
 
     train, test = train_test_split_by_time(ratings, cfg["split"]["test_ratio"])
     train.to_csv(processed_dir / "train_ratings.csv", index=False)
@@ -288,25 +275,79 @@ def run_cache(cfg: dict) -> None:
 
     users = cfg.get("app", {}).get("cache_users", [1, 2, 3])
     home_cache = {}
+    recommendations_cache: dict[str, object] = {"users": {}, "home_cache": home_cache}
     for uid in users:
         try:
-            recs = hybrid.recommend(int(uid), top_k=12, exclude_seen=True)
+            uid_int = int(uid)
+            recs = hybrid.recommend(uid_int, top_k=12, exclude_seen=True)
+            pop_recs = pop.recommend(uid_int, top_k=12, exclude_seen=True)
+            usercf_recs = models["UserCF"].recommend(uid_int, top_k=12, exclude_seen=True)
+            itemcf_recs = models["ItemCF"].recommend(uid_int, top_k=12, exclude_seen=True)
+            mf_recs = models["MatrixFactorization"].recommend(uid_int, top_k=12, exclude_seen=True)
+            content_recs = models["ContentBased"].recommend(uid_int, top_k=12, exclude_seen=True)
+
             home_cache[str(uid)] = {
                 "hero_movie": recs[0] if recs else None,
                 "for_you": recs,
                 "trending": pop.recommend_trending(12),
                 "highly_rated": pop.recommend_highly_rated(12),
+                "because_you_like": itemcf_recs,
+                "genre_rows": RecommenderService.get_instance()._genre_rows(uid_int, top_k=12),
+            }
+            recommendations_cache["users"][str(uid)] = {
+                "popularity": pop_recs,
+                "usercf": usercf_recs,
+                "itemcf": itemcf_recs,
+                "mf": mf_recs,
+                "content": content_recs,
+                "hybrid": recs,
             }
         except Exception:
             continue
     write_json(output_cache / "home_cache.json", home_cache)
     write_json(output_cache / "popular_movies.json", pop.recommend_trending(40))
+    write_json(output_cache / "recommendations_cache.json", recommendations_cache)
     logger.info("Cache generated.")
+
+
+def run_fetch_tmdb(cfg: dict) -> None:
+    from scripts.fetch_tmdb_metadata import run as fetch_tmdb_run
+
+    input_csv = str(Path(cfg["data"]["processed_dir"]) / "movies_enriched.csv")
+    output_csv = str(Path(cfg["data"]["processed_dir"]) / "movies_enriched_with_tmdb.csv")
+    cache_json = str(Path(cfg["data"]["processed_dir"]) / "tmdb_cache.json")
+    fetch_tmdb_run(
+        input_csv=input_csv,
+        output_csv=output_csv,
+        cache_json=cache_json,
+        limit=int(cfg.get("tmdb", {}).get("fetch_limit", 1000)),
+        force=bool(cfg.get("tmdb", {}).get("force_fetch", False)),
+    )
+
+
+def run_export_static(cfg: dict) -> None:
+    from scripts.export_static_data import run as export_static_run
+
+    processed_dir = Path(cfg["data"]["processed_dir"])
+    movies_tmdb = processed_dir / "movies_enriched_with_tmdb.csv"
+    movies_base = processed_dir / "movies_enriched.csv"
+    movies_csv = str(movies_tmdb if movies_tmdb.exists() else movies_base)
+    recommendations = str(Path(cfg["data"]["output_dir"]) / "cache" / "recommendations_cache.json")
+    evaluation = "reports/tables/evaluation_results.csv"
+    export_static_run(
+        movies_csv=movies_csv,
+        recommendations_cache_json=recommendations,
+        evaluation_csv=evaluation,
+        out_dir="frontend/public/data",
+    )
 
 
 def main():
     parser = argparse.ArgumentParser(description="Movie recommender pipeline")
-    parser.add_argument("command", choices=["preprocess", "train", "evaluate", "all"])
+    parser.add_argument(
+        "command",
+        choices=["preprocess", "train", "evaluate", "all", "fetch-tmdb", "export-static", "build-static"],
+    )
     args = parser.parse_args()
 
     cfg = _cfg()
@@ -322,6 +363,17 @@ def main():
             run_train(cfg)
             run_evaluate(cfg)
             run_cache(cfg)
+        elif args.command == "fetch-tmdb":
+            run_fetch_tmdb(cfg)
+        elif args.command == "export-static":
+            run_export_static(cfg)
+        elif args.command == "build-static":
+            run_preprocess(cfg)
+            run_train(cfg)
+            run_evaluate(cfg)
+            run_cache(cfg)
+            run_fetch_tmdb(cfg)
+            run_export_static(cfg)
     except Exception as exc:
         logger.exception("Pipeline failed: %s", exc)
         sys.exit(1)

@@ -1,15 +1,12 @@
-import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { repairPoster } from "../api/client";
 import { MovieCard as Movie } from "../types";
 import { GenreBadge } from "./GenreBadge";
 import { RatingBadge } from "./RatingBadge";
 import { ReasonTooltip } from "./ReasonTooltip";
 
 export function MovieCard({ movie }: { movie: Movie }) {
-  const posterFallback = "https://placehold.co/500x750?text=No+Poster";
-  const repairTried = useRef(false);
+  const posterFallback = "/placeholder-poster.png";
   const genres = movie.genres?.split(",").map((g) => g.trim()).filter(Boolean).slice(0, 2) ?? [];
   return (
     <motion.article
@@ -21,22 +18,8 @@ export function MovieCard({ movie }: { movie: Movie }) {
         src={movie.poster_url || posterFallback}
         alt={movie.title}
         className="h-[260px] w-full object-cover md:h-[320px]"
-        onError={async (e) => {
+        onError={(e) => {
           const t = e.currentTarget;
-          if (repairTried.current) {
-            if (t.src !== posterFallback) t.src = posterFallback;
-            return;
-          }
-          repairTried.current = true;
-          try {
-            const fixed = await repairPoster(movie.movieId, t.src);
-            if (fixed.poster_url && fixed.poster_url !== t.src) {
-              t.src = fixed.poster_url;
-              return;
-            }
-          } catch (_err) {
-            // fall back below
-          }
           t.src = posterFallback;
         }}
       />

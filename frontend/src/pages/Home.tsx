@@ -6,6 +6,7 @@ import { MovieRow } from "../components/MovieRow";
 import { HomeResponse } from "../types";
 
 export function Home() {
+  const apiMode = import.meta.env.VITE_API_MODE || "static";
   const [userId, setUserId] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,6 +32,7 @@ export function Home() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-2xl font-bold md:text-3xl">Streaming Home</h1>
+        <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-300">Mode: {apiMode}</span>
         <input
           type="number"
           value={userId}

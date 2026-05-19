@@ -1,46 +1,33 @@
-import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { repairPoster } from "../api/client";
 import { MovieCard as Movie } from "../types";
 
 export function HeroBanner({ movie }: { movie: Movie | null }) {
   if (!movie) return null;
-  const fallback = "https://placehold.co/1200x675?text=No+Backdrop";
-  const repairTried = useRef(false);
+  const posterFallback = "/placeholder-poster.png";
+  const hasBackdrop = Boolean(movie.backdrop_url);
+  const hasPoster = Boolean(movie.poster_url);
+  const bgImage = movie.backdrop_url || movie.poster_url || "";
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="relative overflow-hidden rounded-2xl border border-white/10 bg-panel"
     >
-      <img
-        src={movie.backdrop_url || movie.poster_url || fallback}
-        alt={movie.title}
-        className="h-[300px] w-full object-cover md:h-[440px]"
-        onError={async (e) => {
-          const t = e.currentTarget;
-          if (repairTried.current) {
-            if (t.src !== fallback) t.src = fallback;
-            return;
-          }
-          repairTried.current = true;
-          try {
-            const fixed = await repairPoster(movie.movieId, t.src);
-            if (fixed.backdrop_url && fixed.backdrop_url !== t.src) {
-              t.src = fixed.backdrop_url;
-              return;
-            }
-            if (fixed.poster_url && fixed.poster_url !== t.src) {
-              t.src = fixed.poster_url;
-              return;
-            }
-          } catch (_err) {
-            // fall back below
-          }
-          t.src = fallback;
-        }}
-      />
+      {bgImage ? (
+        <img
+          src={bgImage}
+          alt={movie.title}
+          className={`h-[300px] w-full object-cover md:h-[440px] ${!hasBackdrop && hasPoster ? "scale-110 blur-sm" : ""}`}
+          onError={(e) => {
+            const t = e.currentTarget;
+            t.src = posterFallback;
+          }}
+        />
+      ) : (
+        <div className="h-[300px] w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 md:h-[440px]" />
+      )}
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent" />
       <div className="absolute bottom-0 left-0 max-w-2xl space-y-3 p-5 md:p-8">
         <p className="inline-flex rounded-full bg-neon/20 px-3 py-1 text-xs text-neon">Top Pick For You</p>
@@ -60,3 +47,4 @@ export function HeroBanner({ movie }: { movie: Movie | null }) {
     </motion.section>
   );
 }
+
