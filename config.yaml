@@ -1,0 +1,41 @@
+data:
+  movielens_dir: data/raw/ml-latest
+  metadata_dir: data/raw/the-movies-dataset
+  processed_dir: data/processed
+  output_dir: data/outputs
+  max_users_for_training: 1200
+  max_ratings_for_training: 180000
+  min_movie_ratings_after_sampling: 5
+
+split:
+  test_ratio: 0.2
+  positive_threshold: 4.0
+
+models:
+  top_k: 12
+  usercf_neighbors: 30
+  itemcf_neighbors: 50
+  mf_factors: 50
+  mf_epochs: 30
+  min_rating_count: 20
+
+hybrid:
+  popularity: 0.10
+  usercf: 0.20
+  itemcf: 0.25
+  mf: 0.30
+  content: 0.15
+
+evaluation:
+  k: 10
+  max_users: 50
+
+tmdb:
+  image_base_url: https://image.tmdb.org/t/p
+  poster_size: w500
+  backdrop_size: original
+
+app:
+  cache_users: [1, 2, 3, 4, 5]
+  default_poster: https://placehold.co/500x750?text=No+Poster
+  default_backdrop: https://placehold.co/1200x675?text=No+Backdrop

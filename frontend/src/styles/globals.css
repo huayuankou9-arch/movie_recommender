@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 700px at 10% -10%, rgba(0, 224, 255, 0.1), transparent 60%),
+    radial-gradient(1000px 500px at 90% 0%, rgba(255, 93, 115, 0.12), transparent 55%),
+    #070b14;
+  color: #f1f5f9;
+  font-family: "Poppins", "Noto Sans SC", "Segoe UI", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
