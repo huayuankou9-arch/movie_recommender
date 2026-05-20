@@ -6,13 +6,14 @@ export function MovieRow({ title, movies }: { title: string; movies: Movie[] }) 
   if (!movies?.length) return null;
   return (
     <section className="space-y-3">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-white md:text-xl">{title}</h2>
-        <span className="text-xs text-slate-400">左右拖动滚动条浏览更多</span>
+        <span className="text-xs text-slate-400">Drag sideways to browse more</span>
       </div>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
         className="movie-row-scrollbar flex gap-4 overflow-x-auto pb-3"
       >
         {movies.map((m) => (
@@ -22,3 +23,4 @@ export function MovieRow({ title, movies }: { title: string; movies: Movie[] }) 
     </section>
   );
 }
+

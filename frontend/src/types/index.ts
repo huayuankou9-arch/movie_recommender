@@ -12,6 +12,14 @@ export interface MovieCard {
   rating_count?: number | null;
   review_snippet?: string;
   reviews?: Array<{ text: string; rating?: number | null; userId?: number | null }>;
+  reason_type?: string;
+  evidence?: string;
+  score_breakdown?: {
+    recommendation?: number | null;
+    rating_avg?: number | null;
+    rating_count?: number | null;
+    popularity?: number | null;
+  };
 }
 
 export interface GenreRow {
@@ -48,4 +56,12 @@ export interface EvaluationRow {
   "hitrate@10": number;
   "ndcg@10": number;
   coverage: number;
+}
+
+export interface BuildInfo {
+  generated_at: string;
+  dataset: string;
+  movies_cached: number;
+  users_cached: number;
+  tmdb_enriched: number;
 }

@@ -6,7 +6,6 @@ import { MovieRow } from "../components/MovieRow";
 import { HomeResponse } from "../types";
 
 export function Home() {
-  const apiMode = import.meta.env.VITE_API_MODE || "static";
   const [userId, setUserId] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,29 +30,34 @@ export function Home() {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl font-bold md:text-3xl">Streaming Home</h1>
-        <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-300">Mode: {apiMode}</span>
-        <input
-          type="number"
-          value={userId}
-          onChange={(e) => setUserId(Number(e.target.value || 1))}
-          className="rounded-md border border-white/20 bg-black/20 px-3 py-2 text-sm"
-        />
-        <button onClick={load} className="rounded-md bg-neon px-4 py-2 text-sm font-semibold text-ink">
-          Refresh
-        </button>
+    <div className="space-y-10">
+      <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-3xl space-y-2">
+          <h1 className="text-3xl font-semibold text-white md:text-5xl">MovieMate: Personalized Movie Discovery</h1>
+          <p className="text-sm leading-6 text-slate-300 md:text-base">
+            A cinematic recommendation experience powered by collaborative filtering, content signals, and hybrid ranking.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] p-2">
+          <span className="px-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-400">Experience as User #</span>
+          <input
+            type="number"
+            min={1}
+            value={userId}
+            onChange={(e) => setUserId(Number(e.target.value || 1))}
+            className="w-24 rounded-full border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-neon"
+          />
+          <button onClick={load} className="rounded-full bg-neon px-5 py-2 text-sm font-semibold text-ink">
+            Refresh
+          </button>
+        </div>
       </div>
-      <p className="text-xs text-slate-400">
-        提示：黄色 `Rec` 分数是推荐模型排序分，不是豆瓣/TMDB公开评分；分数越高表示系统越推荐。
-      </p>
 
-      {loading && <LoadingSkeleton className="h-[440px] w-full" />}
+      {loading && <LoadingSkeleton className="h-[480px] w-full" />}
       {error && <p className="rounded-md bg-coral/20 px-3 py-2 text-sm text-coral">{error}</p>}
 
       {!loading && data && (
-        <div className="space-y-8">
+        <div className="space-y-10">
           <HeroBanner movie={data.hero_movie} />
           <MovieRow title="For You" movies={data.for_you} />
           <MovieRow title="Because You Like" movies={data.because_you_like} />
@@ -67,3 +71,4 @@ export function Home() {
     </div>
   );
 }
+

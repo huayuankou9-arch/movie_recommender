@@ -1,5 +1,5 @@
-import axios from "axios";
-import { EvaluationRow, HomeResponse, MovieCard, UserProfile } from "../types";
+﻿import axios from "axios";
+import { BuildInfo, EvaluationRow, HomeResponse, MovieCard, UserProfile } from "../types";
 import {
   PLACEHOLDER_POSTER,
   isDisplayableMovie,
@@ -49,7 +49,10 @@ function normalizeMovieCard(m: Partial<MovieCard>): MovieCard {
     rating_avg: typeof m.rating_avg === "number" ? m.rating_avg : null,
     rating_count: typeof m.rating_count === "number" ? m.rating_count : null,
     review_snippet: typeof m.review_snippet === "string" ? m.review_snippet : "",
-    reviews: Array.isArray(m.reviews) ? m.reviews : []
+    reviews: Array.isArray(m.reviews) ? m.reviews : [],
+    reason_type: typeof m.reason_type === "string" ? m.reason_type : "",
+    evidence: typeof m.evidence === "string" ? m.evidence : "",
+    score_breakdown: m.score_breakdown || {}
   };
 }
 
@@ -87,10 +90,20 @@ function normalizeHomePayload(home: HomeResponse): HomeResponse {
     }))
     .filter((row) => row.movies.length > 0);
 
-  let hero = home.hero_movie ? normalizeMovieCard(home.hero_movie) : null;
-  if (!hero || !isDisplayableMovie(hero)) {
-    hero = forYou[0] || trending[0] || highlyRated[0] || becauseYouLike[0] || null;
-  }
+  const heroPool = [
+    home.hero_movie ? normalizeMovieCard(home.hero_movie) : null,
+    ...forYou,
+    ...becauseYouLike,
+    ...trending,
+    ...highlyRated
+  ]
+    .filter(Boolean)
+    .filter((m) => isDisplayableMovie(m)) as MovieCard[];
+  const hero =
+    heroPool.find((m) => Boolean(m.backdrop_url) && Boolean(m.poster_url) && Boolean(m.overview) && Boolean(m.rating_count)) ||
+    heroPool.find((m) => Boolean(m.poster_url) && Boolean(m.overview)) ||
+    heroPool[0] ||
+    null;
 
   return {
     ...home,
@@ -123,7 +136,12 @@ function similarFromMovies(allMovies: MovieCard[], movieId: number, topK: number
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, topK)
-    .map((x) => ({ ...x.movie, reason: "内容和类型与你当前电影相似" }));
+    .map((x) => ({
+      ...x.movie,
+      reason: `Shares genre DNA with ${target.title}`,
+      reason_type: "content",
+      evidence: `Because it overlaps with ${target.title} in ${targetGenres.slice(0, 2).join(", ") || "tone and audience taste"}.`
+    }));
   return normalizeMovieList(scored);
 }
 
@@ -157,7 +175,7 @@ export const fetchProfile = async (userId: number) => {
     return data;
   }
   const home = await fetchHome(userId);
-  const pool = [...home.for_you, ...home.because_you_like, ...home.trending].slice(0, 24);
+  const pool = [...home.for_you, ...home.because_you_like, ...home.trending].slice(0, 36);
   const genreCount = new Map<string, number>();
   for (const m of pool) {
     (m.genres || "")
@@ -170,16 +188,27 @@ export const fetchProfile = async (userId: number) => {
     .map(([genre, count]) => ({ genre, count }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
+  const favorite = genre_distribution.slice(0, 3).map((x) => x.genre);
+  const ratedMovies = pool.filter((m) => typeof m.rating_avg === "number");
+  const avg = ratedMovies.length
+    ? ratedMovies.reduce((sum, m) => sum + Number(m.rating_avg || 0), 0) / ratedMovies.length
+    : 4.2;
+
   return {
     userId,
     rating_count: pool.length,
-    avg_rating: 4.2,
+    avg_rating: avg,
     favorite_genres: genre_distribution.slice(0, 5).map((x) => x.genre),
     genre_distribution,
-    top_rated_movies: pool.slice(0, 12).map((m, i) => ({ ...m, rating: 5 - (i % 3) * 0.5 })),
-    recent_movies: pool.slice(12, 24).map((m, i) => ({ ...m, rating: 4.5 - (i % 2) * 0.5 })),
-    profile_summary: "静态演示模式：该画像来自缓存推荐结果。"
-  };
+    top_rated_movies: [...pool]
+      .sort((a, b) => Number(b.rating_avg || 0) - Number(a.rating_avg || 0))
+      .slice(0, 12)
+      .map((m) => ({ ...m, rating: m.rating_avg || 4.5 })),
+    recent_movies: pool.slice(12, 24).map((m) => ({ ...m, rating: m.rating_avg || 4.0 })),
+    profile_summary: favorite.length
+      ? `User #${userId} leans toward ${favorite.join(", ")} and responds well to well-rated, story-rich films. The profile blends collaborative signals with recent cached recommendations.`
+      : `User #${userId} has a compact profile, so MovieMate balances reliable crowd favorites with exploratory picks.`
+  } as UserProfile;
 };
 
 export const fetchMovieDetail = async (movieId: number) => {
@@ -251,7 +280,13 @@ export const fetchDiscover = async (params: {
       const yMaxOk = params.year_max == null || y <= params.year_max;
       return gHit && kHit && yMinOk && yMaxOk;
     })
-    .slice(0, topK);
+    .slice(0, topK)
+    .map((m) => ({
+      ...m,
+      reason_type: m.reason_type || "content",
+      evidence: m.evidence || "Selected from your cold-start genre, keyword, and era preferences.",
+      reason: m.reason || "Matches your new profile preferences"
+    }));
 };
 
 export const fetchSearch = async (q: string, topK = 20) => {
@@ -271,6 +306,17 @@ export const fetchEvaluation = async () => {
     return data.items || [];
   }
   return await readStaticJson<EvaluationRow[]>("evaluation_results.json");
+};
+
+export const fetchBuildInfo = async () => {
+  if (API_MODE === "backend") {
+    return null;
+  }
+  try {
+    return await readStaticJson<BuildInfo>("build_info.json");
+  } catch {
+    return null;
+  }
 };
 
 export const fetchAlgorithmLab = async (params: Record<string, string | number>) => {
@@ -294,4 +340,3 @@ export const fetchAlgorithmLab = async (params: Record<string, string | number>)
     results: { popularity, usercf, itemcf, mf, content, hybrid }
   };
 };
-

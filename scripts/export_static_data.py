@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import math
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -221,10 +222,45 @@ def _tag_context(tags_path: str | None, movie_ids: set[int], max_tags_per_movie:
     out = {}
     for mid, tags in tags_by_movie.items():
         out[mid] = {
-            "review_snippet": "用户标签：" + " / ".join(tags[:3]) if tags else "",
+            "review_snippet": "User tags: " + " / ".join(tags[:3]) if tags else "",
             "reviews": [{"text": tag} for tag in tags],
         }
     return out
+
+
+def _reason_payload(item: dict[str, Any], base: dict[str, Any]) -> dict[str, Any]:
+    reason = _as_str(item.get("reason"), default="")
+    score = _as_float(item.get("score"), default=None)
+    title = _as_str(base.get("title"), default="")
+    reason_lower = reason.lower()
+    if "similar user" in reason_lower or "口味相似" in reason or "相似用户" in reason:
+        reason_type = "user_similarity"
+        evidence = "Similar users also rated it highly."
+    elif "because you like" in reason_lower or "因为你喜欢" in reason:
+        reason_type = "item_similarity"
+        evidence = reason
+    elif "content" in reason_lower or "内容" in reason:
+        reason_type = "content_match"
+        evidence = "Genres, tags, and story signals match your profile."
+    elif "popular" in reason_lower or "热门" in reason:
+        reason_type = "popularity"
+        evidence = "Many viewers rated this movie highly."
+    elif score is not None:
+        reason_type = "predicted_rating"
+        evidence = f"Predicted recommendation score {score:.2f}."
+    else:
+        reason_type = "hybrid"
+        evidence = f"{title} balances collaborative, content, and popularity signals." if title else reason
+    return {
+        "reason_type": reason_type,
+        "evidence": evidence or reason,
+        "score_breakdown": {
+            "recommendation": score,
+            "rating_avg": _as_float(base.get("rating_avg"), default=None),
+            "rating_count": _as_int(base.get("rating_count"), default=None),
+            "popularity": _as_float(base.get("popularity"), default=None),
+        },
+    }
 
 
 def _clean_movie_row(row: pd.Series, ml_genres_by_movie: dict[int, str]) -> dict[str, Any]:
@@ -248,6 +284,9 @@ def _clean_movie_row(row: pd.Series, ml_genres_by_movie: dict[int, str]) -> dict
         "rating_count": None,
         "review_snippet": "",
         "reviews": [],
+        "reason_type": "",
+        "evidence": "",
+        "score_breakdown": {},
         "reason": "",
     }
 
@@ -353,6 +392,7 @@ def run(
                     "reviews": base.get("reviews") if isinstance(base.get("reviews"), list) else [],
                     "score": _as_float(it.get("score"), default=None),
                     "reason": _as_str(it.get("reason"), default=""),
+                    **_reason_payload(it, base),
                 }
             )
         return out
@@ -385,11 +425,21 @@ def run(
                 if isinstance(v, list):
                     user_payload[k] = _normalize_items(v)
 
+    users_cached = len(rec_cache.get("users", {})) if isinstance(rec_cache.get("users"), dict) else len(home_cache)
+    build_info = {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "dataset": "MovieLens + The Movies Dataset + TMDB build-time enrichment",
+        "movies_cached": len(movies),
+        "users_cached": users_cached,
+        "tmdb_enriched": sum(1 for m in movies if _as_int(m.get("tmdbId"), default=None) is not None),
+    }
+
     write_json(out_path / "movies.json", _sanitize_for_json(movies))
     write_json(out_path / "home_cache.json", _sanitize_for_json(home_cache))
     write_json(out_path / "recommendations_cache.json", _sanitize_for_json(rec_cache))
     write_json(out_path / "evaluation_results.json", _sanitize_for_json(eval_items))
     write_json(out_path / "search_index.json", _sanitize_for_json(search_index))
+    write_json(out_path / "build_info.json", _sanitize_for_json(build_info))
     logger.info("Static data exported to %s", out_path)
 
 
