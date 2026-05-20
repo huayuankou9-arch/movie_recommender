@@ -1,10 +1,11 @@
-import { Film, FlaskConical, Home, Search, UserCircle2 } from "lucide-react";
+import { BookmarkPlus, Film, FlaskConical, Home, Search, UserCircle2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const links = [
   { to: "/", label: "Home", icon: Home },
   { to: "/discover", label: "Discover", icon: Search },
   { to: "/profile", label: "My Profile", icon: UserCircle2 },
+  { to: "/watchlist", label: "Watchlist", icon: BookmarkPlus },
   { to: "/similar", label: "Similar Movies", icon: Film },
   { to: "/algorithm-lab", label: "Algorithm Lab", icon: FlaskConical },
   { to: "/evaluation", label: "Evaluation", icon: Film }

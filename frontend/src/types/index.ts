@@ -1,4 +1,4 @@
-export interface MovieCard {
+﻿export interface MovieCard {
   movieId: number;
   title: string;
   year?: number | null;
@@ -14,12 +14,19 @@ export interface MovieCard {
   reviews?: Array<{ text: string; rating?: number | null; userId?: number | null }>;
   reason_type?: string;
   evidence?: string;
-  score_breakdown?: {
+  score_breakdown?: Record<string, number | null | undefined> & {
     recommendation?: number | null;
     rating_avg?: number | null;
     rating_count?: number | null;
     popularity?: number | null;
+    mf?: number | null;
+    itemcf?: number | null;
+    content?: number | null;
+    usercf?: number | null;
   };
+  source_movie?: Partial<MovieCard> | null;
+  user_rating?: number | null;
+  highlight?: string;
 }
 
 export interface GenreRow {

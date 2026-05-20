@@ -35,7 +35,17 @@ async function readStaticJson<T>(name: string): Promise<T> {
   return data;
 }
 
+function makeHighlight(m: Partial<MovieCard>): string {
+  const snippet = typeof m.review_snippet === "string" ? m.review_snippet.trim() : "";
+  if (snippet) return snippet.replace(/^User tags:\s*/i, "Movie Highlight: ");
+  const overview = typeof m.overview === "string" ? m.overview.trim() : "";
+  if (!overview) return "";
+  const sentence = overview.split(/(?<=[.!?])\s+/)[0] || overview;
+  return sentence.length > 180 ? `${sentence.slice(0, 177)}...` : sentence;
+}
+
 function normalizeMovieCard(m: Partial<MovieCard>): MovieCard {
+  const source = m.source_movie && typeof m.source_movie === "object" ? normalizeMovieCard(m.source_movie) : null;
   return {
     movieId: Number(m.movieId || 0),
     title: sanitizeTitle(m.title) || "Unknown Movie",
@@ -52,7 +62,10 @@ function normalizeMovieCard(m: Partial<MovieCard>): MovieCard {
     reviews: Array.isArray(m.reviews) ? m.reviews : [],
     reason_type: typeof m.reason_type === "string" ? m.reason_type : "",
     evidence: typeof m.evidence === "string" ? m.evidence : "",
-    score_breakdown: m.score_breakdown || {}
+    score_breakdown: m.score_breakdown || {},
+    source_movie: source,
+    user_rating: typeof m.user_rating === "number" ? m.user_rating : null,
+    highlight: typeof m.highlight === "string" && m.highlight.trim() ? m.highlight : makeHighlight(m)
   };
 }
 
@@ -167,6 +180,14 @@ export const fetchRecommend = async (userId: number, model: string, topK = 12) =
   if (byModel.length) return normalizeMovieList(byModel).slice(0, topK);
   const home = await fetchHome(userId);
   return (home.for_you || []).slice(0, topK).map(normalizeMovieCard);
+};
+
+export const fetchMovies = async () => {
+  if (API_MODE === "backend") {
+    const { data } = await api.get<{ items: MovieCard[] }>("/movies");
+    return normalizeMovieList(data.items || []);
+  }
+  return normalizeMovieList(await readStaticJson<MovieCard[]>("movies.json"));
 };
 
 export const fetchProfile = async (userId: number) => {

@@ -7,6 +7,7 @@ import { Home } from "./pages/Home";
 import { MovieDetail } from "./pages/MovieDetail";
 import { Profile } from "./pages/Profile";
 import { SimilarMovies } from "./pages/SimilarMovies";
+import { Watchlist } from "./pages/Watchlist";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/movie/:movieId" element={<MovieDetail />} />
           <Route path="/similar" element={<SimilarMovies />} />
           <Route path="/algorithm-lab" element={<AlgorithmLab />} />

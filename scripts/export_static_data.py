@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -263,6 +264,50 @@ def _reason_payload(item: dict[str, Any], base: dict[str, Any]) -> dict[str, Any
     }
 
 
+def _highlight_payload(item: dict[str, Any], base: dict[str, Any]) -> str:
+    snippet = _as_str(base.get("review_snippet") or item.get("review_snippet"), default="")
+    if snippet:
+        return snippet
+    overview = _as_str(base.get("overview") or item.get("overview"), default="")
+    if not overview:
+        return ""
+    pieces = re.split(r"(?<=[.!?])\s+", overview)
+    first = pieces[0] if pieces else overview
+    return first[:177] + "..." if len(first) > 180 else first
+
+
+def _source_movie_payload(item: dict[str, Any], movie_by_id: dict[int, dict[str, Any]]) -> dict[str, Any] | None:
+    raw = item.get("source_movie")
+    if isinstance(raw, dict):
+        mid = _as_int(raw.get("movieId"), default=None)
+        base = movie_by_id.get(mid or -1, raw)
+        if mid or _as_str(raw.get("title"), default=""):
+            return {
+                "movieId": mid,
+                "title": _as_str(raw.get("title"), default=_as_str(base.get("title"), default="")),
+                "year": _as_int(raw.get("year"), default=_as_int(base.get("year"), default=None)),
+                "genres": _as_str(raw.get("genres"), default=_as_str(base.get("genres"), default="")),
+                "poster_url": _sanitize_poster_url(raw.get("poster_url") or base.get("poster_url") or PLACEHOLDER_POSTER),
+            }
+    reason = _as_str(item.get("reason"), default="")
+    match = re.search(r"Because you (?:liked|watched)\s+[\"'《]?([^\"'》]+)", reason, flags=re.I)
+    if not match:
+        match = re.search(r"因为你(?:喜欢|看过)[《\"]([^》\"]+)", reason)
+    if not match:
+        return None
+    title = match.group(1).strip()
+    for movie in movie_by_id.values():
+        if _as_str(movie.get("title"), default="").lower() == title.lower():
+            return {
+                "movieId": movie.get("movieId"),
+                "title": movie.get("title"),
+                "year": movie.get("year"),
+                "genres": movie.get("genres"),
+                "poster_url": movie.get("poster_url") or PLACEHOLDER_POSTER,
+            }
+    return {"movieId": None, "title": title, "poster_url": PLACEHOLDER_POSTER}
+
+
 def _clean_movie_row(row: pd.Series, ml_genres_by_movie: dict[int, str]) -> dict[str, Any]:
     poster_url = _sanitize_poster_url(row.get("poster_url"))
     backdrop_url = _sanitize_backdrop_url(row.get("backdrop_url"))
@@ -287,6 +332,9 @@ def _clean_movie_row(row: pd.Series, ml_genres_by_movie: dict[int, str]) -> dict
         "reason_type": "",
         "evidence": "",
         "score_breakdown": {},
+        "source_movie": None,
+        "user_rating": None,
+        "highlight": "",
         "reason": "",
     }
 
@@ -330,6 +378,7 @@ def run(
         mid = int(movie["movieId"])
         movie.update(ratings_by_movie.get(mid, {}))
         movie.update(tags_by_movie.get(mid, {}))
+        movie["highlight"] = _highlight_payload(movie, movie)
 
     rec_cache_path = Path(recommendations_cache_json)
     rec_cache = _load_json_or_default(rec_cache_path, default={})
@@ -392,6 +441,9 @@ def run(
                     "reviews": base.get("reviews") if isinstance(base.get("reviews"), list) else [],
                     "score": _as_float(it.get("score"), default=None),
                     "reason": _as_str(it.get("reason"), default=""),
+                    "source_movie": _source_movie_payload(it, movie_by_id),
+                    "user_rating": _as_float(it.get("user_rating"), default=None),
+                    "highlight": _highlight_payload(it, base),
                     **_reason_payload(it, base),
                 }
             )

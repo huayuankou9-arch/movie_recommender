@@ -36,6 +36,9 @@
           ],
           "score": 0.806598,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -79,6 +82,9 @@
           ],
           "score": 0.78871,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -127,6 +133,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -170,6 +179,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -213,6 +225,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bad science / beautiful / beautiful scenery",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -256,6 +271,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Captain America / excellent cinematography / fun",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -299,6 +317,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: antihero / dark humor / Funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -342,6 +363,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -385,6 +409,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -428,6 +455,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / adventure / fantasy",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -471,6 +501,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: psychological / psychology / social commentary",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -514,6 +547,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: based on a book / battle royale / Popular",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -557,6 +593,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / dystopian / post apocalypse",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -600,6 +639,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -645,6 +687,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -688,6 +733,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -731,6 +779,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -774,6 +825,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -817,6 +871,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -860,6 +917,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -903,6 +963,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -946,6 +1009,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -993,6 +1059,9 @@
           ],
           "score": 0.806598,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -1036,6 +1105,9 @@
           ],
           "score": 0.78871,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -1084,6 +1156,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1127,6 +1202,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1170,6 +1248,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bad science / beautiful / beautiful scenery",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1213,6 +1294,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Captain America / excellent cinematography / fun",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1256,6 +1340,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: antihero / dark humor / Funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1299,6 +1386,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1342,6 +1432,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1385,6 +1478,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / adventure / fantasy",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1428,6 +1524,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: psychological / psychology / social commentary",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1471,6 +1570,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: based on a book / battle royale / Popular",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1514,6 +1616,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / dystopian / post apocalypse",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1557,6 +1662,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -1602,6 +1710,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -1645,6 +1756,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -1688,6 +1802,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -1731,6 +1848,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -1774,6 +1894,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -1817,6 +1940,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -1860,6 +1986,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -1903,6 +2032,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -1950,6 +2082,9 @@
           ],
           "score": 0.806598,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -1993,6 +2128,9 @@
           ],
           "score": 0.78871,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -2041,6 +2179,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2084,6 +2225,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2127,6 +2271,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bad science / beautiful / beautiful scenery",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2170,6 +2317,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Captain America / excellent cinematography / fun",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2213,6 +2363,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: antihero / dark humor / Funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2256,6 +2409,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2299,6 +2455,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2342,6 +2501,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / adventure / fantasy",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2385,6 +2547,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: psychological / psychology / social commentary",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2428,6 +2593,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: based on a book / battle royale / Popular",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2471,6 +2639,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / dystopian / post apocalypse",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2514,6 +2685,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -2559,6 +2733,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -2602,6 +2779,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -2645,6 +2825,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -2688,6 +2871,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -2731,6 +2917,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -2774,6 +2963,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -2817,6 +3009,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -2860,6 +3055,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -2907,6 +3105,9 @@
           ],
           "score": 0.806598,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -2950,6 +3151,9 @@
           ],
           "score": 0.78871,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -2998,6 +3202,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3041,6 +3248,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3084,6 +3294,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bad science / beautiful / beautiful scenery",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3127,6 +3340,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Captain America / excellent cinematography / fun",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3170,6 +3386,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: antihero / dark humor / Funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3213,6 +3432,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3256,6 +3478,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3299,6 +3524,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / adventure / fantasy",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3342,6 +3570,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: psychological / psychology / social commentary",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3385,6 +3616,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: based on a book / battle royale / Popular",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3428,6 +3662,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / dystopian / post apocalypse",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3471,6 +3708,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3516,6 +3756,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -3559,6 +3802,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -3602,6 +3848,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -3645,6 +3894,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -3688,6 +3940,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -3731,6 +3986,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -3774,6 +4032,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -3817,6 +4078,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -3864,6 +4128,9 @@
           ],
           "score": 0.806598,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -3907,6 +4174,9 @@
           ],
           "score": 0.78871,
           "reason": "近期高分热门电影",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "popularity",
           "evidence": "Many viewers rated this movie highly.",
           "score_breakdown": {
@@ -3955,6 +4225,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -3998,6 +4271,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4041,6 +4317,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bad science / beautiful / beautiful scenery",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4084,6 +4363,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Captain America / excellent cinematography / fun",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4127,6 +4409,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: antihero / dark humor / Funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4170,6 +4455,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4213,6 +4501,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4256,6 +4547,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / adventure / fantasy",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4299,6 +4593,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: psychological / psychology / social commentary",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4342,6 +4639,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: based on a book / battle royale / Popular",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4385,6 +4685,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / dystopian / post apocalypse",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4428,6 +4731,9 @@
           ],
           "score": 0.0,
           "reason": "类型、标签、剧情简介与你感兴趣主题相似",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.00.",
           "score_breakdown": {
@@ -4473,6 +4779,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -4516,6 +4825,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -4559,6 +4871,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -4602,6 +4917,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -4645,6 +4963,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -4688,6 +5009,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -4731,6 +5055,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -4774,6 +5101,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -4822,6 +5152,9 @@
         ],
         "score": 0.153386,
         "reason": "多模型综合推荐",
+        "source_movie": null,
+        "user_rating": null,
+        "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
         "reason_type": "predicted_rating",
         "evidence": "Predicted recommendation score 0.15.",
         "score_breakdown": {
@@ -4866,6 +5199,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -4909,6 +5245,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -4952,6 +5291,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -4995,6 +5337,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -5038,6 +5383,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -5081,6 +5429,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -5124,6 +5475,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -5167,6 +5521,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -5212,6 +5569,9 @@
           ],
           "score": 0.806598,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.81.",
           "score_breakdown": {
@@ -5255,6 +5615,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -5300,6 +5663,9 @@
           ],
           "score": 0.738913,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: crime / cult film / quentin tarantino",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.74.",
           "score_breakdown": {
@@ -5343,6 +5709,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -5386,6 +5755,9 @@
           ],
           "score": 0.713732,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: acting / Anthony Hopkins / crime",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -5429,6 +5801,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: group psychology / classic / courtroom",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -5472,6 +5847,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: epic / fantasy / great soundtrack",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -5515,6 +5893,9 @@
           ],
           "score": 0.748439,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Netflix Finland / 1980s / based on a book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.75.",
           "score_breakdown": {
@@ -5558,6 +5939,9 @@
           ],
           "score": 0.70685,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: classic / philosophical / surreal",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -5607,6 +5991,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -5650,6 +6037,9 @@
               ],
               "score": 8.1,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -5693,6 +6083,9 @@
               ],
               "score": 7.8,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: great performances / funny / Over the top",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -5736,6 +6129,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: psychological / psychology / social commentary",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -5779,6 +6175,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -5822,6 +6221,9 @@
               ],
               "score": 8.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: in / classic / drama",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.50.",
               "score_breakdown": {
@@ -5865,6 +6267,9 @@
               ],
               "score": 8.2,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -5908,6 +6313,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -5951,6 +6359,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Michael Caine / Christopher Nolan / Hans Zimmer",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -5994,6 +6405,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Matt Damon / realistic / space",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -6037,6 +6451,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -6080,6 +6497,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -6128,6 +6548,9 @@
               ],
               "score": 7.4,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: antihero / dark humor / Funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.40.",
               "score_breakdown": {
@@ -6171,6 +6594,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -6214,6 +6640,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: bittersweet / dreams / funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -6257,6 +6686,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -6300,6 +6732,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -6343,6 +6778,9 @@
               ],
               "score": 7.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: comedy / las vegas / no plot",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.20.",
               "score_breakdown": {
@@ -6386,6 +6824,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Coming of Age / Disney / Marvel",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -6429,6 +6870,9 @@
               ],
               "score": 8.0,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: DeLorean / adventure / sci-fi",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.00.",
               "score_breakdown": {
@@ -6472,6 +6916,9 @@
               ],
               "score": 7.5,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cute / funny / innovative",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -6515,6 +6962,9 @@
               ],
               "score": 7.6,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: british comedy / parody / spy",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -6558,6 +7008,9 @@
               ],
               "score": 7.7,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: animation / friendship / toys",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.70.",
               "score_breakdown": {
@@ -6601,6 +7054,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: friendship / soundtrack / touching",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -6649,6 +7105,9 @@
               ],
               "score": 8.1,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -6692,6 +7151,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -6735,6 +7197,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / dystopian / post apocalypse",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -6778,6 +7243,9 @@
               ],
               "score": 7.6,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -6821,6 +7289,9 @@
               ],
               "score": 6.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cliche / Irrfan Khan / science",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.50.",
               "score_breakdown": {
@@ -6864,6 +7335,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: crime / cult film / quentin tarantino",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -6907,6 +7381,9 @@
               ],
               "score": 7.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -6950,6 +7427,9 @@
               ],
               "score": 6.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / beautifully filmed / Bechdel Test:Pass",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.90.",
               "score_breakdown": {
@@ -6993,6 +7473,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dark comedy / Dead Nazis / great acting",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -7036,6 +7519,9 @@
               ],
               "score": 7.8,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Leonardo DiCaprio / psychological / twist ending",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -7079,6 +7565,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: leonardo DiCarpio / survival / cinematography",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -7122,6 +7611,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Psychopathy / twist / unpredictable",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -7170,6 +7662,9 @@
         ],
         "score": 0.153386,
         "reason": "多模型综合推荐",
+        "source_movie": null,
+        "user_rating": null,
+        "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
         "reason_type": "predicted_rating",
         "evidence": "Predicted recommendation score 0.15.",
         "score_breakdown": {
@@ -7214,6 +7709,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -7257,6 +7755,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -7300,6 +7801,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -7343,6 +7847,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -7386,6 +7893,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -7429,6 +7939,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -7472,6 +7985,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -7515,6 +8031,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -7560,6 +8079,9 @@
           ],
           "score": 0.806598,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.81.",
           "score_breakdown": {
@@ -7603,6 +8125,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -7648,6 +8173,9 @@
           ],
           "score": 0.738913,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: crime / cult film / quentin tarantino",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.74.",
           "score_breakdown": {
@@ -7691,6 +8219,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -7734,6 +8265,9 @@
           ],
           "score": 0.713732,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: acting / Anthony Hopkins / crime",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -7777,6 +8311,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: group psychology / classic / courtroom",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -7820,6 +8357,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: epic / fantasy / great soundtrack",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -7863,6 +8403,9 @@
           ],
           "score": 0.748439,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Netflix Finland / 1980s / based on a book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.75.",
           "score_breakdown": {
@@ -7906,6 +8449,9 @@
           ],
           "score": 0.70685,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: classic / philosophical / surreal",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -7955,6 +8501,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -7998,6 +8547,9 @@
               ],
               "score": 8.1,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -8041,6 +8593,9 @@
               ],
               "score": 7.8,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: great performances / funny / Over the top",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -8084,6 +8639,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: psychological / psychology / social commentary",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -8127,6 +8685,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -8170,6 +8731,9 @@
               ],
               "score": 8.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: in / classic / drama",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.50.",
               "score_breakdown": {
@@ -8213,6 +8777,9 @@
               ],
               "score": 8.2,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -8256,6 +8823,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -8299,6 +8869,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Michael Caine / Christopher Nolan / Hans Zimmer",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -8342,6 +8915,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Matt Damon / realistic / space",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -8385,6 +8961,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -8428,6 +9007,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -8476,6 +9058,9 @@
               ],
               "score": 7.4,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: antihero / dark humor / Funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.40.",
               "score_breakdown": {
@@ -8519,6 +9104,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -8562,6 +9150,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: bittersweet / dreams / funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -8605,6 +9196,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -8648,6 +9242,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -8691,6 +9288,9 @@
               ],
               "score": 7.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: comedy / las vegas / no plot",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.20.",
               "score_breakdown": {
@@ -8734,6 +9334,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Coming of Age / Disney / Marvel",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -8777,6 +9380,9 @@
               ],
               "score": 8.0,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: DeLorean / adventure / sci-fi",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.00.",
               "score_breakdown": {
@@ -8820,6 +9426,9 @@
               ],
               "score": 7.5,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cute / funny / innovative",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -8863,6 +9472,9 @@
               ],
               "score": 7.6,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: british comedy / parody / spy",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -8906,6 +9518,9 @@
               ],
               "score": 7.7,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: animation / friendship / toys",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.70.",
               "score_breakdown": {
@@ -8949,6 +9564,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: friendship / soundtrack / touching",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -8997,6 +9615,9 @@
               ],
               "score": 8.1,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -9040,6 +9661,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -9083,6 +9707,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / dystopian / post apocalypse",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -9126,6 +9753,9 @@
               ],
               "score": 7.6,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -9169,6 +9799,9 @@
               ],
               "score": 6.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cliche / Irrfan Khan / science",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.50.",
               "score_breakdown": {
@@ -9212,6 +9845,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: crime / cult film / quentin tarantino",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -9255,6 +9891,9 @@
               ],
               "score": 7.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -9298,6 +9937,9 @@
               ],
               "score": 6.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / beautifully filmed / Bechdel Test:Pass",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.90.",
               "score_breakdown": {
@@ -9341,6 +9983,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dark comedy / Dead Nazis / great acting",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -9384,6 +10029,9 @@
               ],
               "score": 7.8,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Leonardo DiCaprio / psychological / twist ending",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -9427,6 +10075,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: leonardo DiCarpio / survival / cinematography",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -9470,6 +10121,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Psychopathy / twist / unpredictable",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -9518,6 +10172,9 @@
         ],
         "score": 0.153386,
         "reason": "多模型综合推荐",
+        "source_movie": null,
+        "user_rating": null,
+        "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
         "reason_type": "predicted_rating",
         "evidence": "Predicted recommendation score 0.15.",
         "score_breakdown": {
@@ -9562,6 +10219,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -9605,6 +10265,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -9648,6 +10311,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -9691,6 +10357,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -9734,6 +10403,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -9777,6 +10449,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -9820,6 +10495,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -9863,6 +10541,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -9908,6 +10589,9 @@
           ],
           "score": 0.806598,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.81.",
           "score_breakdown": {
@@ -9951,6 +10635,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -9996,6 +10683,9 @@
           ],
           "score": 0.738913,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: crime / cult film / quentin tarantino",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.74.",
           "score_breakdown": {
@@ -10039,6 +10729,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -10082,6 +10775,9 @@
           ],
           "score": 0.713732,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: acting / Anthony Hopkins / crime",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -10125,6 +10821,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: group psychology / classic / courtroom",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -10168,6 +10867,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: epic / fantasy / great soundtrack",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -10211,6 +10913,9 @@
           ],
           "score": 0.748439,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Netflix Finland / 1980s / based on a book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.75.",
           "score_breakdown": {
@@ -10254,6 +10959,9 @@
           ],
           "score": 0.70685,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: classic / philosophical / surreal",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -10303,6 +11011,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -10346,6 +11057,9 @@
               ],
               "score": 8.1,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -10389,6 +11103,9 @@
               ],
               "score": 7.8,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: great performances / funny / Over the top",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -10432,6 +11149,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: psychological / psychology / social commentary",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -10475,6 +11195,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -10518,6 +11241,9 @@
               ],
               "score": 8.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: in / classic / drama",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.50.",
               "score_breakdown": {
@@ -10561,6 +11287,9 @@
               ],
               "score": 8.2,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -10604,6 +11333,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -10647,6 +11379,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Michael Caine / Christopher Nolan / Hans Zimmer",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -10690,6 +11425,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Matt Damon / realistic / space",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -10733,6 +11471,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -10776,6 +11517,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -10824,6 +11568,9 @@
               ],
               "score": 7.4,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: antihero / dark humor / Funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.40.",
               "score_breakdown": {
@@ -10867,6 +11614,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -10910,6 +11660,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: bittersweet / dreams / funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -10953,6 +11706,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -10996,6 +11752,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -11039,6 +11798,9 @@
               ],
               "score": 7.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: comedy / las vegas / no plot",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.20.",
               "score_breakdown": {
@@ -11082,6 +11844,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Coming of Age / Disney / Marvel",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -11125,6 +11890,9 @@
               ],
               "score": 8.0,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: DeLorean / adventure / sci-fi",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.00.",
               "score_breakdown": {
@@ -11168,6 +11936,9 @@
               ],
               "score": 7.5,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cute / funny / innovative",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -11211,6 +11982,9 @@
               ],
               "score": 7.6,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: british comedy / parody / spy",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -11254,6 +12028,9 @@
               ],
               "score": 7.7,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: animation / friendship / toys",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.70.",
               "score_breakdown": {
@@ -11297,6 +12074,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: friendship / soundtrack / touching",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -11345,6 +12125,9 @@
               ],
               "score": 8.1,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -11388,6 +12171,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -11431,6 +12217,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / dystopian / post apocalypse",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -11474,6 +12263,9 @@
               ],
               "score": 7.6,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -11517,6 +12309,9 @@
               ],
               "score": 6.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cliche / Irrfan Khan / science",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.50.",
               "score_breakdown": {
@@ -11560,6 +12355,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: crime / cult film / quentin tarantino",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -11603,6 +12401,9 @@
               ],
               "score": 7.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -11646,6 +12447,9 @@
               ],
               "score": 6.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / beautifully filmed / Bechdel Test:Pass",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.90.",
               "score_breakdown": {
@@ -11689,6 +12493,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dark comedy / Dead Nazis / great acting",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -11732,6 +12539,9 @@
               ],
               "score": 7.8,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Leonardo DiCaprio / psychological / twist ending",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -11775,6 +12585,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: leonardo DiCarpio / survival / cinematography",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -11818,6 +12631,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Psychopathy / twist / unpredictable",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -11866,6 +12682,9 @@
         ],
         "score": 0.153386,
         "reason": "多模型综合推荐",
+        "source_movie": null,
+        "user_rating": null,
+        "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
         "reason_type": "predicted_rating",
         "evidence": "Predicted recommendation score 0.15.",
         "score_breakdown": {
@@ -11910,6 +12729,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -11953,6 +12775,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -11996,6 +12821,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -12039,6 +12867,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -12082,6 +12913,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -12125,6 +12959,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -12168,6 +13005,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -12211,6 +13051,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -12256,6 +13099,9 @@
           ],
           "score": 0.806598,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.81.",
           "score_breakdown": {
@@ -12299,6 +13145,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -12344,6 +13193,9 @@
           ],
           "score": 0.738913,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: crime / cult film / quentin tarantino",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.74.",
           "score_breakdown": {
@@ -12387,6 +13239,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -12430,6 +13285,9 @@
           ],
           "score": 0.713732,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: acting / Anthony Hopkins / crime",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -12473,6 +13331,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: group psychology / classic / courtroom",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -12516,6 +13377,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: epic / fantasy / great soundtrack",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -12559,6 +13423,9 @@
           ],
           "score": 0.748439,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Netflix Finland / 1980s / based on a book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.75.",
           "score_breakdown": {
@@ -12602,6 +13469,9 @@
           ],
           "score": 0.70685,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: classic / philosophical / surreal",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -12651,6 +13521,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -12694,6 +13567,9 @@
               ],
               "score": 8.1,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -12737,6 +13613,9 @@
               ],
               "score": 7.8,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: great performances / funny / Over the top",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -12780,6 +13659,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: psychological / psychology / social commentary",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -12823,6 +13705,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -12866,6 +13751,9 @@
               ],
               "score": 8.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: in / classic / drama",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.50.",
               "score_breakdown": {
@@ -12909,6 +13797,9 @@
               ],
               "score": 8.2,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -12952,6 +13843,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -12995,6 +13889,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Michael Caine / Christopher Nolan / Hans Zimmer",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -13038,6 +13935,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Matt Damon / realistic / space",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -13081,6 +13981,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -13124,6 +14027,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -13172,6 +14078,9 @@
               ],
               "score": 7.4,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: antihero / dark humor / Funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.40.",
               "score_breakdown": {
@@ -13215,6 +14124,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -13258,6 +14170,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: bittersweet / dreams / funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -13301,6 +14216,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -13344,6 +14262,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -13387,6 +14308,9 @@
               ],
               "score": 7.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: comedy / las vegas / no plot",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.20.",
               "score_breakdown": {
@@ -13430,6 +14354,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Coming of Age / Disney / Marvel",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -13473,6 +14400,9 @@
               ],
               "score": 8.0,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: DeLorean / adventure / sci-fi",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.00.",
               "score_breakdown": {
@@ -13516,6 +14446,9 @@
               ],
               "score": 7.5,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cute / funny / innovative",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -13559,6 +14492,9 @@
               ],
               "score": 7.6,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: british comedy / parody / spy",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -13602,6 +14538,9 @@
               ],
               "score": 7.7,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: animation / friendship / toys",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.70.",
               "score_breakdown": {
@@ -13645,6 +14584,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: friendship / soundtrack / touching",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -13693,6 +14635,9 @@
               ],
               "score": 8.1,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -13736,6 +14681,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -13779,6 +14727,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / dystopian / post apocalypse",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -13822,6 +14773,9 @@
               ],
               "score": 7.6,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -13865,6 +14819,9 @@
               ],
               "score": 6.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cliche / Irrfan Khan / science",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.50.",
               "score_breakdown": {
@@ -13908,6 +14865,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: crime / cult film / quentin tarantino",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -13951,6 +14911,9 @@
               ],
               "score": 7.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -13994,6 +14957,9 @@
               ],
               "score": 6.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / beautifully filmed / Bechdel Test:Pass",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.90.",
               "score_breakdown": {
@@ -14037,6 +15003,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dark comedy / Dead Nazis / great acting",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -14080,6 +15049,9 @@
               ],
               "score": 7.8,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Leonardo DiCaprio / psychological / twist ending",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -14123,6 +15095,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: leonardo DiCarpio / survival / cinematography",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -14166,6 +15141,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Psychopathy / twist / unpredictable",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -14214,6 +15192,9 @@
         ],
         "score": 0.153386,
         "reason": "多模型综合推荐",
+        "source_movie": null,
+        "user_rating": null,
+        "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
         "reason_type": "predicted_rating",
         "evidence": "Predicted recommendation score 0.15.",
         "score_breakdown": {
@@ -14258,6 +15239,9 @@
           ],
           "score": 0.153386,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.15.",
           "score_breakdown": {
@@ -14301,6 +15285,9 @@
           ],
           "score": 0.136369,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -14344,6 +15331,9 @@
           ],
           "score": 0.13553,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.14.",
           "score_breakdown": {
@@ -14387,6 +15377,9 @@
           ],
           "score": 0.108922,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Matt Damon / realistic / space",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.11.",
           "score_breakdown": {
@@ -14430,6 +15423,9 @@
           ],
           "score": 0.102286,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: great performances / funny / Over the top",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -14473,6 +15469,9 @@
           ],
           "score": 0.097375,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: action / character growth / Gwyneth Paltrow",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.10.",
           "score_breakdown": {
@@ -14516,6 +15515,9 @@
           ],
           "score": 0.094725,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: bittersweet / dreams / funny",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -14559,6 +15561,9 @@
           ],
           "score": 0.09234,
           "reason": "多模型综合推荐",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: long / Amoral / Anti-Hero",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.09.",
           "score_breakdown": {
@@ -14604,6 +15609,9 @@
           ],
           "score": 0.806598,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: dystopia / post-apocalyptic / consumerism",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.81.",
           "score_breakdown": {
@@ -14647,6 +15655,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -14692,6 +15703,9 @@
           ],
           "score": 0.738913,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: crime / cult film / quentin tarantino",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.74.",
           "score_breakdown": {
@@ -14735,6 +15749,9 @@
           ],
           "score": 0.78871,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Atmospheric / Batman / comic book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.79.",
           "score_breakdown": {
@@ -14778,6 +15795,9 @@
           ],
           "score": 0.713732,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: acting / Anthony Hopkins / crime",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -14821,6 +15841,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: group psychology / classic / courtroom",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -14864,6 +15887,9 @@
           ],
           "score": 0.726479,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: epic / fantasy / great soundtrack",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.73.",
           "score_breakdown": {
@@ -14907,6 +15933,9 @@
           ],
           "score": 0.748439,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: Netflix Finland / 1980s / based on a book",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.75.",
           "score_breakdown": {
@@ -14950,6 +15979,9 @@
           ],
           "score": 0.70685,
           "reason": "评分人数较多且平均评分较高",
+          "source_movie": null,
+          "user_rating": null,
+          "highlight": "User tags: classic / philosophical / surreal",
           "reason_type": "predicted_rating",
           "evidence": "Predicted recommendation score 0.71.",
           "score_breakdown": {
@@ -14999,6 +16031,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -15042,6 +16077,9 @@
               ],
               "score": 8.1,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Hans Zimmer / Matt Damon",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -15085,6 +16123,9 @@
               ],
               "score": 7.8,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: great performances / funny / Over the top",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -15128,6 +16169,9 @@
               ],
               "score": 8.3,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: psychological / psychology / social commentary",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -15171,6 +16215,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -15214,6 +16261,9 @@
               ],
               "score": 8.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: in / classic / drama",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.50.",
               "score_breakdown": {
@@ -15257,6 +16307,9 @@
               ],
               "score": 8.2,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -15300,6 +16353,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -15343,6 +16399,9 @@
               ],
               "score": 7.5,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Michael Caine / Christopher Nolan / Hans Zimmer",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -15386,6 +16445,9 @@
               ],
               "score": 7.6,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Matt Damon / realistic / space",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -15429,6 +16491,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -15472,6 +16537,9 @@
               ],
               "score": 7.9,
               "reason": "Drama 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -15520,6 +16588,9 @@
               ],
               "score": 7.4,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: antihero / dark humor / Funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.40.",
               "score_breakdown": {
@@ -15563,6 +16634,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dense / meaning of life / vietnam war",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -15606,6 +16680,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: bittersweet / dreams / funny",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -15649,6 +16726,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: long / Amoral / Anti-Hero",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -15692,6 +16772,9 @@
               ],
               "score": 7.9,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Pixar / psychology / beautiful",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -15735,6 +16818,9 @@
               ],
               "score": 7.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: comedy / las vegas / no plot",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.20.",
               "score_breakdown": {
@@ -15778,6 +16864,9 @@
               ],
               "score": 7.8,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Coming of Age / Disney / Marvel",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -15821,6 +16910,9 @@
               ],
               "score": 8.0,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: DeLorean / adventure / sci-fi",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.00.",
               "score_breakdown": {
@@ -15864,6 +16956,9 @@
               ],
               "score": 7.5,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cute / funny / innovative",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -15907,6 +17002,9 @@
               ],
               "score": 7.6,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: british comedy / parody / spy",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -15950,6 +17048,9 @@
               ],
               "score": 7.7,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: animation / friendship / toys",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.70.",
               "score_breakdown": {
@@ -15993,6 +17094,9 @@
               ],
               "score": 8.2,
               "reason": "Comedy 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: friendship / soundtrack / touching",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.20.",
               "score_breakdown": {
@@ -16041,6 +17145,9 @@
               ],
               "score": 8.1,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / Leonardo DiCaprio / alternate reality",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.10.",
               "score_breakdown": {
@@ -16084,6 +17191,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Atmospheric / Batman / comic book",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -16127,6 +17237,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / dystopian / post apocalypse",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -16170,6 +17283,9 @@
               ],
               "score": 7.6,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Christopher Nolan / Gary Oldman / long",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.60.",
               "score_breakdown": {
@@ -16213,6 +17329,9 @@
               ],
               "score": 6.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: cliche / Irrfan Khan / science",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.50.",
               "score_breakdown": {
@@ -16256,6 +17375,9 @@
               ],
               "score": 8.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: crime / cult film / quentin tarantino",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 8.30.",
               "score_breakdown": {
@@ -16299,6 +17421,9 @@
               ],
               "score": 7.5,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: disaster / Leonardo DiCaprio / romance",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.50.",
               "score_breakdown": {
@@ -16342,6 +17467,9 @@
               ],
               "score": 6.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: action / beautifully filmed / Bechdel Test:Pass",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 6.90.",
               "score_breakdown": {
@@ -16385,6 +17513,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: dark comedy / Dead Nazis / great acting",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
@@ -16428,6 +17559,9 @@
               ],
               "score": 7.8,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Leonardo DiCaprio / psychological / twist ending",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.80.",
               "score_breakdown": {
@@ -16471,6 +17605,9 @@
               ],
               "score": 7.3,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: leonardo DiCarpio / survival / cinematography",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.30.",
               "score_breakdown": {
@@ -16514,6 +17651,9 @@
               ],
               "score": 7.9,
               "reason": "Thriller 类型精选",
+              "source_movie": null,
+              "user_rating": null,
+              "highlight": "User tags: Psychopathy / twist / unpredictable",
               "reason_type": "predicted_rating",
               "evidence": "Predicted recommendation score 7.90.",
               "score_breakdown": {
