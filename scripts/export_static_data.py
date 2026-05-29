@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import math
@@ -233,17 +233,31 @@ def _reason_payload(item: dict[str, Any], base: dict[str, Any]) -> dict[str, Any
     reason = _as_str(item.get("reason"), default="")
     score = _as_float(item.get("score"), default=None)
     title = _as_str(base.get("title"), default="")
+    breakdown = item.get("score_breakdown") if isinstance(item.get("score_breakdown"), dict) else {}
+    if item.get("reason_type") or item.get("evidence") or breakdown:
+        merged = {
+            **breakdown,
+            "recommendation": score,
+            "rating_avg": _as_float(base.get("rating_avg"), default=None),
+            "rating_count": _as_int(base.get("rating_count"), default=None),
+            "popularity": breakdown.get("popularity", _as_float(base.get("popularity"), default=None)),
+        }
+        return {
+            "reason_type": _as_str(item.get("reason_type"), default="hybrid"),
+            "evidence": item.get("evidence") if item.get("evidence") else reason,
+            "score_breakdown": merged,
+        }
     reason_lower = reason.lower()
-    if "similar user" in reason_lower or "口味相似" in reason or "相似用户" in reason:
+    if "similar user" in reason_lower:
         reason_type = "user_similarity"
         evidence = "Similar users also rated it highly."
-    elif "because you like" in reason_lower or "因为你喜欢" in reason:
+    elif "because you like" in reason_lower or "because you watched" in reason_lower:
         reason_type = "item_similarity"
         evidence = reason
-    elif "content" in reason_lower or "内容" in reason:
+    elif "content" in reason_lower or "story" in reason_lower:
         reason_type = "content_match"
         evidence = "Genres, tags, and story signals match your profile."
-    elif "popular" in reason_lower or "热门" in reason:
+    elif "popular" in reason_lower or "widely watched" in reason_lower:
         reason_type = "popularity"
         evidence = "Many viewers rated this movie highly."
     elif score is not None:
@@ -290,12 +304,10 @@ def _source_movie_payload(item: dict[str, Any], movie_by_id: dict[int, dict[str,
                 "poster_url": _sanitize_poster_url(raw.get("poster_url") or base.get("poster_url") or PLACEHOLDER_POSTER),
             }
     reason = _as_str(item.get("reason"), default="")
-    match = re.search(r"Because you (?:liked|watched)\s+[\"'《]?([^\"'》]+)", reason, flags=re.I)
-    if not match:
-        match = re.search(r"因为你(?:喜欢|看过)[《\"]([^》\"]+)", reason)
+    match = re.search(r"Because you (?:liked|watched)\s+(.+)", reason, flags=re.I)
     if not match:
         return None
-    title = match.group(1).strip()
+    title = match.group(1).strip().strip("'\"<>. ")
     for movie in movie_by_id.values():
         if _as_str(movie.get("title"), default="").lower() == title.lower():
             return {
@@ -391,8 +403,17 @@ def run(
         if isinstance(fallback_home, dict):
             home_cache = fallback_home
 
-    eval_df = pd.read_csv(evaluation_csv) if Path(evaluation_csv).exists() else pd.DataFrame()
-    eval_items = eval_df.to_dict(orient="records") if not eval_df.empty else []
+    eval_payload = _load_json_or_default(Path("data/outputs/cache/evaluation_results.json"), default=None)
+    if not isinstance(eval_payload, dict):
+        eval_df = pd.read_csv(evaluation_csv) if Path(evaluation_csv).exists() else pd.DataFrame()
+        eval_items = eval_df.to_dict(orient="records") if not eval_df.empty else []
+        eval_payload = {
+            "full_ranking": eval_items,
+            "sampled_ranking": [],
+            "rating_prediction": [],
+            "best_hybrid_weights": {},
+            "notes": {},
+        }
 
     search_index = [
         {
@@ -489,7 +510,10 @@ def run(
     write_json(out_path / "movies.json", _sanitize_for_json(movies))
     write_json(out_path / "home_cache.json", _sanitize_for_json(home_cache))
     write_json(out_path / "recommendations_cache.json", _sanitize_for_json(rec_cache))
-    write_json(out_path / "evaluation_results.json", _sanitize_for_json(eval_items))
+    write_json(out_path / "evaluation_results.json", _sanitize_for_json(eval_payload))
+    write_json(out_path / "evaluation_results_legacy.json", _sanitize_for_json(eval_payload.get("full_ranking", [])))
+    write_json(out_path / "evaluation_full_ranking.json", _sanitize_for_json(eval_payload.get("full_ranking", [])))
+    write_json(out_path / "evaluation_sampled_ranking.json", _sanitize_for_json(eval_payload.get("sampled_ranking", [])))
     write_json(out_path / "search_index.json", _sanitize_for_json(search_index))
     write_json(out_path / "build_info.json", _sanitize_for_json(build_info))
     logger.info("Static data exported to %s", out_path)

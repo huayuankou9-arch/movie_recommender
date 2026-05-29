@@ -56,13 +56,21 @@ export interface UserProfile {
 
 export interface EvaluationRow {
   model: string;
-  rmse: number;
-  mae: number;
+  rmse?: number | null;
+  mae?: number | null;
   "precision@10": number;
   "recall@10": number;
   "hitrate@10": number;
   "ndcg@10": number;
   coverage: number;
+}
+
+export interface EvaluationPayload {
+  full_ranking: EvaluationRow[];
+  sampled_ranking: EvaluationRow[];
+  rating_prediction: Array<{ model: string; rmse?: number | null; mae?: number | null }>;
+  best_hybrid_weights?: Record<string, number>;
+  notes?: Record<string, string>;
 }
 
 export interface BuildInfo {

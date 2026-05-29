@@ -42,9 +42,18 @@ class BaseRecommender:
         obj.__dict__.update(state)
         return obj
 
-    def _format_movie(self, movie_id: int, score: float, reason: str) -> dict:
+    def _format_movie(
+        self,
+        movie_id: int,
+        score: float,
+        reason: str,
+        reason_type: str | None = None,
+        evidence: str | list[str] | None = None,
+        score_breakdown: dict[str, float] | None = None,
+        source_movie: dict | None = None,
+    ) -> dict:
         meta = self.movie_meta.get(movie_id, {})
-        return {
+        out = {
             "movieId": int(movie_id),
             "title": meta.get("title", ""),
             "year": int(meta["year"]) if pd.notna(meta.get("year")) else None,
@@ -55,3 +64,12 @@ class BaseRecommender:
             "score": float(np.round(score, 6)),
             "reason": reason,
         }
+        if reason_type is not None:
+            out["reason_type"] = reason_type
+        if evidence is not None:
+            out["evidence"] = evidence
+        if score_breakdown is not None:
+            out["score_breakdown"] = {k: float(np.round(v, 6)) for k, v in score_breakdown.items() if v is not None}
+        if source_movie is not None:
+            out["source_movie"] = source_movie
+        return out

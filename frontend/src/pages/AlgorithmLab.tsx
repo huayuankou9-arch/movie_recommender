@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { fetchAlgorithmLab } from "../api/client";
+import { fetchAlgorithmLab, fetchEvaluation } from "../api/client";
 import { LoadingSkeleton } from "../components/LoadingSkeleton";
 import { MovieRow } from "../components/MovieRow";
 import { MovieCard } from "../types";
@@ -72,6 +72,8 @@ export function AlgorithmLab() {
   const [error, setError] = useState("");
   const [data, setData] = useState<Record<string, MovieCard[]> | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [bestWeights, setBestWeights] = useState<Record<string, number>>({});
+  const [hybridStatus, setHybridStatus] = useState("");
 
   const totalWeight = useMemo(() => Object.values(weights).reduce((sum, x) => sum + x, 0), [weights]);
   const allMovies = useMemo(() => {
@@ -106,6 +108,19 @@ export function AlgorithmLab() {
 
   useEffect(() => {
     load();
+    fetchEvaluation()
+      .then((payload) => {
+        setBestWeights(payload.best_hybrid_weights || {});
+        const sampled = payload.sampled_ranking || [];
+        const hybrid = sampled.find((row) => row.model === "Hybrid");
+        const itemcf = sampled.find((row) => row.model === "ItemCF");
+        if (hybrid && itemcf && Number(hybrid["ndcg@10"] || 0) >= Number(itemcf["ndcg@10"] || 0)) {
+          setHybridStatus("Hybrid achieves the best sampled-ranking NDCG@10 or matches the strongest ItemCF baseline.");
+        } else if (hybrid && itemcf) {
+          setHybridStatus("Hybrid is close to ItemCF; continue tuning validation weights for higher sampled-ranking NDCG@10.");
+        }
+      })
+      .catch(() => undefined);
   }, []);
 
   const selectedMovie = allMovies.find((m) => m.movieId === selectedId) || null;
@@ -162,6 +177,21 @@ export function AlgorithmLab() {
             Each model sees a different slice of evidence: popularity sees the crowd, UserCF sees similar people, ItemCF sees related titles, MF sees latent factors, and Content sees metadata. Hybrid combines them to reduce blind spots.
           </p>
         </div>
+      </div>
+
+      <div className="rounded-[1.6rem] border border-neon/25 bg-neon/10 p-5">
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-neon">Why Hybrid improves ranking?</p>
+        <p className="mt-3 text-sm leading-7 text-cyan-50">
+          Hybrid uses validation-tuned weights to combine calibrated model evidence. ItemCF gives explainable source-movie signals, MF estimates latent preference, Content adds semantic recall, UserCF adds similar-user evidence, and Popularity protects cold-start stability.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {Object.entries(bestWeights).map(([key, value]) => (
+            <span key={key} className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-xs text-cyan-50">
+              {key}: {Number(value).toFixed(2)}
+            </span>
+          ))}
+        </div>
+        {hybridStatus && <p className="mt-3 text-sm text-cyan-100">{hybridStatus}</p>}
       </div>
 
       {loading && <LoadingSkeleton className="h-56" />}

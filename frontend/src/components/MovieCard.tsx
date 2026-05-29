@@ -127,6 +127,18 @@ export function MovieCard({ movie }: { movie: Movie }) {
             <p className="mt-1 line-clamp-2 text-xs text-cyan-50">{highlight}</p>
           </div>
         )}
+        {movie.score_breakdown && Object.keys(movie.score_breakdown).length > 0 && (
+          <div className="mb-3 grid grid-cols-2 gap-1 text-[10px] text-slate-300">
+            {Object.entries(movie.score_breakdown)
+              .filter(([, value]) => typeof value === "number")
+              .slice(0, 6)
+              .map(([key, value]) => (
+                <span key={key} className="rounded-md bg-white/10 px-2 py-1">
+                  {key}: {Number(value).toFixed(Number(value) > 10 ? 0 : 2)}
+                </span>
+              ))}
+          </div>
+        )}
         {feedback && <p className="mb-2 rounded-full bg-white/15 px-3 py-1 text-center text-[11px] text-white">{feedback}</p>}
         <div className="flex flex-wrap gap-2 text-xs">
           <Link to={`/movie/${movie.movieId}`} onClick={rememberContext} className="rounded-full bg-neon/20 px-3 py-1 font-semibold text-neon transition hover:bg-neon hover:text-ink">

@@ -52,6 +52,9 @@ class PopularityRecommender(BaseRecommender):
     def score(self, user_id: int, movie_id: int) -> float:
         return float(self.pop_scores.get(int(movie_id), 0.0))
 
+    def score_items(self, user_id: int, movie_ids: list[int]) -> dict[int, float]:
+        return {int(mid): self.score(user_id, int(mid)) for mid in movie_ids}
+
     def recommend(self, user_id: int, top_k: int = 12, exclude_seen: bool = True) -> list[dict]:
         movie_ids = self.trending[:top_k]
         return [

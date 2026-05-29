@@ -11,8 +11,8 @@ from scipy.sparse import load_npz
 from src.data.load_data import load_movielens, load_movies_metadata
 from src.data.merge_metadata import merge_movies_with_metadata
 from src.data.preprocess import preprocess_movielens
-from src.data.split import build_and_save_matrix, train_test_split_by_time
-from src.evaluation.evaluate import evaluate_models
+from src.data.split import build_and_save_matrix, train_val_test_split_by_time
+from src.evaluation.evaluate import evaluate_models, tune_hybrid_weights
 from src.models.content_based import ContentBasedRecommender
 from src.models.hybrid import HybridRecommender
 from src.models.itemcf import ItemCFRecommender
@@ -20,7 +20,7 @@ from src.models.matrix_factorization import MatrixFactorizationRecommender
 from src.models.popularity import PopularityRecommender
 from src.models.usercf import UserCFRecommender
 from src.service.recommender_service import RecommenderService
-from src.utils.io import ensure_dir, read_yaml, write_json
+from src.utils.io import ensure_dir, read_json, read_yaml, write_json
 from src.utils.logger import get_logger
 
 logger = get_logger("main")
@@ -125,8 +125,25 @@ def run_preprocess(cfg: dict) -> None:
             ]
         ]
 
-    train, test = train_test_split_by_time(ratings, cfg["split"]["test_ratio"])
+    train, val, test = train_val_test_split_by_time(
+        ratings,
+        train_ratio=float(cfg["split"].get("train_ratio", 0.7)),
+        val_ratio=float(cfg["split"].get("val_ratio", 0.1)),
+        test_ratio=float(cfg["split"].get("test_ratio", 0.2)),
+    )
+    if cfg.get("content", {}).get("use_weighted_fields", True):
+        movies_enriched["metadata_text"] = (
+            (movies_enriched["genres"].fillna("").astype(str) + " ") * 3
+            + (movies_enriched["tag_text"].fillna("").astype(str) + " ") * 3
+            + (movies_enriched.get("keywords", "").fillna("").astype(str) + " ") * 2
+            + movies_enriched.get("overview", "").fillna("").astype(str)
+            + " "
+            + movies_enriched.get("cast", "").fillna("").astype(str)
+            + " "
+            + movies_enriched.get("director", "").fillna("").astype(str)
+        ).str.lower()
     train.to_csv(processed_dir / "train_ratings.csv", index=False)
+    val.to_csv(processed_dir / "validation_ratings.csv", index=False)
     test.to_csv(processed_dir / "test_ratings.csv", index=False)
     movies_enriched.to_csv(processed_dir / "movies_enriched.csv", index=False)
     build_and_save_matrix(train, processed_dir)
@@ -193,18 +210,43 @@ def run_train(cfg: dict) -> None:
     pop = PopularityRecommender(movies, min_rating_count=cfg["models"]["min_rating_count"])
     pop.fit(train)
 
-    usercf = UserCFRecommender(movies, top_k_neighbors=cfg["models"]["usercf_neighbors"])
+    usercf_cfg = cfg.get("usercf", {})
+    usercf = UserCFRecommender(
+        movies,
+        top_k_neighbors=int(usercf_cfg.get("neighbors", cfg["models"]["usercf_neighbors"])),
+        shrinkage=float(usercf_cfg.get("shrinkage", 10)),
+        min_common_items=int(usercf_cfg.get("min_common_items", 2)),
+    )
     usercf.fit(train, matrix_bundle)
 
-    itemcf = ItemCFRecommender(movies, top_n_similar=cfg["models"]["itemcf_neighbors"])
+    itemcf_cfg = cfg.get("itemcf", {})
+    itemcf = ItemCFRecommender(
+        movies,
+        top_n_similar=int(itemcf_cfg.get("neighbors", cfg["models"]["itemcf_neighbors"])),
+        positive_threshold=float(cfg["split"].get("positive_threshold", 4.0)),
+        use_positive_history_only=bool(itemcf_cfg.get("use_positive_history_only", True)),
+        normalize_scores=bool(itemcf_cfg.get("normalize_scores", True)),
+    )
     itemcf.fit(train, matrix_bundle)
 
+    mf_cfg = cfg.get("mf", {})
     mf = MatrixFactorizationRecommender(
-        movies, n_factors=cfg["models"]["mf_factors"], n_epochs=cfg["models"]["mf_epochs"]
+        movies,
+        n_factors=int(mf_cfg.get("factors", cfg["models"]["mf_factors"])),
+        n_epochs=int(mf_cfg.get("epochs", cfg["models"]["mf_epochs"])),
+        lr=float(mf_cfg.get("lr", 0.005)),
+        reg=float(mf_cfg.get("reg", 0.05)),
     )
     mf.fit(train, matrix_bundle)
 
-    content = ContentBasedRecommender(movies, positive_threshold=cfg["split"]["positive_threshold"])
+    content_cfg = cfg.get("content", {})
+    content = ContentBasedRecommender(
+        movies,
+        positive_threshold=cfg["split"]["positive_threshold"],
+        max_features=int(content_cfg.get("max_features", 30000)),
+        ngram_range=tuple(content_cfg.get("ngram_range", [1, 2])),
+        use_weighted_fields=bool(content_cfg.get("use_weighted_fields", True)),
+    )
     content.fit(train)
 
     hybrid = HybridRecommender(
@@ -214,7 +256,8 @@ def run_train(cfg: dict) -> None:
         itemcf_model=itemcf,
         mf_model=mf,
         content_model=content,
-        weights=cfg["hybrid"],
+        weights=cfg["hybrid"].get("default_weights", cfg["hybrid"]),
+        recall_top=int(cfg.get("hybrid", {}).get("recall_top", 200)),
     )
     hybrid.fit()
 
@@ -242,27 +285,58 @@ def _load_models(cfg: dict, movies: pd.DataFrame):
 def run_evaluate(cfg: dict) -> pd.DataFrame:
     processed_dir = Path(cfg["data"]["processed_dir"])
     train = pd.read_csv(processed_dir / "train_ratings.csv")
-    _ = train
     test = pd.read_csv(processed_dir / "test_ratings.csv")
     movies = pd.read_csv(processed_dir / "movies_enriched.csv")
 
     models = _load_models(cfg, movies)
     table_path = Path("reports/tables/evaluation_results.csv")
     fig_path = Path("reports/figures/metrics_comparison.png")
+    best_weights_path = Path(cfg["data"]["output_dir"]) / "models" / "hybrid_best_weights.json"
+    best_weights = read_json(best_weights_path) if best_weights_path.exists() else {}
     result = evaluate_models(
         models=models,
+        train_ratings=train,
         test_ratings=test,
         movies_df=movies,
         output_table_path=table_path,
         output_figure_path=fig_path,
         k=cfg["evaluation"]["k"],
-        positive_threshold=cfg["split"]["positive_threshold"],
-        max_users=cfg.get("evaluation", {}).get("max_users"),
+        positive_threshold=cfg.get("evaluation", {}).get("positive_threshold", cfg["split"]["positive_threshold"]),
+        max_users=cfg.get("evaluation", {}).get("max_eval_users", cfg.get("evaluation", {}).get("max_users")),
+        sampled_cfg=cfg.get("evaluation", {}).get("sampled_eval", {}),
+        best_hybrid_weights=best_weights,
     )
     ensure_dir(Path(cfg["data"]["output_dir"]) / "cache")
-    write_json(Path(cfg["data"]["output_dir"]) / "cache" / "evaluation_results.json", result.to_dict(orient="records"))
+    write_json(Path(cfg["data"]["output_dir"]) / "cache" / "evaluation_results.json", result)
+    write_json(Path(cfg["data"]["output_dir"]) / "cache" / "evaluation_results_legacy.json", result["full_ranking"])
     logger.info("Evaluation complete.")
     return result
+
+
+def run_tune_hybrid(cfg: dict) -> dict:
+    processed_dir = Path(cfg["data"]["processed_dir"])
+    train = pd.read_csv(processed_dir / "train_ratings.csv")
+    val = pd.read_csv(processed_dir / "validation_ratings.csv")
+    movies = pd.read_csv(processed_dir / "movies_enriched.csv")
+    models = _load_models(cfg, movies)
+    candidates = cfg.get("hybrid", {}).get("candidate_weights", [cfg.get("hybrid", {}).get("default_weights", {})])
+    best = tune_hybrid_weights(
+        models,
+        train,
+        val,
+        movies,
+        candidate_weights=candidates,
+        k=int(cfg.get("evaluation", {}).get("k", 10)),
+        positive_threshold=float(cfg.get("evaluation", {}).get("positive_threshold", cfg["split"]["positive_threshold"])),
+        max_users=min(int(cfg.get("evaluation", {}).get("sampled_eval", {}).get("max_users", 1000)), 300),
+    )
+    output_models_dir = ensure_dir(Path(cfg["data"]["output_dir"]) / "models")
+    write_json(output_models_dir / "hybrid_best_weights.json", best)
+    if "Hybrid" in models:
+        models["Hybrid"].set_weights(best)
+        models["Hybrid"].save(output_models_dir / "hybrid.pkl")
+    logger.info("Hybrid tuning complete. Best weights=%s", best)
+    return best
 
 
 def run_cache(cfg: dict) -> None:
@@ -350,7 +424,7 @@ def main():
     parser = argparse.ArgumentParser(description="Movie recommender pipeline")
     parser.add_argument(
         "command",
-        choices=["preprocess", "train", "evaluate", "all", "fetch-tmdb", "export-static", "build-static"],
+        choices=["preprocess", "train", "tune-hybrid", "evaluate", "all", "fetch-tmdb", "export-static", "build-static"],
     )
     args = parser.parse_args()
 
@@ -360,13 +434,17 @@ def main():
             run_preprocess(cfg)
         elif args.command == "train":
             run_train(cfg)
+        elif args.command == "tune-hybrid":
+            run_tune_hybrid(cfg)
         elif args.command == "evaluate":
             run_evaluate(cfg)
         elif args.command == "all":
             run_preprocess(cfg)
             run_train(cfg)
+            run_tune_hybrid(cfg)
             run_evaluate(cfg)
             run_cache(cfg)
+            run_export_static(cfg)
         elif args.command == "fetch-tmdb":
             run_fetch_tmdb(cfg)
         elif args.command == "export-static":
@@ -374,6 +452,7 @@ def main():
         elif args.command == "build-static":
             run_preprocess(cfg)
             run_train(cfg)
+            run_tune_hybrid(cfg)
             run_evaluate(cfg)
             run_cache(cfg)
             run_fetch_tmdb(cfg)

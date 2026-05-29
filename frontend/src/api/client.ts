@@ -1,5 +1,5 @@
 ﻿import axios from "axios";
-import { BuildInfo, EvaluationRow, HomeResponse, MovieCard, UserProfile } from "../types";
+import { BuildInfo, EvaluationPayload, EvaluationRow, HomeResponse, MovieCard, UserProfile } from "../types";
 import {
   PLACEHOLDER_POSTER,
   isDisplayableMovie,
@@ -323,10 +323,17 @@ export const fetchSearch = async (q: string, topK = 20) => {
 
 export const fetchEvaluation = async () => {
   if (API_MODE === "backend") {
-    const { data } = await api.get<{ items: EvaluationRow[] }>("/evaluation");
-    return data.items || [];
+    const { data } = await api.get<EvaluationPayload | { items: EvaluationRow[] }>("/evaluation");
+    if ("items" in data) {
+      return { full_ranking: data.items || [], sampled_ranking: [], rating_prediction: [], best_hybrid_weights: {}, notes: {} };
+    }
+    return data;
   }
-  return await readStaticJson<EvaluationRow[]>("evaluation_results.json");
+  const data = await readStaticJson<EvaluationPayload | EvaluationRow[]>("evaluation_results.json");
+  if (Array.isArray(data)) {
+    return { full_ranking: data, sampled_ranking: [], rating_prediction: [], best_hybrid_weights: {}, notes: {} };
+  }
+  return data;
 };
 
 export const fetchBuildInfo = async () => {
