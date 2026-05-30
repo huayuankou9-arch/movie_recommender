@@ -1,7 +1,10 @@
 {
-  "popularity": 0.05,
-  "usercf": 0.1,
-  "itemcf": 0.45,
-  "mf": 0.25,
-  "content": 0.15
+  "source": "tuned",
+  "weights": {
+    "popularity": 0.05,
+    "usercf": 0.1,
+    "itemcf": 0.45,
+    "mf": 0.25,
+    "content": 0.15
+  }
 }

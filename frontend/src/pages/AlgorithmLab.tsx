@@ -64,6 +64,12 @@ function modelScore(movie: MovieCard | undefined, key: string) {
   return null;
 }
 
+function extractHybridWeights(raw: any) {
+  if (!raw) return {};
+  if (raw.weights) return raw.weights as Record<string, number>;
+  return raw as Record<string, number>;
+}
+
 export function AlgorithmLab() {
   const [userId, setUserId] = useState(1);
   const [topK, setTopK] = useState(12);
@@ -110,8 +116,8 @@ export function AlgorithmLab() {
     load();
     fetchEvaluation()
       .then((payload) => {
-        setBestWeights(payload.best_hybrid_weights || {});
-        const sampled = payload.sampled_popaware || payload.sampled_random || payload.sampled_ranking || [];
+        setBestWeights(extractHybridWeights(payload.best_hybrid_weights));
+        const sampled = payload.sampled_popaware || payload.sampled_random || [];
         const hybrid = sampled.find((row) => row.model === "Hybrid");
         const itemcf = sampled.find((row) => row.model === "ItemCF");
         if (hybrid && itemcf && Number(hybrid["ndcg@10"] || 0) >= Number(itemcf["ndcg@10"] || 0)) {

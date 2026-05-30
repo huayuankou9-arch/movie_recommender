@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from typing import Any, Literal
+from datetime import datetime, timezone
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -234,8 +235,7 @@ def tune_hybrid_weights(models: dict[str, object], train_ratings: pd.DataFrame, 
         r = random_rows[0] if random_rows else {}
         p = pop_rows[0] if pop_rows else {}
         f = full_rows[0] if full_rows else {}
-        objective = 0.35 * float(r.get("ndcg@10", 0.0)) + 0.45 * float(p.get("ndcg@10", 0.0)) + 0.20 * float(f.get("ndcg@10", 0.0))
-        objective += 0.05 * float(p.get("hitrate@10", 0.0))
+        objective = 0.60 * float(p.get("ndcg@10", 0.0)) + 0.25 * float(r.get("ndcg@10", 0.0)) + 0.15 * float(f.get("ndcg@10", 0.0))
         if objective > best_score:
             best_score = objective
             best_weights = weights
@@ -278,6 +278,7 @@ def evaluate_models(
     _plot_metrics(pd.DataFrame(full_rows), pd.DataFrame(sampled_random), pd.DataFrame(sampled_popaware), output_figure_path)
 
     metadata = {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "evaluated_users": {"full_ranking": full_users, "sampled_random": random_users, "sampled_popaware": popaware_users},
         "positive_threshold": positive_threshold,
         "k": k,
@@ -287,19 +288,19 @@ def evaluate_models(
     }
     summary = _summary(full_rows, sampled_random, sampled_popaware, rating_rows)
     result = {
+        "metadata": metadata,
+        "rating_prediction": rating_rows,
         "full_ranking": full_rows,
-        "sampled_ranking": sampled_random,
         "sampled_random": sampled_random,
         "sampled_popaware": sampled_popaware,
-        "rating_prediction": rating_rows,
+        "legacy_sampled_ranking": sampled_random,
         "best_hybrid_weights": best_hybrid_weights or {},
-        "metadata": metadata,
         "summary": summary,
         "notes": {
             "rmse_mae_note": "RMSE/MAE are mainly meaningful for rating prediction models such as MF and UserCF.",
-            "full_eval_note": "Full-ranking evaluates recommendations from the whole catalog and is strict.",
+            "full_ranking_note": "Full-ranking evaluates recommendations from the whole catalog and is strict, so values are usually lower.",
             "sampled_random_note": "Random sampled-ranking is useful but can make popularity baselines look strong when negatives are too easy.",
-            "sampled_popaware_note": "Popularity-aware sampled-ranking samples negatives from similar popularity buckets and better tests personalized ranking.",
+            "sampled_popaware_note": "Popularity-aware sampled-ranking samples harder negatives from similar popularity buckets and better tests personalized ranking.",
         },
     }
     _write_explanation(result)
@@ -325,21 +326,47 @@ def _plot_metrics(full_df: pd.DataFrame, random_df: pd.DataFrame, popaware_df: p
     plt.close(fig)
 
 
+def _metric_value(row: dict, metric: str) -> float | None:
+    aliases = {
+        "ndcg@10": ["ndcg@10", "ndcg_at_10", "ndcg10", "ndcg"],
+        "precision@10": ["precision@10", "precision_at_10", "precision10", "precision"],
+        "recall@10": ["recall@10", "recall_at_10", "recall10", "recall"],
+        "hitrate@10": ["hitrate@10", "hit_rate@10", "hitrate_at_10", "hit_rate_at_10", "hitrate"],
+        "coverage": ["coverage"],
+        "rmse": ["rmse"],
+    }
+    for key in aliases.get(metric, [metric]):
+        value = row.get(key)
+        if value is not None:
+            try:
+                return float(value)
+            except Exception:
+                return None
+    return None
+
+
 def _best(rows: list[dict], metric: str, reverse: bool = True) -> str:
     if not rows:
         return "N/A"
     fn = max if reverse else min
-    return fn(rows, key=lambda r: (r.get(metric) if r.get(metric) is not None else (-1 if reverse else 999))).get("model", "N/A")
+    fallback = -1e18 if reverse else 1e18
+    return fn(rows, key=lambda r: _metric_value(r, metric) if _metric_value(r, metric) is not None else fallback).get("model", "N/A")
 
 
 def _summary(full_rows: list[dict], random_rows: list[dict], popaware_rows: list[dict], rating_rows: list[dict]) -> dict[str, str]:
     rating_valid = [r for r in rating_rows if r.get("rmse") is not None]
+    coverage_rows = full_rows if full_rows else popaware_rows
+    coverage_source = "full_ranking" if full_rows else "sampled_popaware"
     return {
         "best_rating_predictor": _best(rating_valid, "rmse", reverse=False),
         "best_full_ranking_model": _best(full_rows, "ndcg@10"),
         "best_sampled_random_model": _best(random_rows, "ndcg@10"),
         "best_sampled_popaware_model": _best(popaware_rows, "ndcg@10"),
-        "best_coverage_model": _best(full_rows, "coverage"),
+        "best_coverage_model": _best(coverage_rows, "coverage"),
+        "best_coverage_source": coverage_source,
+        "best_interpretable_model": "ItemCF",
+        "best_cold_start_model": "Popularity / ContentBased",
+        "best_cold_start_note": "Popularity works for users with no history; ContentBased works for declared preferences and similar-movie discovery.",
     }
 
 
@@ -359,11 +386,21 @@ def _write_explanation(result: dict[str, Any]) -> None:
 ## Metrics
 Precision@K measures how many of the top K recommendations are positive. Recall@K measures how many held-out positives are recovered. HitRate@K checks whether at least one positive appears. NDCG@K rewards placing positives near the top. Coverage measures catalog breadth. RMSE/MAE measure explicit rating prediction error and are mainly meaningful for MF/UserCF/ItemCF.
 
-## Full-ranking vs sampled-ranking
-Full-ranking evaluates recommendations from the full catalog, so it is strict and closer to a production retrieval task. Random sampled-ranking compares positives against random unseen negatives and is easier. Popularity-aware sampled-ranking samples negatives from similar popularity buckets, making the task harder and reducing the unfair advantage of simple popularity.
+## Why there are three ranking evaluations
+Full-ranking asks a model to find the user's future high-rated movies from the entire movie catalog. This is the strictest setup, so Precision@10, Recall@10, and NDCG@10 are naturally low: the model has thousands of plausible candidates and only a few held-out positives.
 
-## Why Hybrid is the comprehensive model
-Hybrid normalizes each model's score per user and combines popularity, UserCF, ItemCF, MF, and content evidence. This helps it stay strong when one individual signal is weak while preserving explanations through score_breakdown and reason_type.
+Random sampled-ranking builds a smaller candidate set from held-out positives plus random unseen negatives. Scores are usually higher because many random negatives are obscure or weakly related to the user.
+
+Popularity-aware sampled-ranking is stricter than random sampled-ranking. It samples negatives from similar or harder popularity buckets, so a Popularity model cannot win only by ranking globally popular movies above obscure negatives. This setting better tests personalized ranking ability.
+
+## Why MF/SVD is strong for rating prediction
+MF/SVD directly optimizes explicit rating prediction, so RMSE and MAE are the right metrics for it. In the current run, the best rating prediction model is {summary.get('best_rating_predictor', 'N/A')}.
+
+## Why ItemCF is strong for explainable recommendation
+ItemCF supports source-movie explanations such as "Because you liked ...". It also tends to produce broader catalog exposure, which is why it is often a strong coverage and interpretability baseline.
+
+## Why Hybrid is the comprehensive framework
+Hybrid normalizes each model's score per user and combines popularity, UserCF, ItemCF, MF, and content evidence. It is a fusion framework rather than a guarantee of winning every metric. Hybrid can be strongest under one evaluation, while stricter popularity-aware evaluation may favor ItemCF or another specialized model. This is useful in a course defense because it shows the complementary strengths of different recommenders.
 
 ## Popularity and ContentBased interpretation
 Popularity can achieve high recall when held-out positives are mainstream, but it has weak personalization and often low coverage. ContentBased may not dominate full-ranking metrics, but it is important for cold-start discovery, semantic similar-movie pages, and explanation quality.
@@ -373,6 +410,8 @@ Popularity can achieve high recall when held-out positives are mainstream, but i
 - Best full-ranking model: {summary.get('best_full_ranking_model', 'N/A')}
 - Best random sampled-ranking model: {summary.get('best_sampled_random_model', 'N/A')}
 - Best popularity-aware sampled-ranking model: {summary.get('best_sampled_popaware_model', 'N/A')}
-- Best coverage model: {summary.get('best_coverage_model', 'N/A')}
+- Best coverage model: {summary.get('best_coverage_model', 'N/A')} ({summary.get('best_coverage_source', 'N/A')})
+- Best interpretable model: {summary.get('best_interpretable_model', 'ItemCF')}
+- Best cold-start models: {summary.get('best_cold_start_model', 'Popularity / ContentBased')}
 """
     Path("reports/evaluation_explanation.md").write_text(text, encoding="utf-8")

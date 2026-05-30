@@ -65,14 +65,14 @@ export interface EvaluationRow {
   coverage: number;
 }
 
+export interface HybridWeightsPayload {
+  source?: string;
+  weights: Record<string, number>;
+}
+
 export interface EvaluationPayload {
-  full_ranking: EvaluationRow[];
-  sampled_ranking: EvaluationRow[];
-  sampled_random?: EvaluationRow[];
-  sampled_popaware?: EvaluationRow[];
-  rating_prediction: Array<{ model: string; rmse?: number | null; mae?: number | null }>;
-  best_hybrid_weights?: Record<string, number>;
   metadata?: {
+    generated_at?: string;
     evaluated_users?: {
       full_ranking?: number;
       sampled_random?: number;
@@ -85,12 +85,22 @@ export interface EvaluationPayload {
     num_negatives?: number;
     popaware_prefer_harder?: boolean;
   };
+  rating_prediction: Array<{ model: string; rmse?: number | null; mae?: number | null }>;
+  full_ranking: EvaluationRow[];
+  sampled_random: EvaluationRow[];
+  sampled_popaware: EvaluationRow[];
+  legacy_sampled_ranking?: EvaluationRow[];
+  best_hybrid_weights?: HybridWeightsPayload | Record<string, number>;
   summary?: {
     best_rating_predictor?: string;
     best_full_ranking_model?: string;
     best_sampled_random_model?: string;
     best_sampled_popaware_model?: string;
     best_coverage_model?: string;
+    best_coverage_source?: string;
+    best_interpretable_model?: string;
+    best_cold_start_model?: string;
+    best_cold_start_note?: string;
   };
   notes?: Record<string, string>;
 }

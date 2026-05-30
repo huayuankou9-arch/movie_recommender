@@ -9,7 +9,7 @@ from typing import Any
 
 import pandas as pd
 
-from src.utils.io import ensure_dir, read_json, write_json
+from src.utils.io import ensure_dir, read_json, read_yaml, write_json
 from src.utils.logger import get_logger
 
 logger = get_logger("export_static_data")
@@ -360,6 +360,108 @@ def _load_json_or_default(path: Path, default: Any):
         return default
 
 
+def _metric_value(row: dict[str, Any], metric: str) -> float | None:
+    aliases = {
+        "ndcg@10": ["ndcg@10", "ndcg_at_10", "ndcg10", "ndcg"],
+        "coverage": ["coverage"],
+        "rmse": ["rmse"],
+    }
+    for key in aliases.get(metric, [metric]):
+        value = row.get(key)
+        if value is None:
+            continue
+        try:
+            return float(value)
+        except Exception:
+            return None
+    return None
+
+
+def _best_model(rows: list[dict[str, Any]], metric: str, reverse: bool = True) -> str:
+    valid = [row for row in rows if _metric_value(row, metric) is not None]
+    if not valid:
+        return "N/A"
+    ranked = sorted(valid, key=lambda row: _metric_value(row, metric) or 0.0, reverse=reverse)
+    return _as_str(ranked[0].get("model"), default="N/A")
+
+
+def _summary_payload(full_rows: list[dict[str, Any]], random_rows: list[dict[str, Any]], popaware_rows: list[dict[str, Any]], rating_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    coverage_rows = full_rows if full_rows else popaware_rows
+    coverage_source = "full_ranking" if full_rows else "sampled_popaware"
+    rating_valid = [row for row in rating_rows if _metric_value(row, "rmse") is not None]
+    return {
+        "best_rating_predictor": _best_model(rating_valid, "rmse", reverse=False),
+        "best_full_ranking_model": _best_model(full_rows, "ndcg@10"),
+        "best_sampled_random_model": _best_model(random_rows, "ndcg@10"),
+        "best_sampled_popaware_model": _best_model(popaware_rows, "ndcg@10"),
+        "best_coverage_model": _best_model(coverage_rows, "coverage"),
+        "best_coverage_source": coverage_source,
+        "best_interpretable_model": "ItemCF",
+        "best_cold_start_model": "Popularity / ContentBased",
+        "best_cold_start_note": "Popularity works for users with no history; ContentBased works for declared preferences and similar-movie discovery.",
+    }
+
+
+def _default_hybrid_weights() -> dict[str, float]:
+    try:
+        cfg = read_yaml("config.yaml")
+        weights = cfg.get("hybrid", {}).get("default_weights", {})
+        return {k: float(v) for k, v in weights.items()}
+    except Exception:
+        return {"popularity": 0.05, "usercf": 0.10, "itemcf": 0.45, "mf": 0.25, "content": 0.15}
+
+
+def _hybrid_weights_payload(value: Any) -> dict[str, Any]:
+    if isinstance(value, dict) and isinstance(value.get("weights"), dict):
+        return {"source": _as_str(value.get("source"), default="tuned"), "weights": {str(k): float(v) for k, v in value["weights"].items()}}
+    if isinstance(value, dict) and value:
+        weights = {str(k): float(v) for k, v in value.items() if k in {"popularity", "usercf", "itemcf", "mf", "content"}}
+        if weights:
+            return {"source": "tuned", "weights": weights}
+    return {"source": "default_config", "weights": _default_hybrid_weights()}
+
+
+def _normalize_evaluation_payload(eval_payload: dict[str, Any], evaluation_csv: str) -> dict[str, Any]:
+    full_rows = eval_payload.get("full_ranking")
+    if not isinstance(full_rows, list):
+        eval_df = pd.read_csv(evaluation_csv) if Path(evaluation_csv).exists() else pd.DataFrame()
+        full_rows = eval_df.to_dict(orient="records") if not eval_df.empty else []
+    random_rows = eval_payload.get("sampled_random")
+    if not isinstance(random_rows, list):
+        random_rows = eval_payload.get("sampled_ranking", [])
+    if not isinstance(random_rows, list):
+        random_rows = []
+    popaware_rows = eval_payload.get("sampled_popaware", [])
+    if not isinstance(popaware_rows, list):
+        popaware_rows = []
+    rating_rows = eval_payload.get("rating_prediction", [])
+    if not isinstance(rating_rows, list):
+        rating_rows = []
+
+    weights_source_path = Path("data/outputs/models/hybrid_best_weights.json")
+    weights_payload = _hybrid_weights_payload(_load_json_or_default(weights_source_path, default=eval_payload.get("best_hybrid_weights", {})))
+    metadata = eval_payload.get("metadata") if isinstance(eval_payload.get("metadata"), dict) else {}
+    metadata.setdefault("generated_at", datetime.now(timezone.utc).isoformat(timespec="seconds"))
+    notes = eval_payload.get("notes") if isinstance(eval_payload.get("notes"), dict) else {}
+    notes = {
+        "rmse_mae_note": notes.get("rmse_mae_note", "RMSE/MAE are mainly meaningful for rating prediction models such as MF, UserCF, and ItemCF."),
+        "full_ranking_note": notes.get("full_ranking_note", notes.get("full_eval_note", "Full-ranking evaluates Top-K recommendation from the complete catalog and is the strictest setting.")),
+        "sampled_random_note": notes.get("sampled_random_note", "Random sampled-ranking compares held-out positives against randomly sampled unseen negatives."),
+        "sampled_popaware_note": notes.get("sampled_popaware_note", "Popularity-aware sampled-ranking uses harder negatives with similar popularity to the held-out positives."),
+    }
+    return {
+        "metadata": metadata,
+        "rating_prediction": rating_rows,
+        "full_ranking": full_rows,
+        "sampled_random": random_rows,
+        "sampled_popaware": popaware_rows,
+        "best_hybrid_weights": weights_payload,
+        "summary": _summary_payload(full_rows, random_rows, popaware_rows, rating_rows),
+        "notes": notes,
+        "legacy_sampled_ranking": random_rows,
+    }
+
+
 def run(
     movies_csv: str,
     recommendations_cache_json: str,
@@ -405,19 +507,8 @@ def run(
 
     eval_payload = _load_json_or_default(Path("data/outputs/cache/evaluation_results.json"), default=None)
     if not isinstance(eval_payload, dict):
-        eval_df = pd.read_csv(evaluation_csv) if Path(evaluation_csv).exists() else pd.DataFrame()
-        eval_items = eval_df.to_dict(orient="records") if not eval_df.empty else []
-        eval_payload = {
-            "full_ranking": eval_items,
-            "sampled_ranking": [],
-            "sampled_random": [],
-            "sampled_popaware": [],
-            "rating_prediction": [],
-            "best_hybrid_weights": {},
-            "metadata": {},
-            "summary": {},
-            "notes": {},
-        }
+        eval_payload = {}
+    eval_payload = _normalize_evaluation_payload(eval_payload, evaluation_csv)
 
     search_index = [
         {
@@ -517,7 +608,7 @@ def run(
     write_json(out_path / "evaluation_results.json", _sanitize_for_json(eval_payload))
     write_json(out_path / "evaluation_results_legacy.json", _sanitize_for_json(eval_payload.get("full_ranking", [])))
     write_json(out_path / "evaluation_full_ranking.json", _sanitize_for_json(eval_payload.get("full_ranking", [])))
-    sampled_random = eval_payload.get("sampled_random") or eval_payload.get("sampled_ranking", [])
+    sampled_random = eval_payload.get("sampled_random", [])
     sampled_popaware = eval_payload.get("sampled_popaware", [])
     write_json(out_path / "evaluation_sampled_ranking.json", _sanitize_for_json(sampled_random))
     write_json(out_path / "evaluation_sampled_random.json", _sanitize_for_json(sampled_random))

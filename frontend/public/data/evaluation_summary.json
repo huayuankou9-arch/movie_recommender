@@ -1,5 +1,6 @@
 {
   "metadata": {
+    "generated_at": "2026-05-30T05:56:01+00:00",
     "evaluated_users": {
       "full_ranking": 200,
       "sampled_random": 200,
@@ -16,12 +17,16 @@
     "best_full_ranking_model": "Popularity",
     "best_sampled_random_model": "Hybrid",
     "best_sampled_popaware_model": "ItemCF",
-    "best_coverage_model": "ItemCF"
+    "best_coverage_model": "ItemCF",
+    "best_coverage_source": "full_ranking",
+    "best_interpretable_model": "ItemCF",
+    "best_cold_start_model": "Popularity / ContentBased",
+    "best_cold_start_note": "Popularity works for users with no history; ContentBased works for declared preferences and similar-movie discovery."
   },
   "notes": {
     "rmse_mae_note": "RMSE/MAE are mainly meaningful for rating prediction models such as MF and UserCF.",
-    "full_eval_note": "Full-ranking evaluates recommendations from the whole catalog and is strict.",
+    "full_ranking_note": "Full-ranking evaluates recommendations from the whole catalog and is strict, so values are usually lower.",
     "sampled_random_note": "Random sampled-ranking is useful but can make popularity baselines look strong when negatives are too easy.",
-    "sampled_popaware_note": "Popularity-aware sampled-ranking samples negatives from similar popularity buckets and better tests personalized ranking."
+    "sampled_popaware_note": "Popularity-aware sampled-ranking samples harder negatives from similar popularity buckets and better tests personalized ranking."
   }
 }

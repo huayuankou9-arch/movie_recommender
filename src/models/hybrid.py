@@ -26,7 +26,7 @@ class HybridRecommender(BaseRecommender):
 
     @staticmethod
     def _clean_weights(weights: dict[str, float]) -> dict[str, float]:
-        base = weights.get("default_weights", weights)
+        base = weights.get("weights", weights.get("default_weights", weights))
         out = {k: float(base.get(k, 0.0)) for k in ["popularity", "usercf", "itemcf", "mf", "content"]}
         total = sum(out.values()) or 1.0
         return {k: v / total for k, v in out.items()}

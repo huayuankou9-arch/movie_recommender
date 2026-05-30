@@ -1,4 +1,49 @@
 {
+  "metadata": {
+    "generated_at": "2026-05-30T05:56:01+00:00",
+    "evaluated_users": {
+      "full_ranking": 200,
+      "sampled_random": 200,
+      "sampled_popaware": 200
+    },
+    "positive_threshold": 4.0,
+    "k": 10,
+    "seed": 42,
+    "num_negatives": 99,
+    "popaware_prefer_harder": true
+  },
+  "rating_prediction": [
+    {
+      "model": "Popularity",
+      "rmse": null,
+      "mae": null
+    },
+    {
+      "model": "UserCF",
+      "rmse": 0.95508,
+      "mae": 0.727069
+    },
+    {
+      "model": "ItemCF",
+      "rmse": 1.045641,
+      "mae": 0.783089
+    },
+    {
+      "model": "MatrixFactorization",
+      "rmse": 0.818672,
+      "mae": 0.61651
+    },
+    {
+      "model": "ContentBased",
+      "rmse": null,
+      "mae": null
+    },
+    {
+      "model": "Hybrid",
+      "rmse": null,
+      "mae": null
+    }
+  ],
   "full_ranking": [
     {
       "model": "Popularity",
@@ -47,56 +92,6 @@
       "hitrate@10": 0.035,
       "ndcg@10": 0.003898,
       "coverage": 0.12899
-    }
-  ],
-  "sampled_ranking": [
-    {
-      "model": "Popularity",
-      "precision@10": 0.0735,
-      "recall@10": 0.142699,
-      "hitrate@10": 0.49,
-      "ndcg@10": 0.116361,
-      "coverage": 0.047173
-    },
-    {
-      "model": "UserCF",
-      "precision@10": 0.0345,
-      "recall@10": 0.060804,
-      "hitrate@10": 0.26,
-      "ndcg@10": 0.064153,
-      "coverage": 0.133784
-    },
-    {
-      "model": "ItemCF",
-      "precision@10": 0.0675,
-      "recall@10": 0.117076,
-      "hitrate@10": 0.385,
-      "ndcg@10": 0.115631,
-      "coverage": 0.164615
-    },
-    {
-      "model": "MatrixFactorization",
-      "precision@10": 0.0395,
-      "recall@10": 0.100694,
-      "hitrate@10": 0.345,
-      "ndcg@10": 0.071675,
-      "coverage": 0.052402
-    },
-    {
-      "model": "ContentBased",
-      "precision@10": 0.0565,
-      "recall@10": 0.100992,
-      "hitrate@10": 0.35,
-      "ndcg@10": 0.094757,
-      "coverage": 0.094999
-    },
-    {
-      "model": "Hybrid",
-      "precision@10": 0.084,
-      "recall@10": 0.155765,
-      "hitrate@10": 0.515,
-      "ndcg@10": 0.130361,
-      "coverage": 0.083451
     }
   ],
   "sampled_random": [
@@ -199,68 +194,81 @@
       "coverage": 0.067654
     }
   ],
-  "rating_prediction": [
-    {
-      "model": "Popularity",
-      "rmse": null,
-      "mae": null
-    },
-    {
-      "model": "UserCF",
-      "rmse": 0.95508,
-      "mae": 0.727069
-    },
-    {
-      "model": "ItemCF",
-      "rmse": 1.045641,
-      "mae": 0.783089
-    },
-    {
-      "model": "MatrixFactorization",
-      "rmse": 0.818672,
-      "mae": 0.61651
-    },
-    {
-      "model": "ContentBased",
-      "rmse": null,
-      "mae": null
-    },
-    {
-      "model": "Hybrid",
-      "rmse": null,
-      "mae": null
-    }
-  ],
   "best_hybrid_weights": {
-    "popularity": 0.05,
-    "usercf": 0.1,
-    "itemcf": 0.45,
-    "mf": 0.25,
-    "content": 0.15
-  },
-  "metadata": {
-    "evaluated_users": {
-      "full_ranking": 200,
-      "sampled_random": 200,
-      "sampled_popaware": 200
-    },
-    "positive_threshold": 4.0,
-    "k": 10,
-    "seed": 42,
-    "num_negatives": 99,
-    "popaware_prefer_harder": true
+    "source": "tuned",
+    "weights": {
+      "popularity": 0.05,
+      "usercf": 0.1,
+      "itemcf": 0.45,
+      "mf": 0.25,
+      "content": 0.15
+    }
   },
   "summary": {
     "best_rating_predictor": "MatrixFactorization",
     "best_full_ranking_model": "Popularity",
     "best_sampled_random_model": "Hybrid",
     "best_sampled_popaware_model": "ItemCF",
-    "best_coverage_model": "ItemCF"
+    "best_coverage_model": "ItemCF",
+    "best_coverage_source": "full_ranking",
+    "best_interpretable_model": "ItemCF",
+    "best_cold_start_model": "Popularity / ContentBased",
+    "best_cold_start_note": "Popularity works for users with no history; ContentBased works for declared preferences and similar-movie discovery."
   },
   "notes": {
     "rmse_mae_note": "RMSE/MAE are mainly meaningful for rating prediction models such as MF and UserCF.",
-    "full_eval_note": "Full-ranking evaluates recommendations from the whole catalog and is strict.",
+    "full_ranking_note": "Full-ranking evaluates recommendations from the whole catalog and is strict, so values are usually lower.",
     "sampled_random_note": "Random sampled-ranking is useful but can make popularity baselines look strong when negatives are too easy.",
-    "sampled_popaware_note": "Popularity-aware sampled-ranking samples negatives from similar popularity buckets and better tests personalized ranking."
-  }
+    "sampled_popaware_note": "Popularity-aware sampled-ranking samples harder negatives from similar popularity buckets and better tests personalized ranking."
+  },
+  "legacy_sampled_ranking": [
+    {
+      "model": "Popularity",
+      "precision@10": 0.0735,
+      "recall@10": 0.142699,
+      "hitrate@10": 0.49,
+      "ndcg@10": 0.116361,
+      "coverage": 0.047173
+    },
+    {
+      "model": "UserCF",
+      "precision@10": 0.0345,
+      "recall@10": 0.060804,
+      "hitrate@10": 0.26,
+      "ndcg@10": 0.064153,
+      "coverage": 0.133784
+    },
+    {
+      "model": "ItemCF",
+      "precision@10": 0.0675,
+      "recall@10": 0.117076,
+      "hitrate@10": 0.385,
+      "ndcg@10": 0.115631,
+      "coverage": 0.164615
+    },
+    {
+      "model": "MatrixFactorization",
+      "precision@10": 0.0395,
+      "recall@10": 0.100694,
+      "hitrate@10": 0.345,
+      "ndcg@10": 0.071675,
+      "coverage": 0.052402
+    },
+    {
+      "model": "ContentBased",
+      "precision@10": 0.0565,
+      "recall@10": 0.100992,
+      "hitrate@10": 0.35,
+      "ndcg@10": 0.094757,
+      "coverage": 0.094999
+    },
+    {
+      "model": "Hybrid",
+      "precision@10": 0.084,
+      "recall@10": 0.155765,
+      "hitrate@10": 0.515,
+      "ndcg@10": 0.130361,
+      "coverage": 0.083451
+    }
+  ]
 }

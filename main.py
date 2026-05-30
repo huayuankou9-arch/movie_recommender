@@ -282,6 +282,23 @@ def _load_models(cfg: dict, movies: pd.DataFrame):
     }
 
 
+def _default_hybrid_weights(cfg: dict) -> dict[str, float]:
+    return cfg.get("hybrid", {}).get(
+        "default_weights",
+        {k: float(cfg.get("hybrid", {}).get(k, 0.0)) for k in ["popularity", "usercf", "itemcf", "mf", "content"]},
+    )
+
+
+def _hybrid_weight_payload(raw: dict | None, cfg: dict, source_if_raw: str = "tuned") -> dict:
+    if isinstance(raw, dict) and isinstance(raw.get("weights"), dict):
+        source = str(raw.get("source") or source_if_raw)
+        weights = {k: float(v) for k, v in raw["weights"].items()}
+        return {"source": source, "weights": weights}
+    if isinstance(raw, dict) and raw:
+        return {"source": source_if_raw, "weights": {k: float(v) for k, v in raw.items() if k in {"popularity", "usercf", "itemcf", "mf", "content"}}}
+    return {"source": "default_config", "weights": {k: float(v) for k, v in _default_hybrid_weights(cfg).items()}}
+
+
 def run_evaluate(cfg: dict) -> pd.DataFrame:
     processed_dir = Path(cfg["data"]["processed_dir"])
     train = pd.read_csv(processed_dir / "train_ratings.csv")
@@ -292,7 +309,7 @@ def run_evaluate(cfg: dict) -> pd.DataFrame:
     table_path = Path("reports/tables/evaluation_results.csv")
     fig_path = Path("reports/figures/metrics_comparison.png")
     best_weights_path = Path(cfg["data"]["output_dir"]) / "models" / "hybrid_best_weights.json"
-    best_weights = read_json(best_weights_path) if best_weights_path.exists() else {}
+    best_weights = _hybrid_weight_payload(read_json(best_weights_path) if best_weights_path.exists() else None, cfg)
     result = evaluate_models(
         models=models,
         train_ratings=train,
@@ -331,8 +348,9 @@ def run_tune_hybrid(cfg: dict) -> dict:
         max_users=min(int(cfg.get("evaluation", {}).get("sampled_eval", {}).get("max_users", 1000)), 300),
         sampled_cfg=cfg.get("evaluation", {}).get("sampled_eval", {}),
     )
+    best_payload = {"source": "tuned", "weights": {k: float(v) for k, v in best.items()}}
     output_models_dir = ensure_dir(Path(cfg["data"]["output_dir"]) / "models")
-    write_json(output_models_dir / "hybrid_best_weights.json", best)
+    write_json(output_models_dir / "hybrid_best_weights.json", best_payload)
     if "Hybrid" in models:
         models["Hybrid"].set_weights(best)
         models["Hybrid"].save(output_models_dir / "hybrid.pkl")

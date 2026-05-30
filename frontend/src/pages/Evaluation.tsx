@@ -84,6 +84,13 @@ function RankingSection({ title, subtitle, rows }: { title: string; subtitle: st
   );
 }
 
+function hybridWeights(payload: EvaluationPayload | null) {
+  const raw = payload?.best_hybrid_weights;
+  if (!raw) return { source: "unavailable", weights: {} as Record<string, number> };
+  if ("weights" in raw && raw.weights) return { source: raw.source || "tuned", weights: raw.weights };
+  return { source: "tuned", weights: raw as Record<string, number> };
+}
+
 export function Evaluation() {
   const [payload, setPayload] = useState<EvaluationPayload | null>(null);
   const [buildInfo, setBuildInfo] = useState<BuildInfo | null>(null);
@@ -108,7 +115,7 @@ export function Evaluation() {
   }, []);
 
   const full = payload?.full_ranking || [];
-  const randomSampled = payload?.sampled_random || payload?.sampled_ranking || [];
+  const randomSampled = payload?.sampled_random || [];
   const popAware = payload?.sampled_popaware || [];
   const rating = payload?.rating_prediction || [];
   const bestRating = useMemo(() => rating.filter((r) => r.rmse != null).sort((a, b) => Number(a.rmse) - Number(b.rmse))[0], [rating]);
@@ -116,8 +123,9 @@ export function Evaluation() {
   const bestRandom = useMemo(() => bestBy(randomSampled, "ndcg@10"), [randomSampled]);
   const bestPopAware = useMemo(() => bestBy(popAware, "ndcg@10"), [popAware]);
   const bestCoverage = useMemo(() => bestBy(full, "coverage"), [full]);
-  const generatedAt = buildInfo?.generated_at ? new Date(buildInfo.generated_at).toLocaleString() : "Not available";
   const meta = payload?.metadata || {};
+  const generatedAt = meta.generated_at ? new Date(meta.generated_at).toLocaleString() : buildInfo?.generated_at ? new Date(buildInfo.generated_at).toLocaleString() : "Not available";
+  const weightsPayload = hybridWeights(payload);
 
   if (loading) return <LoadingSkeleton className="h-96" />;
   if (error || !payload) return <p className="rounded-2xl border border-coral/30 bg-coral/15 p-4 text-coral">{error || "No evaluation payload available."}</p>;
@@ -146,7 +154,7 @@ export function Evaluation() {
         <Card label="Best Full-ranking Model" value={payload.summary?.best_full_ranking_model || bestFull?.model || "N/A"} hint="Strict whole-catalog NDCG@10." />
         <Card label="Best Random Sampled" value={payload.summary?.best_sampled_random_model || bestRandom?.model || "N/A"} hint="Fast ranking comparison with random negatives." />
         <Card label="Best Pop-aware Sampled" value={payload.summary?.best_sampled_popaware_model || bestPopAware?.model || "N/A"} hint="Harder personalized ranking test." />
-        <Card label="Best Coverage" value={payload.summary?.best_coverage_model || bestCoverage?.model || "N/A"} hint="Largest catalog exposure in full ranking." />
+        <Card label="Best Coverage" value={payload.summary?.best_coverage_model || bestCoverage?.model || "N/A"} hint={`Largest catalog exposure (${payload.summary?.best_coverage_source || "full_ranking"}).`} />
       </div>
 
       <section className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5">
@@ -162,16 +170,21 @@ export function Evaluation() {
       <section className="rounded-[1.6rem] border border-neon/25 bg-neon/10 p-6">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-neon">Best Hybrid Weights</p>
         <div className="mt-4 flex flex-wrap gap-3">
-          {Object.entries(payload.best_hybrid_weights || {}).map(([k, v]) => <span key={k} className="rounded-full border border-white/10 bg-black/25 px-4 py-2 text-sm text-cyan-50">{k}: {Number(v).toFixed(2)}</span>)}
-          {!Object.keys(payload.best_hybrid_weights || {}).length && <span className="text-sm text-cyan-100">Weights have not been tuned yet.</span>}
+          {Object.entries(weightsPayload.weights).map(([k, v]) => <span key={k} className="rounded-full border border-white/10 bg-black/25 px-4 py-2 text-sm text-cyan-50">{k}: {Number(v).toFixed(2)}</span>)}
+          {!Object.keys(weightsPayload.weights).length && <span className="text-sm text-cyan-100">Weights have not been tuned yet.</span>}
         </div>
-        <p className="mt-4 max-w-4xl text-sm leading-7 text-cyan-50">The tuning objective blends random sampled NDCG, popularity-aware sampled NDCG, and full-ranking NDCG, so Hybrid is optimized for robustness rather than one overly easy benchmark.</p>
+        <p className="mt-4 max-w-4xl text-sm leading-7 text-cyan-50">Weight source: <span className="font-bold">{weightsPayload.source}</span>. Hybrid is the fusion framework, but the tables above decide which model wins each evaluation task.</p>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-3">
-        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5"><h3 className="text-lg font-black">Why Popularity can look strong</h3><p className="mt-2 text-sm leading-7 text-slate-400">Random negatives often contain obscure movies, so popular high-rated movies are easy to rank above them. Coverage and personalization reveal its limitations.</p></div>
-        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5"><h3 className="text-lg font-black">Why ItemCF stays useful</h3><p className="mt-2 text-sm leading-7 text-slate-400">ItemCF is stable and explainable: it can say “Because you liked ...”, which makes it strong for product trust even when another model wins a metric.</p></div>
-        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5"><h3 className="text-lg font-black">Why Content matters</h3><p className="mt-2 text-sm leading-7 text-slate-400">ContentBased is repositioned for cold-start discovery and similar-movie explanations. It is not expected to dominate full-catalog collaborative ranking.</p></div>
+      <section className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-coral">Experiment Conclusion</p>
+        <h2 className="mt-3 text-2xl font-black">Different tasks reward different recommenders.</h2>
+        <div className="mt-4 grid gap-4 lg:grid-cols-3">
+          <p className="text-sm leading-7 text-slate-300">MF/SVD is the best rating predictor here: <span className="font-bold text-white">{payload.summary?.best_rating_predictor || bestRating?.model || "N/A"}</span> has the lowest RMSE/MAE.</p>
+          <p className="text-sm leading-7 text-slate-300">Full-ranking is won by <span className="font-bold text-white">{payload.summary?.best_full_ranking_model || bestFull?.model || "N/A"}</span>; random sampled-ranking is won by <span className="font-bold text-white">{payload.summary?.best_sampled_random_model || bestRandom?.model || "N/A"}</span>.</p>
+          <p className="text-sm leading-7 text-slate-300">Popularity-aware sampled-ranking is won by <span className="font-bold text-white">{payload.summary?.best_sampled_popaware_model || bestPopAware?.model || "N/A"}</span>. ItemCF remains the most interpretable model because it supports “Because you liked ...” explanations.</p>
+        </div>
+        <p className="mt-4 text-sm leading-7 text-slate-400">Hybrid is the overall fusion framework and may dominate some ranking settings, but it should not be presented as best in every metric. This makes the comparison more credible for a course defense.</p>
       </section>
     </section>
   );
