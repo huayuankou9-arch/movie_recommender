@@ -1,0 +1,50 @@
+[
+  {
+    "model": "Popularity",
+    "precision@10": 0.034,
+    "recall@10": 0.09556,
+    "hitrate@10": 0.245,
+    "ndcg@10": 0.09281,
+    "coverage": 0.036496
+  },
+  {
+    "model": "UserCF",
+    "precision@10": 0.0295,
+    "recall@10": 0.050685,
+    "hitrate@10": 0.215,
+    "ndcg@10": 0.058111,
+    "coverage": 0.127465
+  },
+  {
+    "model": "ItemCF",
+    "precision@10": 0.0625,
+    "recall@10": 0.099169,
+    "hitrate@10": 0.4,
+    "ndcg@10": 0.11245,
+    "coverage": 0.160584
+  },
+  {
+    "model": "MatrixFactorization",
+    "precision@10": 0.0245,
+    "recall@10": 0.063129,
+    "hitrate@10": 0.23,
+    "ndcg@10": 0.040445,
+    "coverage": 0.041944
+  },
+  {
+    "model": "ContentBased",
+    "precision@10": 0.0395,
+    "recall@10": 0.058261,
+    "hitrate@10": 0.265,
+    "ndcg@10": 0.061167,
+    "coverage": 0.087482
+  },
+  {
+    "model": "Hybrid",
+    "precision@10": 0.035,
+    "recall@10": 0.077359,
+    "hitrate@10": 0.32,
+    "ndcg@10": 0.053672,
+    "coverage": 0.067654
+  }
+]

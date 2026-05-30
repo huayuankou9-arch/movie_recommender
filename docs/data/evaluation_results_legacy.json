@@ -1,50 +1,50 @@
 [
   {
     "model": "Popularity",
-    "precision@10": 0.006667,
-    "recall@10": 0.007143,
-    "hitrate@10": 0.066667,
-    "ndcg@10": 0.010929,
+    "precision@10": 0.0155,
+    "recall@10": 0.014785,
+    "hitrate@10": 0.11,
+    "ndcg@10": 0.018624,
     "coverage": 0.001089
   },
   {
     "model": "UserCF",
-    "precision@10": 0.003333,
-    "recall@10": 0.004167,
-    "hitrate@10": 0.033333,
-    "ndcg@10": 0.002538,
-    "coverage": 0.027127
+    "precision@10": 0.002,
+    "recall@10": 0.00184,
+    "hitrate@10": 0.02,
+    "ndcg@10": 0.00163,
+    "coverage": 0.086393
   },
   {
     "model": "ItemCF",
-    "precision@10": 0.01,
-    "recall@10": 0.01369,
-    "hitrate@10": 0.066667,
-    "ndcg@10": 0.011331,
-    "coverage": 0.031485
+    "precision@10": 0.003,
+    "recall@10": 0.002695,
+    "hitrate@10": 0.03,
+    "ndcg@10": 0.003747,
+    "coverage": 0.18477
   },
   {
     "model": "MatrixFactorization",
-    "precision@10": 0.013333,
-    "recall@10": 0.01704,
-    "hitrate@10": 0.133333,
-    "ndcg@10": 0.016925,
-    "coverage": 0.004249
+    "precision@10": 0.007,
+    "recall@10": 0.00499,
+    "hitrate@10": 0.065,
+    "ndcg@10": 0.006243,
+    "coverage": 0.010132
   },
   {
     "model": "ContentBased",
-    "precision@10": 0.0,
-    "recall@10": 0.0,
-    "hitrate@10": 0.0,
-    "ndcg@10": 0.0,
-    "coverage": 0.020699
+    "precision@10": 0.0125,
+    "recall@10": 0.010893,
+    "hitrate@10": 0.075,
+    "ndcg@10": 0.013323,
+    "coverage": 0.057523
   },
   {
     "model": "Hybrid",
-    "precision@10": 0.006667,
-    "recall@10": 0.003968,
-    "hitrate@10": 0.066667,
-    "ndcg@10": 0.006506,
-    "coverage": 0.022987
+    "precision@10": 0.004,
+    "recall@10": 0.002745,
+    "hitrate@10": 0.035,
+    "ndcg@10": 0.003898,
+    "coverage": 0.12899
   }
 ]

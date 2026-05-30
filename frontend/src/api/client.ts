@@ -325,15 +325,25 @@ export const fetchEvaluation = async () => {
   if (API_MODE === "backend") {
     const { data } = await api.get<EvaluationPayload | { items: EvaluationRow[] }>("/evaluation");
     if ("items" in data) {
-      return { full_ranking: data.items || [], sampled_ranking: [], rating_prediction: [], best_hybrid_weights: {}, notes: {} };
+      return { full_ranking: data.items || [], sampled_ranking: [], sampled_random: [], sampled_popaware: [], rating_prediction: [], best_hybrid_weights: {}, notes: {} };
     }
-    return data;
+    return {
+      ...data,
+      sampled_ranking: data.sampled_ranking || data.sampled_random || [],
+      sampled_random: data.sampled_random || data.sampled_ranking || [],
+      sampled_popaware: data.sampled_popaware || []
+    };
   }
   const data = await readStaticJson<EvaluationPayload | EvaluationRow[]>("evaluation_results.json");
   if (Array.isArray(data)) {
-    return { full_ranking: data, sampled_ranking: [], rating_prediction: [], best_hybrid_weights: {}, notes: {} };
+    return { full_ranking: data, sampled_ranking: [], sampled_random: [], sampled_popaware: [], rating_prediction: [], best_hybrid_weights: {}, notes: {} };
   }
-  return data;
+  return {
+    ...data,
+    sampled_ranking: data.sampled_ranking || data.sampled_random || [],
+    sampled_random: data.sampled_random || data.sampled_ranking || [],
+    sampled_popaware: data.sampled_popaware || []
+  };
 };
 
 export const fetchBuildInfo = async () => {

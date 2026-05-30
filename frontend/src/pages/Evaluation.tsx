@@ -8,17 +8,38 @@ function bestBy(rows: EvaluationRow[], key: keyof EvaluationRow) {
   return rows.reduce<EvaluationRow | null>((best, row) => Number(row[key] || 0) > Number(best?.[key] || -1) ? row : best, null);
 }
 
+function fmt(value?: number | null, digits = 4) {
+  return value == null || Number.isNaN(Number(value)) ? "-" : Number(value).toFixed(digits);
+}
+
 function Card({ label, value, hint }: { label: string; value: string; hint: string }) {
-  return <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-5 shadow-glow"><p className="text-xs uppercase tracking-[0.25em] text-slate-500">{label}</p><p className="mt-2 text-2xl font-black text-white">{value}</p><p className="mt-2 text-sm text-slate-400">{hint}</p></div>;
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-5 shadow-glow">
+      <p className="text-xs uppercase tracking-[0.25em] text-slate-500">{label}</p>
+      <p className="mt-2 text-2xl font-black text-white">{value}</p>
+      <p className="mt-2 text-sm leading-6 text-slate-400">{hint}</p>
+    </div>
+  );
 }
 
 function MetricTable({ rows, showErrors = false }: { rows: any[]; showErrors?: boolean }) {
   return (
     <div className="overflow-x-auto rounded-[1.4rem] border border-white/10 bg-black/20 p-4">
       <table className="w-full min-w-[760px] text-left text-sm">
-        <thead className="text-slate-300"><tr className="border-b border-white/10"><th className="py-3">Model</th>{showErrors ? <><th>RMSE</th><th>MAE</th></> : <><th>Precision@10</th><th>Recall@10</th><th>HitRate@10</th><th>NDCG@10</th><th>Coverage</th></>}</tr></thead>
+        <thead className="text-slate-300">
+          <tr className="border-b border-white/10">
+            <th className="py-3">Model</th>
+            {showErrors ? <><th>RMSE</th><th>MAE</th></> : <><th>Precision@10</th><th>Recall@10</th><th>HitRate@10</th><th>NDCG@10</th><th>Coverage</th></>}
+          </tr>
+        </thead>
         <tbody>
-          {rows.map((r) => <tr key={r.model} className="border-t border-white/10 hover:bg-white/[0.04]"><td className="py-3 font-semibold text-white">{r.model}</td>{showErrors ? <><td>{r.rmse == null ? "-" : r.rmse.toFixed(4)}</td><td>{r.mae == null ? "-" : r.mae.toFixed(4)}</td></> : <><td>{Number(r["precision@10"] || 0).toFixed(4)}</td><td>{Number(r["recall@10"] || 0).toFixed(4)}</td><td>{Number(r["hitrate@10"] || 0).toFixed(4)}</td><td>{Number(r["ndcg@10"] || 0).toFixed(4)}</td><td>{Number(r.coverage || 0).toFixed(4)}</td></>}</tr>)}
+          {rows.map((r) => (
+            <tr key={r.model} className="border-t border-white/10 hover:bg-white/[0.04]">
+              <td className="py-3 font-semibold text-white">{r.model}</td>
+              {showErrors ? <><td>{fmt(r.rmse)}</td><td>{fmt(r.mae)}</td></> : <><td>{fmt(r["precision@10"])}</td><td>{fmt(r["recall@10"])}</td><td>{fmt(r["hitrate@10"])}</td><td>{fmt(r["ndcg@10"])}</td><td>{fmt(r.coverage)}</td></>}
+            </tr>
+          ))}
+          {!rows.length && <tr><td className="py-6 text-slate-500" colSpan={showErrors ? 3 : 6}>No metrics exported yet. Run python main.py all to regenerate evaluation data.</td></tr>}
         </tbody>
       </table>
     </div>
@@ -27,7 +48,40 @@ function MetricTable({ rows, showErrors = false }: { rows: any[]; showErrors?: b
 
 function RankingChart({ rows }: { rows: EvaluationRow[] }) {
   const data = rows.map((r) => ({ model: r.model, precision: r["precision@10"], recall: r["recall@10"], hitrate: r["hitrate@10"], ndcg: r["ndcg@10"], coverage: r.coverage }));
-  return <div className="h-80"><ResponsiveContainer width="100%" height="100%"><BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 8 }}><CartesianGrid strokeDasharray="3 3" stroke="#1f2937" /><XAxis dataKey="model" stroke="#94a3b8" tick={{ fontSize: 11 }} /><YAxis stroke="#94a3b8" tick={{ fontSize: 11 }} /><Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14 }} /><Legend /><Bar dataKey="precision" fill="#00E0FF" radius={[6, 6, 0, 0]} /><Bar dataKey="recall" fill="#FF5D73" radius={[6, 6, 0, 0]} /><Bar dataKey="hitrate" fill="#FFCA56" radius={[6, 6, 0, 0]} /><Bar dataKey="ndcg" fill="#7DD3FC" radius={[6, 6, 0, 0]} /></BarChart></ResponsiveContainer></div>;
+  return (
+    <div className="h-80">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 8 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+          <XAxis dataKey="model" stroke="#94a3b8" tick={{ fontSize: 11 }} />
+          <YAxis stroke="#94a3b8" tick={{ fontSize: 11 }} />
+          <Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14 }} />
+          <Legend />
+          <Bar dataKey="precision" fill="#00E0FF" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="recall" fill="#FF5D73" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="hitrate" fill="#FFCA56" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="ndcg" fill="#7DD3FC" radius={[6, 6, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function RankingSection({ title, subtitle, rows }: { title: string; subtitle: string; rows: EvaluationRow[] }) {
+  const best = bestBy(rows, "ndcg@10");
+  return (
+    <section className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5">
+      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 className="text-2xl font-black">{title}</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-400">{subtitle}</p>
+        </div>
+        <span className="rounded-full border border-neon/20 bg-neon/10 px-3 py-1 text-xs font-bold text-neon">Best NDCG@10: {best?.model || "N/A"}</span>
+      </div>
+      <RankingChart rows={rows} />
+      <div className="mt-5"><MetricTable rows={rows} /></div>
+    </section>
+  );
 }
 
 export function Evaluation() {
@@ -54,13 +108,16 @@ export function Evaluation() {
   }, []);
 
   const full = payload?.full_ranking || [];
-  const sampled = payload?.sampled_ranking || [];
+  const randomSampled = payload?.sampled_random || payload?.sampled_ranking || [];
+  const popAware = payload?.sampled_popaware || [];
   const rating = payload?.rating_prediction || [];
   const bestRating = useMemo(() => rating.filter((r) => r.rmse != null).sort((a, b) => Number(a.rmse) - Number(b.rmse))[0], [rating]);
   const bestFull = useMemo(() => bestBy(full, "ndcg@10"), [full]);
-  const bestSampled = useMemo(() => bestBy(sampled, "ndcg@10"), [sampled]);
+  const bestRandom = useMemo(() => bestBy(randomSampled, "ndcg@10"), [randomSampled]);
+  const bestPopAware = useMemo(() => bestBy(popAware, "ndcg@10"), [popAware]);
   const bestCoverage = useMemo(() => bestBy(full, "coverage"), [full]);
   const generatedAt = buildInfo?.generated_at ? new Date(buildInfo.generated_at).toLocaleString() : "Not available";
+  const meta = payload?.metadata || {};
 
   if (loading) return <LoadingSkeleton className="h-96" />;
   if (error || !payload) return <p className="rounded-2xl border border-coral/30 bg-coral/15 p-4 text-coral">{error || "No evaluation payload available."}</p>;
@@ -69,25 +126,53 @@ export function Evaluation() {
     <section className="space-y-8">
       <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top_right,rgba(0,224,255,0.18),transparent_32%),linear-gradient(135deg,rgba(15,23,42,0.95),rgba(2,6,23,0.82))] p-6 md:p-8">
         <p className="text-xs font-bold uppercase tracking-[0.35em] text-neon">Offline Evaluation</p>
-        <h1 className="mt-3 text-3xl font-black tracking-tight md:text-5xl">Strict ranking, sampled ranking, and rating prediction.</h1>
-        <p className="mt-4 max-w-4xl text-base leading-7 text-slate-300">Full-ranking evaluates against the whole catalog. Sampled-ranking compares held-out positives against sampled negatives. RMSE/MAE are emphasized only for models that predict explicit ratings.</p>
-        <div className="mt-5 flex flex-wrap gap-3 text-xs text-slate-400"><span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Generated: {generatedAt}</span>{buildInfo && <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Movies cached: {buildInfo.movies_cached}</span>}</div>
+        <h1 className="mt-3 text-3xl font-black tracking-tight md:text-5xl">Four evaluation views for one recommender system.</h1>
+        <p className="mt-4 max-w-4xl text-base leading-7 text-slate-300">
+          Rating prediction measures explicit score accuracy. Full-ranking is the strict whole-catalog task. Random sampled-ranking is useful for fast comparison. Popularity-aware sampled-ranking is harder because negatives are sampled from similarly popular movies.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3 text-xs text-slate-400">
+          <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Generated: {generatedAt}</span>
+          <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">K: {meta.k ?? 10}</span>
+          <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Positive rating: {meta.positive_threshold ?? 4}</span>
+          <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Seed: {meta.seed ?? 42}</span>
+          <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Pop-aware hard negatives: {meta.popaware_prefer_harder ? "on" : "off"}</span>
+          <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Evaluated users: full {meta.evaluated_users?.full_ranking ?? full.length}, sampled {meta.evaluated_users?.sampled_popaware ?? randomSampled.length}</span>
+          {buildInfo && <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1">Movies cached: {buildInfo.movies_cached}</span>}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card label="Best Rating Predictor" value={bestRating?.model || "N/A"} hint="Lowest RMSE / MAE" />
-        <Card label="Best Interpretable Recommender" value="ItemCF" hint="Source-movie explanations" />
-        <Card label="Best Overall Ranker" value={bestSampled?.model || "Hybrid"} hint="Sampled NDCG@10 leader" />
-        <Card label="Best Coverage" value={bestCoverage?.model || "N/A"} hint="Largest catalog exposure" />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <Card label="Best Rating Predictor" value={payload.summary?.best_rating_predictor || bestRating?.model || "N/A"} hint="Lowest RMSE / MAE, usually MF/SVD." />
+        <Card label="Best Full-ranking Model" value={payload.summary?.best_full_ranking_model || bestFull?.model || "N/A"} hint="Strict whole-catalog NDCG@10." />
+        <Card label="Best Random Sampled" value={payload.summary?.best_sampled_random_model || bestRandom?.model || "N/A"} hint="Fast ranking comparison with random negatives." />
+        <Card label="Best Pop-aware Sampled" value={payload.summary?.best_sampled_popaware_model || bestPopAware?.model || "N/A"} hint="Harder personalized ranking test." />
+        <Card label="Best Coverage" value={payload.summary?.best_coverage_model || bestCoverage?.model || "N/A"} hint="Largest catalog exposure in full ranking." />
       </div>
 
-      <section className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5"><h2 className="text-2xl font-black">Rating Prediction</h2><p className="mb-4 mt-1 text-sm text-slate-400">RMSE/MAE are mainly meaningful for MF/SVD, UserCF, and optionally ItemCF.</p><MetricTable rows={rating} showErrors /></section>
+      <section className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5">
+        <h2 className="text-2xl font-black">Rating Prediction</h2>
+        <p className="mb-4 mt-1 text-sm leading-6 text-slate-400">RMSE/MAE are mainly meaningful for models that predict explicit 1-5 ratings, especially MF/SVD and UserCF. Popularity, Content, and Hybrid are primarily ranking models.</p>
+        <MetricTable rows={rating} showErrors />
+      </section>
 
-      <section className="grid grid-cols-1 gap-5 xl:grid-cols-2"><div className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5"><h2 className="text-2xl font-black">Full-ranking Evaluation</h2><p className="mb-4 mt-1 text-sm text-slate-400">Strict: each model recommends from the full movie catalog.</p><RankingChart rows={full} /></div><div className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5"><h2 className="text-2xl font-black">Sampled-ranking Evaluation</h2><p className="mb-4 mt-1 text-sm text-slate-400">Held-out positives are ranked against sampled negatives to compare ranking ability.</p><RankingChart rows={sampled} /></div></section>
+      <RankingSection title="Full-ranking Evaluation" subtitle="Strict task: each model recommends Top-K from the full unseen catalog. This is closest to production retrieval pressure and usually gives lower scores." rows={full} />
+      <RankingSection title="Random Sampled-ranking" subtitle="Each held-out positive competes with random unseen negatives. This is faster and often easier, so popularity baselines can look strong." rows={randomSampled} />
+      <RankingSection title="Popularity-aware Sampled-ranking" subtitle="Negatives are sampled from movies with similar train-set popularity. This reduces easy negatives and better tests personalized sorting." rows={popAware} />
 
-      <section className="grid grid-cols-1 gap-5 xl:grid-cols-2"><div className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5"><h2 className="text-xl font-bold">Full-ranking Table</h2><MetricTable rows={full} /></div><div className="rounded-[1.6rem] border border-white/10 bg-panel/80 p-5"><h2 className="text-xl font-bold">Sampled-ranking Table</h2><MetricTable rows={sampled} /></div></section>
+      <section className="rounded-[1.6rem] border border-neon/25 bg-neon/10 p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-neon">Best Hybrid Weights</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {Object.entries(payload.best_hybrid_weights || {}).map(([k, v]) => <span key={k} className="rounded-full border border-white/10 bg-black/25 px-4 py-2 text-sm text-cyan-50">{k}: {Number(v).toFixed(2)}</span>)}
+          {!Object.keys(payload.best_hybrid_weights || {}).length && <span className="text-sm text-cyan-100">Weights have not been tuned yet.</span>}
+        </div>
+        <p className="mt-4 max-w-4xl text-sm leading-7 text-cyan-50">The tuning objective blends random sampled NDCG, popularity-aware sampled NDCG, and full-ranking NDCG, so Hybrid is optimized for robustness rather than one overly easy benchmark.</p>
+      </section>
 
-      <section className="rounded-[1.6rem] border border-neon/25 bg-neon/10 p-6"><p className="text-xs font-bold uppercase tracking-[0.3em] text-neon">Best Hybrid Weights</p><div className="mt-4 flex flex-wrap gap-3">{Object.entries(payload.best_hybrid_weights || {}).map(([k, v]) => <span key={k} className="rounded-full border border-white/10 bg-black/25 px-4 py-2 text-sm text-cyan-50">{k}: {Number(v).toFixed(2)}</span>)}</div><p className="mt-4 max-w-4xl text-sm leading-7 text-cyan-50">Hybrid is designed to be the best overall ranker by combining ItemCF's explainability, MF's rating prediction, Content's semantic matching, UserCF's neighbor evidence, and Popularity's cold-start stability.</p></section>
+      <section className="grid gap-5 lg:grid-cols-3">
+        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5"><h3 className="text-lg font-black">Why Popularity can look strong</h3><p className="mt-2 text-sm leading-7 text-slate-400">Random negatives often contain obscure movies, so popular high-rated movies are easy to rank above them. Coverage and personalization reveal its limitations.</p></div>
+        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5"><h3 className="text-lg font-black">Why ItemCF stays useful</h3><p className="mt-2 text-sm leading-7 text-slate-400">ItemCF is stable and explainable: it can say “Because you liked ...”, which makes it strong for product trust even when another model wins a metric.</p></div>
+        <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5"><h3 className="text-lg font-black">Why Content matters</h3><p className="mt-2 text-sm leading-7 text-slate-400">ContentBased is repositioned for cold-start discovery and similar-movie explanations. It is not expected to dominate full-catalog collaborative ranking.</p></div>
+      </section>
     </section>
   );
 }

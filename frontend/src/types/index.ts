@@ -68,8 +68,30 @@ export interface EvaluationRow {
 export interface EvaluationPayload {
   full_ranking: EvaluationRow[];
   sampled_ranking: EvaluationRow[];
+  sampled_random?: EvaluationRow[];
+  sampled_popaware?: EvaluationRow[];
   rating_prediction: Array<{ model: string; rmse?: number | null; mae?: number | null }>;
   best_hybrid_weights?: Record<string, number>;
+  metadata?: {
+    evaluated_users?: {
+      full_ranking?: number;
+      sampled_random?: number;
+      sampled_popaware?: number;
+      rating_prediction?: number;
+    };
+    positive_threshold?: number;
+    k?: number;
+    seed?: number;
+    num_negatives?: number;
+    popaware_prefer_harder?: boolean;
+  };
+  summary?: {
+    best_rating_predictor?: string;
+    best_full_ranking_model?: string;
+    best_sampled_random_model?: string;
+    best_sampled_popaware_model?: string;
+    best_coverage_model?: string;
+  };
   notes?: Record<string, string>;
 }
 

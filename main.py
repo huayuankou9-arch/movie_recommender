@@ -329,6 +329,7 @@ def run_tune_hybrid(cfg: dict) -> dict:
         k=int(cfg.get("evaluation", {}).get("k", 10)),
         positive_threshold=float(cfg.get("evaluation", {}).get("positive_threshold", cfg["split"]["positive_threshold"])),
         max_users=min(int(cfg.get("evaluation", {}).get("sampled_eval", {}).get("max_users", 1000)), 300),
+        sampled_cfg=cfg.get("evaluation", {}).get("sampled_eval", {}),
     )
     output_models_dir = ensure_dir(Path(cfg["data"]["output_dir"]) / "models")
     write_json(output_models_dir / "hybrid_best_weights.json", best)

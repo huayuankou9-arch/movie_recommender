@@ -51,7 +51,7 @@ hybrid:
   content: 0.15
   tune_weights: true
   optimize_metric: ndcg@10
-  recall_top: 200
+  recall_top: 300
   default_weights:
     popularity: 0.05
     usercf: 0.10
@@ -68,17 +68,29 @@ hybrid:
     - {popularity: 0.20, usercf: 0.10, itemcf: 0.30, mf: 0.25, content: 0.15}
     - {popularity: 0.25, usercf: 0.10, itemcf: 0.30, mf: 0.25, content: 0.10}
     - {popularity: 0.20, usercf: 0.05, itemcf: 0.40, mf: 0.25, content: 0.10}
+    - {popularity: 0.00, usercf: 0.05, itemcf: 0.70, mf: 0.15, content: 0.10}
+    - {popularity: 0.05, usercf: 0.05, itemcf: 0.65, mf: 0.20, content: 0.05}
+    - {popularity: 0.00, usercf: 0.10, itemcf: 0.60, mf: 0.20, content: 0.10}
+    - {popularity: 0.05, usercf: 0.10, itemcf: 0.60, mf: 0.15, content: 0.10}
+    - {popularity: 0.00, usercf: 0.05, itemcf: 0.75, mf: 0.10, content: 0.10}
+    - {popularity: 0.30, usercf: 0.05, itemcf: 0.35, mf: 0.20, content: 0.10}
+    - {popularity: 0.35, usercf: 0.05, itemcf: 0.30, mf: 0.20, content: 0.10}
 
 evaluation:
   k: 10
   positive_threshold: 4.0
-  max_eval_users: 30
-  max_users: 30
+  max_eval_users: 200
+  max_users: 200
   sampled_eval:
     enabled: true
-    num_negatives: 49
-    max_users: 50
+    num_negatives: 99
+    max_users: 200
     seed: 42
+    popaware:
+      enabled: true
+      num_buckets: 10
+      adjacent_buckets: 1
+      prefer_harder: true
 
 tmdb:
   image_base_url: https://image.tmdb.org/t/p

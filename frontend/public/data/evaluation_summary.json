@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "evaluated_users": {
+      "full_ranking": 200,
+      "sampled_random": 200,
+      "sampled_popaware": 200
+    },
+    "positive_threshold": 4.0,
+    "k": 10,
+    "seed": 42,
+    "num_negatives": 99,
+    "popaware_prefer_harder": true
+  },
+  "summary": {
+    "best_rating_predictor": "MatrixFactorization",
+    "best_full_ranking_model": "Popularity",
+    "best_sampled_random_model": "Hybrid",
+    "best_sampled_popaware_model": "ItemCF",
+    "best_coverage_model": "ItemCF"
+  },
+  "notes": {
+    "rmse_mae_note": "RMSE/MAE are mainly meaningful for rating prediction models such as MF and UserCF.",
+    "full_eval_note": "Full-ranking evaluates recommendations from the whole catalog and is strict.",
+    "sampled_random_note": "Random sampled-ranking is useful but can make popularity baselines look strong when negatives are too easy.",
+    "sampled_popaware_note": "Popularity-aware sampled-ranking samples negatives from similar popularity buckets and better tests personalized ranking."
+  }
+}

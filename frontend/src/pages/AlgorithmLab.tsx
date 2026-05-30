@@ -111,13 +111,13 @@ export function AlgorithmLab() {
     fetchEvaluation()
       .then((payload) => {
         setBestWeights(payload.best_hybrid_weights || {});
-        const sampled = payload.sampled_ranking || [];
+        const sampled = payload.sampled_popaware || payload.sampled_random || payload.sampled_ranking || [];
         const hybrid = sampled.find((row) => row.model === "Hybrid");
         const itemcf = sampled.find((row) => row.model === "ItemCF");
         if (hybrid && itemcf && Number(hybrid["ndcg@10"] || 0) >= Number(itemcf["ndcg@10"] || 0)) {
-          setHybridStatus("Hybrid achieves the best sampled-ranking NDCG@10 or matches the strongest ItemCF baseline.");
+          setHybridStatus("Hybrid achieves the best popularity-aware sampled-ranking NDCG@10 or matches the strongest ItemCF baseline.");
         } else if (hybrid && itemcf) {
-          setHybridStatus("Hybrid is close to ItemCF; continue tuning validation weights for higher sampled-ranking NDCG@10.");
+          setHybridStatus("Hybrid is close to ItemCF; continue tuning validation weights for higher popularity-aware sampled NDCG@10.");
         }
       })
       .catch(() => undefined);

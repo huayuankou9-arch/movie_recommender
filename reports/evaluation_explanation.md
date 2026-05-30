@@ -1,19 +1,28 @@
 # Evaluation Explanation
 
-## Why RMSE/MAE are mainly for rating prediction
-RMSE and MAE compare predicted explicit ratings against held-out ratings on the 0.5-5.0 scale. They are most meaningful for models that directly predict ratings, especially MatrixFactorization and UserCF. Popularity, ContentBased, and Hybrid often output ranking scores rather than calibrated ratings, so their RMSE/MAE are not emphasized.
+## Algorithm roles
+- Popularity: a non-personalized baseline for cold start and trending shelves.
+- UserCF: user-neighborhood collaborative filtering, useful when similar users have overlapping history.
+- ItemCF: item-neighborhood collaborative filtering, strong for explainable recommendations such as "Because you liked ...".
+- MatrixFactorization / SVD: rating prediction model that captures latent user and movie factors.
+- ContentBased: semantic matching from genres, tags, keywords, cast, director, and overview; best suited for cold start, Discover, and Similar Movies.
+- Hybrid: blends all signals to improve ranking stability and product usefulness.
 
-## Why Top-N recommendation uses Precision@K, Recall@K, HitRate@K, and NDCG@K
-A recommender product is usually judged by whether the top shelf contains relevant items. Precision@K measures concentration of relevant movies, Recall@K measures how much held-out preference is recovered, HitRate@K measures whether at least one positive appears, and NDCG@K rewards placing positives near the top.
+## Metrics
+Precision@K measures how many of the top K recommendations are positive. Recall@K measures how many held-out positives are recovered. HitRate@K checks whether at least one positive appears. NDCG@K rewards placing positives near the top. Coverage measures catalog breadth. RMSE/MAE measure explicit rating prediction error and are mainly meaningful for MF/UserCF/ItemCF.
 
 ## Full-ranking vs sampled-ranking
-Full-ranking evaluates recommendations against the whole movie catalog and is strict. Sampled-ranking compares held-out positives against sampled negatives for each user, which is a common way to isolate ranking ability while keeping evaluation practical.
+Full-ranking evaluates recommendations from the full catalog, so it is strict and closer to a production retrieval task. Random sampled-ranking compares positives against random unseen negatives and is easier. Popularity-aware sampled-ranking samples negatives from similar popularity buckets, making the task harder and reducing the unfair advantage of simple popularity.
 
-## Why Hybrid improves stability
-Hybrid combines popularity, user-neighborhood, item-neighborhood, latent-factor, and content signals. This reduces the chance that one weak signal dominates and usually improves stability across users.
+## Why Hybrid is the comprehensive model
+Hybrid normalizes each model's score per user and combines popularity, UserCF, ItemCF, MF, and content evidence. This helps it stay strong when one individual signal is weak while preserving explanations through score_breakdown and reason_type.
+
+## Popularity and ContentBased interpretation
+Popularity can achieve high recall when held-out positives are mainstream, but it has weak personalization and often low coverage. ContentBased may not dominate full-ranking metrics, but it is important for cold-start discovery, semantic similar-movie pages, and explanation quality.
 
 ## Current strongest models
 - Best rating prediction model: MatrixFactorization
-- Best Top-N model under full ranking: MatrixFactorization
-- Best Top-N model under sampled ranking: Hybrid
+- Best full-ranking model: Popularity
+- Best random sampled-ranking model: Hybrid
+- Best popularity-aware sampled-ranking model: ItemCF
 - Best coverage model: ItemCF

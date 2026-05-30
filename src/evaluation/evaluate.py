@@ -1,16 +1,19 @@
 ﻿from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from src.evaluation.metrics import coverage, mae, ndcg_at_k, precision_at_k, recall_at_k, hit_rate_at_k, rmse
-from src.utils.io import ensure_dir, read_json, write_json
+from src.evaluation.metrics import coverage, hit_rate_at_k, mae, ndcg_at_k, precision_at_k, recall_at_k, rmse
+from src.utils.io import ensure_dir, write_json
+from src.utils.logger import get_logger
 
 RATING_MODELS = {"UserCF", "ItemCF", "MatrixFactorization"}
+SamplingMode = Literal["random", "popaware"]
+logger = get_logger("evaluation")
 
 
 def _score_candidates(model: object, user_id: int, candidates: list[int]) -> dict[int, float]:
@@ -20,13 +23,7 @@ def _score_candidates(model: object, user_id: int, candidates: list[int]) -> dic
 
 
 def _round_row(row: dict[str, Any]) -> dict[str, Any]:
-    out = {}
-    for k, v in row.items():
-        if isinstance(v, float):
-            out[k] = round(v, 6)
-        else:
-            out[k] = v
-    return out
+    return {k: round(v, 6) if isinstance(v, float) else v for k, v in row.items()}
 
 
 def _positives_by_user(ratings: pd.DataFrame, positive_threshold: float) -> dict[int, set[int]]:
@@ -38,6 +35,72 @@ def _positives_by_user(ratings: pd.DataFrame, positive_threshold: float) -> dict
     )
 
 
+def _eligible_users(train_ratings: pd.DataFrame, test_ratings: pd.DataFrame, positive_threshold: float, max_users: int | None, seed: int = 42) -> tuple[list[int], dict[int, set[int]], dict[int, set[int]], dict[int, set[int]]]:
+    positives = _positives_by_user(test_ratings, positive_threshold)
+    train_seen = train_ratings.groupby("userId")["movieId"].apply(lambda x: set(x.astype(int))).to_dict()
+    test_seen = test_ratings.groupby("userId")["movieId"].apply(lambda x: set(x.astype(int))).to_dict()
+    users = [int(uid) for uid in positives if uid in train_seen and positives.get(uid)]
+    users.sort()
+    if max_users and len(users) > max_users:
+        rng = np.random.default_rng(seed)
+        users = sorted(rng.choice(np.array(users), size=max_users, replace=False).astype(int).tolist())
+    return users, positives, train_seen, test_seen
+
+
+def _popularity_buckets(train_ratings: pd.DataFrame, all_items: np.ndarray, num_buckets: int = 10) -> tuple[dict[int, int], dict[int, list[int]]]:
+    counts = train_ratings.groupby("movieId").size().reindex(all_items, fill_value=0).astype(float)
+    ranks = counts.rank(method="first")
+    bucket_ids = pd.qcut(ranks, q=min(num_buckets, len(counts)), labels=False, duplicates="drop")
+    item_to_bucket = {int(mid): int(bucket_ids.loc[mid]) for mid in counts.index}
+    bucket_to_items: dict[int, list[int]] = {}
+    for mid, bucket in item_to_bucket.items():
+        bucket_to_items.setdefault(bucket, []).append(mid)
+    return item_to_bucket, bucket_to_items
+
+
+def _sample_negatives(
+    rng: np.random.Generator,
+    mode: SamplingMode,
+    positives: set[int],
+    interacted: set[int],
+    all_items: np.ndarray,
+    num_negatives: int,
+    item_to_bucket: dict[int, int] | None = None,
+    bucket_to_items: dict[int, list[int]] | None = None,
+    adjacent_buckets: int = 1,
+    prefer_harder: bool = False,
+) -> list[int]:
+    sampled: list[int] = []
+    blocked = set(interacted) | set(positives)
+    if mode == "random" or not item_to_bucket or not bucket_to_items:
+        pool = np.array([mid for mid in all_items if mid not in blocked])
+        if len(pool) == 0:
+            return []
+        n = min(num_negatives * max(1, len(positives)), len(pool))
+        return rng.choice(pool, size=n, replace=False).astype(int).tolist()
+
+    used = set(blocked)
+    buckets = sorted(bucket_to_items)
+    for pos in positives:
+        bucket = item_to_bucket.get(int(pos))
+        if bucket is None:
+            continue
+        if prefer_harder:
+            candidate_buckets = [b for b in buckets if bucket <= b <= bucket + adjacent_buckets]
+        else:
+            candidate_buckets = [b for b in buckets if abs(b - bucket) <= adjacent_buckets]
+        pool = [mid for b in candidate_buckets for mid in bucket_to_items.get(b, []) if mid not in used]
+        if not pool:
+            pool = [mid for mid in all_items if mid not in used]
+        if not pool:
+            continue
+        n = min(num_negatives, len(pool))
+        picks = rng.choice(np.array(pool), size=n, replace=False).astype(int).tolist()
+        sampled.extend(picks)
+        used.update(picks)
+    return sampled
+
+
 def rating_prediction_eval(models: dict[str, object], test_ratings: pd.DataFrame) -> list[dict[str, Any]]:
     rows = []
     for model_name, model in models.items():
@@ -45,83 +108,25 @@ def rating_prediction_eval(models: dict[str, object], test_ratings: pd.DataFrame
             rows.append({"model": model_name, "rmse": None, "mae": None})
             continue
         y_true, y_pred = [], []
-        for row in test_ratings.itertuples(index=False):
-            y_true.append(float(row.rating))
-            y_pred.append(float(np.clip(model.score(int(row.userId), int(row.movieId)), 0.5, 5.0)))
+        for uid, group in test_ratings.groupby("userId"):
+            movie_ids = group["movieId"].astype(int).tolist()
+            if hasattr(model, "score_items"):
+                score_map = getattr(model, "score_items")(int(uid), movie_ids)
+                preds = [score_map.get(int(mid), np.nan) for mid in movie_ids]
+            else:
+                preds = [model.score(int(uid), int(mid)) for mid in movie_ids]
+            y_true.extend(group["rating"].astype(float).tolist())
+            for pred in preds:
+                try:
+                    value = float(pred)
+                except Exception:
+                    value = 3.0
+                y_pred.append(float(np.clip(value if np.isfinite(value) else 3.0, 0.5, 5.0)))
         rows.append(_round_row({"model": model_name, "rmse": rmse(y_true, y_pred), "mae": mae(y_true, y_pred)}))
     return rows
 
 
-def full_ranking_eval(models: dict[str, object], test_ratings: pd.DataFrame, movies_df: pd.DataFrame, k: int, positive_threshold: float, max_users: int | None = None) -> list[dict[str, Any]]:
-    positives = _positives_by_user(test_ratings, positive_threshold)
-    user_ids = list(positives.keys())
-    if max_users and len(user_ids) > max_users:
-        user_ids = user_ids[:max_users]
-    all_items = set(movies_df["movieId"].astype(int).tolist())
-    rows = []
-    for model_name, model in models.items():
-        p_list: list[float] = []
-        r_list: list[float] = []
-        h_list: list[float] = []
-        n_list: list[float] = []
-        all_recs: list[int] = []
-        for uid in user_ids:
-            recs = model.recommend(int(uid), top_k=k, exclude_seen=True)
-            rec_ids = [int(x["movieId"]) for x in recs]
-            all_recs.extend(rec_ids)
-            pos = positives.get(uid, set())
-            p_list.append(precision_at_k(rec_ids, pos, k))
-            r_list.append(recall_at_k(rec_ids, pos, k))
-            h_list.append(hit_rate_at_k(rec_ids, pos, k))
-            n_list.append(ndcg_at_k(rec_ids, pos, k))
-        rows.append(
-            _round_row(
-                {
-                    "model": model_name,
-                    "precision@10": float(np.mean(p_list)) if p_list else 0.0,
-                    "recall@10": float(np.mean(r_list)) if r_list else 0.0,
-                    "hitrate@10": float(np.mean(h_list)) if h_list else 0.0,
-                    "ndcg@10": float(np.mean(n_list)) if n_list else 0.0,
-                    "coverage": coverage(all_recs, all_items),
-                }
-            )
-        )
-    return rows
-
-
-def sampled_ranking_eval(
-    models: dict[str, object],
-    train_ratings: pd.DataFrame,
-    test_ratings: pd.DataFrame,
-    movies_df: pd.DataFrame,
-    k: int,
-    positive_threshold: float,
-    num_negatives: int = 99,
-    max_users: int | None = 1000,
-    seed: int = 42,
-) -> list[dict[str, Any]]:
-    rng = np.random.default_rng(seed)
-    positives = _positives_by_user(test_ratings, positive_threshold)
-    train_seen = train_ratings.groupby("userId")["movieId"].apply(lambda x: set(x.astype(int))).to_dict()
-    test_seen = test_ratings.groupby("userId")["movieId"].apply(lambda x: set(x.astype(int))).to_dict()
-    all_items = np.array(movies_df["movieId"].astype(int).unique())
-    user_ids = list(positives.keys())
-    if max_users and len(user_ids) > max_users:
-        user_ids = user_ids[:max_users]
-    user_candidates: dict[int, tuple[list[int], set[int]]] = {}
-    for uid in user_ids:
-        pos = positives.get(uid, set())
-        if not pos:
-            continue
-        interacted = set(train_seen.get(uid, set())) | set(test_seen.get(uid, set()))
-        negatives_pool = np.array([mid for mid in all_items if mid not in interacted])
-        if len(negatives_pool) == 0:
-            continue
-        n_needed = min(num_negatives * max(1, len(pos)), len(negatives_pool))
-        negs = rng.choice(negatives_pool, size=n_needed, replace=False).astype(int).tolist()
-        candidates = list(pos) + negs
-        user_candidates[int(uid)] = (candidates, pos)
-
+def _ranking_rows(models: dict[str, object], user_candidates: dict[int, tuple[list[int], set[int]]], all_items: set[int], k: int) -> list[dict[str, Any]]:
     rows = []
     for model_name, model in models.items():
         p_list: list[float] = []
@@ -139,35 +144,100 @@ def sampled_ranking_eval(
             r_list.append(recall_at_k(rec_ids, pos, k))
             h_list.append(hit_rate_at_k(rec_ids, pos, k))
             n_list.append(ndcg_at_k(rec_ids, pos, k))
-        rows.append(
-            _round_row(
-                {
-                    "model": model_name,
-                    "precision@10": float(np.mean(p_list)) if p_list else 0.0,
-                    "recall@10": float(np.mean(r_list)) if r_list else 0.0,
-                    "hitrate@10": float(np.mean(h_list)) if h_list else 0.0,
-                    "ndcg@10": float(np.mean(n_list)) if n_list else 0.0,
-                    "coverage": coverage(all_recs, set(all_items.astype(int))),
-                }
-            )
-        )
+        rows.append(_round_row({
+            "model": model_name,
+            "precision@10": float(np.mean(p_list)) if p_list else 0.0,
+            "recall@10": float(np.mean(r_list)) if r_list else 0.0,
+            "hitrate@10": float(np.mean(h_list)) if h_list else 0.0,
+            "ndcg@10": float(np.mean(n_list)) if n_list else 0.0,
+            "coverage": coverage(all_recs, all_items),
+        }))
     return rows
 
 
-def tune_hybrid_weights(models: dict[str, object], train_ratings: pd.DataFrame, val_ratings: pd.DataFrame, movies_df: pd.DataFrame, candidate_weights: list[dict[str, float]], k: int, positive_threshold: float, max_users: int = 300) -> dict[str, float]:
+def full_ranking_eval(models: dict[str, object], train_ratings: pd.DataFrame, test_ratings: pd.DataFrame, movies_df: pd.DataFrame, k: int, positive_threshold: float, max_users: int | None = None, seed: int = 42) -> tuple[list[dict[str, Any]], int]:
+    users, positives, _, _ = _eligible_users(train_ratings, test_ratings, positive_threshold, max_users, seed)
+    all_items = set(movies_df["movieId"].astype(int).tolist())
+    rows = []
+    for model_name, model in models.items():
+        p_list: list[float] = []
+        r_list: list[float] = []
+        h_list: list[float] = []
+        n_list: list[float] = []
+        all_recs: list[int] = []
+        for uid in users:
+            recs = model.recommend(int(uid), top_k=k, exclude_seen=True)
+            rec_ids = [int(x["movieId"]) for x in recs]
+            all_recs.extend(rec_ids)
+            pos = positives.get(uid, set())
+            p_list.append(precision_at_k(rec_ids, pos, k))
+            r_list.append(recall_at_k(rec_ids, pos, k))
+            h_list.append(hit_rate_at_k(rec_ids, pos, k))
+            n_list.append(ndcg_at_k(rec_ids, pos, k))
+        rows.append(_round_row({
+            "model": model_name,
+            "precision@10": float(np.mean(p_list)) if p_list else 0.0,
+            "recall@10": float(np.mean(r_list)) if r_list else 0.0,
+            "hitrate@10": float(np.mean(h_list)) if h_list else 0.0,
+            "ndcg@10": float(np.mean(n_list)) if n_list else 0.0,
+            "coverage": coverage(all_recs, all_items),
+        }))
+    return rows, len(users)
+
+
+def sampled_ranking_eval(
+    models: dict[str, object],
+    train_ratings: pd.DataFrame,
+    test_ratings: pd.DataFrame,
+    movies_df: pd.DataFrame,
+    k: int,
+    positive_threshold: float,
+    num_negatives: int = 99,
+    max_users: int | None = 1000,
+    seed: int = 42,
+    mode: SamplingMode = "random",
+    num_buckets: int = 10,
+    adjacent_buckets: int = 1,
+    prefer_harder: bool = False,
+) -> tuple[list[dict[str, Any]], int]:
+    rng = np.random.default_rng(seed)
+    users, positives, train_seen, test_seen = _eligible_users(train_ratings, test_ratings, positive_threshold, max_users, seed)
+    all_items = np.array(movies_df["movieId"].astype(int).unique())
+    item_to_bucket = bucket_to_items = None
+    if mode == "popaware":
+        item_to_bucket, bucket_to_items = _popularity_buckets(train_ratings, all_items, num_buckets=num_buckets)
+    user_candidates: dict[int, tuple[list[int], set[int]]] = {}
+    for uid in users:
+        pos = positives.get(uid, set())
+        interacted = set(train_seen.get(uid, set())) | set(test_seen.get(uid, set()))
+        negs = _sample_negatives(rng, mode, pos, interacted, all_items, num_negatives, item_to_bucket, bucket_to_items, adjacent_buckets, prefer_harder)
+        if not negs:
+            continue
+        user_candidates[int(uid)] = (list(pos) + negs, pos)
+    return _ranking_rows(models, user_candidates, set(all_items.astype(int)), k), len(user_candidates)
+
+
+def tune_hybrid_weights(models: dict[str, object], train_ratings: pd.DataFrame, val_ratings: pd.DataFrame, movies_df: pd.DataFrame, candidate_weights: list[dict[str, float]], k: int, positive_threshold: float, max_users: int = 300, sampled_cfg: dict[str, Any] | None = None) -> dict[str, float]:
+    sampled_cfg = sampled_cfg or {}
     hybrid = models.get("Hybrid")
     if hybrid is None or not hasattr(hybrid, "set_weights") or val_ratings.empty:
         return {}
     best_weights = candidate_weights[0]
-    best_tuple = (-1.0, -1.0, -1.0, -1.0)
+    best_score = -1.0
     eval_models = {"Hybrid": hybrid}
+    tune_users = min(max_users, int(sampled_cfg.get("max_users", max_users) or max_users), 120)
     for weights in candidate_weights:
         hybrid.set_weights(weights)
-        rows = sampled_ranking_eval(eval_models, train_ratings, val_ratings, movies_df, k, positive_threshold, num_negatives=49, max_users=max_users, seed=2026)
-        row = rows[0] if rows else {}
-        score_tuple = (row.get("ndcg@10", 0.0), row.get("recall@10", 0.0), row.get("hitrate@10", 0.0), row.get("precision@10", 0.0))
-        if score_tuple > best_tuple:
-            best_tuple = score_tuple
+        random_rows, _ = sampled_ranking_eval(eval_models, train_ratings, val_ratings, movies_df, k, positive_threshold, num_negatives=int(sampled_cfg.get("num_negatives", 49)), max_users=tune_users, seed=2026, mode="random")
+        pop_rows, _ = sampled_ranking_eval(eval_models, train_ratings, val_ratings, movies_df, k, positive_threshold, num_negatives=int(sampled_cfg.get("num_negatives", 49)), max_users=tune_users, seed=2027, mode="popaware", num_buckets=int(sampled_cfg.get("popaware", {}).get("num_buckets", 10)), adjacent_buckets=int(sampled_cfg.get("popaware", {}).get("adjacent_buckets", 1)), prefer_harder=bool(sampled_cfg.get("popaware", {}).get("prefer_harder", False)))
+        full_rows, _ = full_ranking_eval(eval_models, train_ratings, val_ratings, movies_df, k, positive_threshold, max_users=min(tune_users, 40), seed=2028)
+        r = random_rows[0] if random_rows else {}
+        p = pop_rows[0] if pop_rows else {}
+        f = full_rows[0] if full_rows else {}
+        objective = 0.35 * float(r.get("ndcg@10", 0.0)) + 0.45 * float(p.get("ndcg@10", 0.0)) + 0.20 * float(f.get("ndcg@10", 0.0))
+        objective += 0.05 * float(p.get("hitrate@10", 0.0))
+        if objective > best_score:
+            best_score = objective
             best_weights = weights
     hybrid.set_weights(best_weights)
     return best_weights
@@ -187,46 +257,58 @@ def evaluate_models(
     best_hybrid_weights: dict[str, float] | None = None,
 ) -> dict[str, Any]:
     sampled_cfg = sampled_cfg or {}
+    seed = int(sampled_cfg.get("seed", 42))
+    logger.info("Running rating prediction evaluation.")
     rating_rows = rating_prediction_eval(models, test_ratings)
-    full_rows = full_ranking_eval(models, test_ratings, movies_df, k, positive_threshold, max_users=max_users)
-    sampled_rows = sampled_ranking_eval(
-        models,
-        train_ratings,
-        test_ratings,
-        movies_df,
-        k,
-        positive_threshold,
-        num_negatives=int(sampled_cfg.get("num_negatives", 99)),
-        max_users=sampled_cfg.get("max_users", max_users),
-        seed=int(sampled_cfg.get("seed", 42)),
-    ) if sampled_cfg.get("enabled", True) else []
+    logger.info("Running full-ranking evaluation.")
+    full_rows, full_users = full_ranking_eval(models, train_ratings, test_ratings, movies_df, k, positive_threshold, max_users=max_users, seed=seed)
+    logger.info("Running random sampled-ranking evaluation.")
+    sampled_random, random_users = sampled_ranking_eval(models, train_ratings, test_ratings, movies_df, k, positive_threshold, num_negatives=int(sampled_cfg.get("num_negatives", 99)), max_users=sampled_cfg.get("max_users", max_users), seed=seed, mode="random") if sampled_cfg.get("enabled", True) else ([], 0)
+    logger.info("Running popularity-aware sampled-ranking evaluation.")
+    sampled_popaware, popaware_users = sampled_ranking_eval(models, train_ratings, test_ratings, movies_df, k, positive_threshold, num_negatives=int(sampled_cfg.get("num_negatives", 99)), max_users=sampled_cfg.get("max_users", max_users), seed=seed, mode="popaware", num_buckets=int(sampled_cfg.get("popaware", {}).get("num_buckets", 10)), adjacent_buckets=int(sampled_cfg.get("popaware", {}).get("adjacent_buckets", 1)), prefer_harder=bool(sampled_cfg.get("popaware", {}).get("prefer_harder", False))) if sampled_cfg.get("popaware", {}).get("enabled", True) else ([], 0)
 
     output_table_path = Path(output_table_path)
     ensure_dir(output_table_path.parent)
     pd.DataFrame(full_rows).to_csv(output_table_path, index=False)
     pd.DataFrame(full_rows).to_csv("reports/tables/evaluation_full_ranking.csv", index=False)
-    pd.DataFrame(sampled_rows).to_csv("reports/tables/evaluation_sampled_ranking.csv", index=False)
+    pd.DataFrame(sampled_random).to_csv("reports/tables/evaluation_sampled_random.csv", index=False)
+    pd.DataFrame(sampled_popaware).to_csv("reports/tables/evaluation_sampled_popaware.csv", index=False)
     pd.DataFrame(rating_rows).to_csv("reports/tables/evaluation_rating_prediction.csv", index=False)
     ensure_dir(Path(output_figure_path).parent)
-    _plot_metrics(pd.DataFrame(full_rows), pd.DataFrame(sampled_rows), output_figure_path)
+    _plot_metrics(pd.DataFrame(full_rows), pd.DataFrame(sampled_random), pd.DataFrame(sampled_popaware), output_figure_path)
 
+    metadata = {
+        "evaluated_users": {"full_ranking": full_users, "sampled_random": random_users, "sampled_popaware": popaware_users},
+        "positive_threshold": positive_threshold,
+        "k": k,
+        "seed": seed,
+        "num_negatives": int(sampled_cfg.get("num_negatives", 99)),
+        "popaware_prefer_harder": bool(sampled_cfg.get("popaware", {}).get("prefer_harder", False)),
+    }
+    summary = _summary(full_rows, sampled_random, sampled_popaware, rating_rows)
     result = {
         "full_ranking": full_rows,
-        "sampled_ranking": sampled_rows,
+        "sampled_ranking": sampled_random,
+        "sampled_random": sampled_random,
+        "sampled_popaware": sampled_popaware,
         "rating_prediction": rating_rows,
         "best_hybrid_weights": best_hybrid_weights or {},
+        "metadata": metadata,
+        "summary": summary,
         "notes": {
             "rmse_mae_note": "RMSE/MAE are mainly meaningful for rating prediction models such as MF and UserCF.",
-            "sampled_eval_note": "Sampled ranking evaluates the model's ability to rank held-out positives against sampled negatives.",
+            "full_eval_note": "Full-ranking evaluates recommendations from the whole catalog and is strict.",
+            "sampled_random_note": "Random sampled-ranking is useful but can make popularity baselines look strong when negatives are too easy.",
+            "sampled_popaware_note": "Popularity-aware sampled-ranking samples negatives from similar popularity buckets and better tests personalized ranking.",
         },
     }
     _write_explanation(result)
     return result
 
 
-def _plot_metrics(full_df: pd.DataFrame, sampled_df: pd.DataFrame, fig_path: str | Path) -> None:
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
-    for ax, df, title in [(axes[0], full_df, "Full-ranking Metrics"), (axes[1], sampled_df, "Sampled-ranking Metrics")]:
+def _plot_metrics(full_df: pd.DataFrame, random_df: pd.DataFrame, popaware_df: pd.DataFrame, fig_path: str | Path) -> None:
+    fig, axes = plt.subplots(1, 3, figsize=(22, 6))
+    for ax, df, title in [(axes[0], full_df, "Full-ranking"), (axes[1], random_df, "Random Sampled"), (axes[2], popaware_df, "Popularity-aware Sampled")]:
         if df.empty:
             ax.set_title(title)
             continue
@@ -243,37 +325,54 @@ def _plot_metrics(full_df: pd.DataFrame, sampled_df: pd.DataFrame, fig_path: str
     plt.close(fig)
 
 
-def _best(rows: list[dict], metric: str) -> str:
+def _best(rows: list[dict], metric: str, reverse: bool = True) -> str:
     if not rows:
         return "N/A"
-    return max(rows, key=lambda r: (r.get(metric) or 0)).get("model", "N/A")
+    fn = max if reverse else min
+    return fn(rows, key=lambda r: (r.get(metric) if r.get(metric) is not None else (-1 if reverse else 999))).get("model", "N/A")
+
+
+def _summary(full_rows: list[dict], random_rows: list[dict], popaware_rows: list[dict], rating_rows: list[dict]) -> dict[str, str]:
+    rating_valid = [r for r in rating_rows if r.get("rmse") is not None]
+    return {
+        "best_rating_predictor": _best(rating_valid, "rmse", reverse=False),
+        "best_full_ranking_model": _best(full_rows, "ndcg@10"),
+        "best_sampled_random_model": _best(random_rows, "ndcg@10"),
+        "best_sampled_popaware_model": _best(popaware_rows, "ndcg@10"),
+        "best_coverage_model": _best(full_rows, "coverage"),
+    }
 
 
 def _write_explanation(result: dict[str, Any]) -> None:
     ensure_dir("reports")
-    rating_rows = [r for r in result.get("rating_prediction", []) if r.get("rmse") is not None]
-    best_rating = min(rating_rows, key=lambda r: r.get("rmse", 999)).get("model", "N/A") if rating_rows else "N/A"
-    full_best = _best(result.get("full_ranking", []), "ndcg@10")
-    sampled_best = _best(result.get("sampled_ranking", []), "ndcg@10")
-    coverage_best = _best(result.get("full_ranking", []), "coverage")
+    summary = result.get("summary", {})
     text = f"""# Evaluation Explanation
 
-## Why RMSE/MAE are mainly for rating prediction
-RMSE and MAE compare predicted explicit ratings against held-out ratings on the 0.5-5.0 scale. They are most meaningful for models that directly predict ratings, especially MatrixFactorization and UserCF. Popularity, ContentBased, and Hybrid often output ranking scores rather than calibrated ratings, so their RMSE/MAE are not emphasized.
+## Algorithm roles
+- Popularity: a non-personalized baseline for cold start and trending shelves.
+- UserCF: user-neighborhood collaborative filtering, useful when similar users have overlapping history.
+- ItemCF: item-neighborhood collaborative filtering, strong for explainable recommendations such as "Because you liked ...".
+- MatrixFactorization / SVD: rating prediction model that captures latent user and movie factors.
+- ContentBased: semantic matching from genres, tags, keywords, cast, director, and overview; best suited for cold start, Discover, and Similar Movies.
+- Hybrid: blends all signals to improve ranking stability and product usefulness.
 
-## Why Top-N recommendation uses Precision@K, Recall@K, HitRate@K, and NDCG@K
-A recommender product is usually judged by whether the top shelf contains relevant items. Precision@K measures concentration of relevant movies, Recall@K measures how much held-out preference is recovered, HitRate@K measures whether at least one positive appears, and NDCG@K rewards placing positives near the top.
+## Metrics
+Precision@K measures how many of the top K recommendations are positive. Recall@K measures how many held-out positives are recovered. HitRate@K checks whether at least one positive appears. NDCG@K rewards placing positives near the top. Coverage measures catalog breadth. RMSE/MAE measure explicit rating prediction error and are mainly meaningful for MF/UserCF/ItemCF.
 
 ## Full-ranking vs sampled-ranking
-Full-ranking evaluates recommendations against the whole movie catalog and is strict. Sampled-ranking compares held-out positives against sampled negatives for each user, which is a common way to isolate ranking ability while keeping evaluation practical.
+Full-ranking evaluates recommendations from the full catalog, so it is strict and closer to a production retrieval task. Random sampled-ranking compares positives against random unseen negatives and is easier. Popularity-aware sampled-ranking samples negatives from similar popularity buckets, making the task harder and reducing the unfair advantage of simple popularity.
 
-## Why Hybrid improves stability
-Hybrid combines popularity, user-neighborhood, item-neighborhood, latent-factor, and content signals. This reduces the chance that one weak signal dominates and usually improves stability across users.
+## Why Hybrid is the comprehensive model
+Hybrid normalizes each model's score per user and combines popularity, UserCF, ItemCF, MF, and content evidence. This helps it stay strong when one individual signal is weak while preserving explanations through score_breakdown and reason_type.
+
+## Popularity and ContentBased interpretation
+Popularity can achieve high recall when held-out positives are mainstream, but it has weak personalization and often low coverage. ContentBased may not dominate full-ranking metrics, but it is important for cold-start discovery, semantic similar-movie pages, and explanation quality.
 
 ## Current strongest models
-- Best rating prediction model: {best_rating}
-- Best Top-N model under full ranking: {full_best}
-- Best Top-N model under sampled ranking: {sampled_best}
-- Best coverage model: {coverage_best}
+- Best rating prediction model: {summary.get('best_rating_predictor', 'N/A')}
+- Best full-ranking model: {summary.get('best_full_ranking_model', 'N/A')}
+- Best random sampled-ranking model: {summary.get('best_sampled_random_model', 'N/A')}
+- Best popularity-aware sampled-ranking model: {summary.get('best_sampled_popaware_model', 'N/A')}
+- Best coverage model: {summary.get('best_coverage_model', 'N/A')}
 """
     Path("reports/evaluation_explanation.md").write_text(text, encoding="utf-8")

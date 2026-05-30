@@ -410,8 +410,12 @@ def run(
         eval_payload = {
             "full_ranking": eval_items,
             "sampled_ranking": [],
+            "sampled_random": [],
+            "sampled_popaware": [],
             "rating_prediction": [],
             "best_hybrid_weights": {},
+            "metadata": {},
+            "summary": {},
             "notes": {},
         }
 
@@ -513,7 +517,22 @@ def run(
     write_json(out_path / "evaluation_results.json", _sanitize_for_json(eval_payload))
     write_json(out_path / "evaluation_results_legacy.json", _sanitize_for_json(eval_payload.get("full_ranking", [])))
     write_json(out_path / "evaluation_full_ranking.json", _sanitize_for_json(eval_payload.get("full_ranking", [])))
-    write_json(out_path / "evaluation_sampled_ranking.json", _sanitize_for_json(eval_payload.get("sampled_ranking", [])))
+    sampled_random = eval_payload.get("sampled_random") or eval_payload.get("sampled_ranking", [])
+    sampled_popaware = eval_payload.get("sampled_popaware", [])
+    write_json(out_path / "evaluation_sampled_ranking.json", _sanitize_for_json(sampled_random))
+    write_json(out_path / "evaluation_sampled_random.json", _sanitize_for_json(sampled_random))
+    write_json(out_path / "evaluation_sampled_popaware.json", _sanitize_for_json(sampled_popaware))
+    write_json(
+        out_path / "evaluation_summary.json",
+        _sanitize_for_json(
+            {
+                "metadata": eval_payload.get("metadata", {}),
+                "summary": eval_payload.get("summary", {}),
+                "notes": eval_payload.get("notes", {}),
+            }
+        ),
+    )
+    write_json(out_path / "hybrid_best_weights.json", _sanitize_for_json(eval_payload.get("best_hybrid_weights", {})))
     write_json(out_path / "search_index.json", _sanitize_for_json(search_index))
     write_json(out_path / "build_info.json", _sanitize_for_json(build_info))
     logger.info("Static data exported to %s", out_path)
